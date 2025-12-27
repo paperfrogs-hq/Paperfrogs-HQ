@@ -18,7 +18,7 @@ const products: Product[] = [
   {
     name: "Fusion",
     tagline: "Cryptographically verifiable proof of audio origin—whether AI-generated, artist-created, or platform-uploaded. Built for platforms, AI companies, and creators.",
-    status: "Live",
+    status: "In Development",
     icon: AudioWaveform,
     gradient: "from-violet-500/20 to-fuchsia-500/20",
     link: "https://playfusion.netlify.app/",
@@ -26,7 +26,7 @@ const products: Product[] = [
   {
     name: "AppFence",
     tagline: "A Wayland-first, open-source Application Permission Firewall for Linux.",
-    status: "Live",
+    status: "In Development",
     icon: Shield,
     gradient: "from-emerald-500/20 to-teal-500/20",
     link: "https://github.com/paperfrogs-hq/AppFence",
