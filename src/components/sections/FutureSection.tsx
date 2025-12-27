@@ -49,7 +49,7 @@ export const FutureSection = () => {
         } : {}} transition={{
           duration: 0.8,
           delay: 0.3
-        }} className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">PaperFrogs is just getting started.</motion.h2>
+        }} className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">Paperfrogs is just getting started.</motion.h2>
 
           <motion.p initial={{
           opacity: 0,
