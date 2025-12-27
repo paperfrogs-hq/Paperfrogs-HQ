@@ -18,7 +18,7 @@ export const Footer = () => {
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 
-                <span className="text-xl font-semibold text-foreground">Paperfrogs HQ<span className="text-coral">frogs</span>
+                <span className="text-xl font-semibold text-foreground">Paperfrogs <span className="text-coral">HQ</span>
                 </span>
               </div>
               <p className="text-muted-foreground max-w-md mb-6">Building thoughtful products for the modern web. Clarity, usability, and design that matters.</p>
