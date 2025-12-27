@@ -45,6 +45,7 @@ export const ProductsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
+  const [timelineProject, setTimelineProject] = useState<"Fusion" | "AppFence" | null>(null);
 
   const fusionTimeline = [
     { date: "December 2023", title: "Project initiated as an AI audio player experiment" },
@@ -59,6 +60,19 @@ export const ProductsSection = () => {
     { date: "Q2 2026", title: "Platform integrations and enterprise pilots" },
     { date: "Q3 2026", title: "Infrastructure scaling and expanded use cases" },
     { date: "Q4 2026", title: "Market expansion and ecosystem growth" },
+  ];
+
+  const appFenceTimeline = [
+    { date: "December 2025", title: "Project formally initiated as an operating-system–level application security framework (Wayland-first, least-privilege, policy-driven design)" },
+  ];
+
+  const appFenceUpcomingMilestones = [
+    { date: "Q1 2026", title: "Foundation and trust-anchor development (Core daemon, threat model, scope lock, and identity primitives)" },
+    { date: "Q2 2026", title: "Controlled execution and enforcement foundations (Application launcher, process tracking, filesystem and network isolation)" },
+    { date: "Q3 2026", title: "User mediation and desktop integration (Prompt infrastructure, desktop UI, and portal mediation)" },
+    { date: "Q4 2026", title: "System hardening and safety guarantees (Failure modes, recovery paths, observability, and diagnostics)" },
+    { date: "Q1 2027", title: "Security validation and packaging (Threat-model traceability, negative testing, Fedora packaging)" },
+    { date: "Q2 2027", title: "Public beta and demonstration milestone (Reproducible builds, demo artifacts, documented limitations)" },
   ];
 
   return (
@@ -98,15 +112,20 @@ export const ProductsSection = () => {
                 className="group relative card-3d"
               >
                 <div
-                  onClick={product.name === "Fusion" ? () => setIsTimelineOpen(true) : undefined}
-                  className={`card-3d-inner p-8 lg:p-10 rounded-2xl border border-border bg-gradient-to-br ${product.gradient} glass-3d shadow-3d-hover ${product.name === "Fusion" ? "cursor-pointer" : ""} block`}
+                  onClick={() => {
+                    if (product.name === "Fusion" || product.name === "AppFence") {
+                      setTimelineProject(product.name);
+                      setIsTimelineOpen(true);
+                    }
+                  }}
+                  className={`card-3d-inner p-8 lg:p-10 rounded-2xl border border-border bg-gradient-to-br ${product.gradient} glass-3d shadow-3d-hover ${(product.name === "Fusion" || product.name === "AppFence") ? "cursor-pointer" : ""} block`}
                 >
                   <a 
                     href={product.link} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     onClick={(e) => {
-                      if (product.name === "Fusion") {
+                      if (product.name === "Fusion" || product.name === "AppFence") {
                         e.preventDefault();
                       }
                     }}
@@ -154,11 +173,19 @@ export const ProductsSection = () => {
       </div>
 
       <ProjectTimelineModal
-        isOpen={isTimelineOpen}
+        isOpen={isTimelineOpen && timelineProject === "Fusion"}
         onClose={() => setIsTimelineOpen(false)}
         projectName="Fusion"
         timeline={fusionTimeline}
         upcomingMilestones={fusionUpcomingMilestones}
+      />
+
+      <ProjectTimelineModal
+        isOpen={isTimelineOpen && timelineProject === "AppFence"}
+        onClose={() => setIsTimelineOpen(false)}
+        projectName="AppFence"
+        timeline={appFenceTimeline}
+        upcomingMilestones={appFenceUpcomingMilestones}
       />
     </section>
   );
