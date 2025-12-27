@@ -21,14 +21,16 @@ const team: TeamMember[] = [
     bio: "Passionate about artificial intelligence and machine learning, building intelligent systems that push boundaries.",
     social: {
       github: "https://github.com/niloymajumder",
+      linkedin: "https://www.linkedin.com/in/niloymajumderr/",
     },
   },
   {
-    name: "Joy G. Majumder",
+    name: "Joy G. Majumdar",
     role: "Web3 & Rust Developer",
     bio: "Crafting decentralized solutions and high-performance systems with Rust and Web3 technologies.",
     social: {
       github: "https://github.com/Joy-Majumder",
+      linkedin: "https://www.linkedin.com/in/joy0x1",
     },
   },
 ];
