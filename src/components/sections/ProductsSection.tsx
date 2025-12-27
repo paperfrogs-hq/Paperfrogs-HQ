@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ArrowUpRight, AudioWaveform, Shield, Rocket, Sparkles, Beaker } from "lucide-react";
+import { ProjectTimelineModal } from "./ProjectTimelineModal";
 
 type ProductStatus = "Live" | "Beta" | "Coming Soon" | "In Development";
 
@@ -43,6 +44,22 @@ const statusStyles: Record<ProductStatus, string> = {
 export const ProductsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [isTimelineOpen, setIsTimelineOpen] = useState(false);
+
+  const fusionTimeline = [
+    { date: "December 2023", title: "Project initiated as an AI audio player experiment" },
+    { date: "July 2024", title: "Beta site launched" },
+    { date: "January 2025", title: "Stepped back from the original direction" },
+    { date: "November 2025", title: "Project direction redefined" },
+    { date: "December 2025", title: "Fusion v2 development begins" },
+  ];
+
+  const fusionUpcomingMilestones = [
+    { date: "Q1 2026", title: "Public beta launch (planned)" },
+    { date: "Q2 2026", title: "Platform integrations and enterprise pilots" },
+    { date: "Q3 2026", title: "Infrastructure scaling and expanded use cases" },
+    { date: "Q4 2026", title: "Market expansion and ecosystem growth" },
+  ];
 
   return (
     <section id="products" className="py-24 lg:py-32 bg-background relative overflow-hidden">
@@ -80,12 +97,21 @@ export const ProductsSection = () => {
                 transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
                 className="group relative card-3d"
               >
-                <a 
-                  href={product.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={`card-3d-inner p-8 lg:p-10 rounded-2xl border border-border bg-gradient-to-br ${product.gradient} glass-3d shadow-3d-hover cursor-pointer block`}
+                <div
+                  onClick={product.name === "Fusion" ? () => setIsTimelineOpen(true) : undefined}
+                  className={`card-3d-inner p-8 lg:p-10 rounded-2xl border border-border bg-gradient-to-br ${product.gradient} glass-3d shadow-3d-hover ${product.name === "Fusion" ? "cursor-pointer" : ""} block`}
                 >
+                  <a 
+                    href={product.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      if (product.name === "Fusion") {
+                        e.preventDefault();
+                      }
+                    }}
+                    className="absolute inset-0 rounded-2xl"
+                  />
                   {/* Shine effect */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -119,13 +145,21 @@ export const ProductsSection = () => {
                       </div>
                     </div>
                   </div>
-                </a>
+                </div>
               </motion.article>
             ))}
           </div>
 
         </div>
       </div>
+
+      <ProjectTimelineModal
+        isOpen={isTimelineOpen}
+        onClose={() => setIsTimelineOpen(false)}
+        projectName="Fusion"
+        timeline={fusionTimeline}
+        upcomingMilestones={fusionUpcomingMilestones}
+      />
     </section>
   );
 };
