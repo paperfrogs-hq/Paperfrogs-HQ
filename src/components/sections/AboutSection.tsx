@@ -24,7 +24,6 @@ export const AboutSection = () => {
   return <section id="about" className="py-24 lg:py-32 bg-card">
       <div className="container mx-auto px-6 lg:px-12">
         <div ref={ref} className="max-w-6xl mx-auto">
-          {/* Section Header */}
           <motion.div initial={{
           opacity: 0,
           y: 40
@@ -43,7 +42,6 @@ export const AboutSection = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">PaperFrogs is not just a company—it's a launchpad. We invent, design, and build digital products that solve real problems with elegance and simplicity.</p>
           </motion.div>
 
-          {/* Features Grid - 3D Cards */}
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {features.map((feature, index) => <motion.div key={feature.title} initial={{
             opacity: 0,
@@ -71,7 +69,6 @@ export const AboutSection = () => {
               </motion.div>)}
           </div>
 
-          {/* Editorial Text Block */}
           <motion.div initial={{
           opacity: 0,
           y: 40
@@ -98,7 +95,6 @@ export const AboutSection = () => {
             </div>
             <div className="relative card-3d">
               <div className="card-3d-inner aspect-square rounded-2xl glass-3d shadow-3d overflow-hidden">
-                {/* 3D Floating element */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center animate-float">
                     <div className="relative">
@@ -108,7 +104,6 @@ export const AboutSection = () => {
                     <p className="text-muted-foreground mt-4 text-sm">Infinite Possibilities</p>
                   </div>
                 </div>
-                {/* Animated rings */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-32 h-32 rounded-full border border-coral/20 animate-float" style={{
                   animationDelay: "0.5s"

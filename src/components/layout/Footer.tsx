@@ -15,7 +15,6 @@ export const Footer = () => {
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-12 lg:gap-8">
-            {/* Brand */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 
@@ -29,7 +28,6 @@ export const Footer = () => {
               </a>
             </div>
 
-            {/* Links */}
             <div>
               <h4 className="text-foreground font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-3">
@@ -42,7 +40,6 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Bottom */}
           <motion.div initial={{
           opacity: 0
         }} whileInView={{

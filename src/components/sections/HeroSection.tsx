@@ -3,10 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 export const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-hero">
-      {/* Animated glow background */}
       <div className="absolute inset-0 gradient-glow animate-glow-pulse" />
-      
-      {/* 3D Floating orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-coral/10 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-float" style={{
@@ -16,8 +13,6 @@ export const HeroSection = () => {
         animationDelay: "4s"
       }} />
       </div>
-      
-      {/* Subtle grid pattern with 3D perspective */}
       <div className="absolute inset-0 opacity-10" style={{
       backgroundImage: `linear-gradient(hsl(var(--coral) / 0.4) 1px, transparent 1px),
                            linear-gradient(90deg, hsl(var(--coral) / 0.4) 1px, transparent 1px)`,

@@ -39,7 +39,6 @@ export const TeamSection = () => {
 
   return (
     <section id="team" className="py-24 lg:py-32 bg-background relative overflow-hidden">
-      {/* 3D Background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-40 right-20 w-64 h-64 bg-coral/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
         <div className="absolute bottom-40 left-20 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "3s" }} />
@@ -47,7 +46,6 @@ export const TeamSection = () => {
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div ref={ref} className="max-w-6xl mx-auto">
-          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -65,7 +63,6 @@ export const TeamSection = () => {
             </p>
           </motion.div>
 
-          {/* Team Grid - 3D Cards */}
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {team.map((member, index) => (
               <motion.div
@@ -76,8 +73,6 @@ export const TeamSection = () => {
                 className="group card-3d"
               >
                 <div className="card-3d-inner h-full p-8 rounded-2xl glass-3d shadow-3d-hover text-center">
-
-                  {/* Content */}
                   <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-coral transition-colors duration-300">
                     {member.name}
                   </h3>
@@ -88,7 +83,6 @@ export const TeamSection = () => {
                     {member.bio}
                   </p>
 
-                  {/* Social Links */}
                   {member.social && (
                     <div className="flex justify-center gap-3">
                       {member.social.github && (

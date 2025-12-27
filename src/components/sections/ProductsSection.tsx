@@ -46,7 +46,6 @@ export const ProductsSection = () => {
 
   return (
     <section id="products" className="py-24 lg:py-32 bg-background relative overflow-hidden">
-      {/* 3D Background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-coral/5 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
@@ -54,7 +53,6 @@ export const ProductsSection = () => {
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div ref={ref} className="max-w-6xl mx-auto">
-          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -73,7 +71,6 @@ export const ProductsSection = () => {
             </p>
           </motion.div>
 
-          {/* Products Grid - 3D Cards */}
           <div className="grid gap-6">
             {products.map((product, index) => (
               <motion.article

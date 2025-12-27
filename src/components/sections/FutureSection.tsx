@@ -9,7 +9,6 @@ export const FutureSection = () => {
     margin: "-100px"
   });
   return <section id="future" className="py-24 lg:py-32 bg-background relative overflow-hidden">
-      {/* Background glow */}
       <div className="absolute inset-0 gradient-glow opacity-50" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">

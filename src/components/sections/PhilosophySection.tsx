@@ -33,7 +33,6 @@ export const PhilosophySection = () => {
     <section id="philosophy" className="py-24 lg:py-32 bg-card">
       <div className="container mx-auto px-6 lg:px-12">
         <div ref={ref} className="max-w-6xl mx-auto">
-          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -51,7 +50,6 @@ export const PhilosophySection = () => {
             </p>
           </motion.div>
 
-          {/* Values Grid - 3D Cards */}
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {values.map((value, index) => (
               <motion.div
