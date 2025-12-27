@@ -2,6 +2,14 @@
   command = "bun run build"
   publish = "dist"
 
+# 🔴 1. Redirect Netlify subdomain → custom domain (FIRST)
+[[redirects]]
+  from = "https://paperfrogs.netlify.app/*"
+  to = "https://paperfrogs.dev/:splat"
+  status = 301
+  force = true
+
+# 🟢 2. SPA fallback (MUST BE LAST)
 [[redirects]]
   from = "/*"
   to = "/index.html"
