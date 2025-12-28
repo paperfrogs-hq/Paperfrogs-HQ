@@ -137,7 +137,7 @@ export const TeamSection = () => {
               </p>
               <p className="text-foreground font-medium">
                 We're always looking for passionate builders.{" "}
-                <a href="mailto:paperfrogs-hq@outlook.com" className="text-coral hover:underline">
+                <a href="mailto:hello@paperfrogs.dev" className="text-coral hover:underline">
                   Get in touch →
                 </a>
               </p>
