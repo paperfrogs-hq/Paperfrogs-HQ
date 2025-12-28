@@ -61,7 +61,7 @@ export const HeroSection = () => {
           duration: 0.8,
           delay: 0.6
         }} className="text-xl md:text-2xl text-foreground/80 mb-4 font-light">
-            Building thoughtful products for the modern web.
+            Think • Build • Evolve
           </motion.p>
 
           <motion.p initial={{
