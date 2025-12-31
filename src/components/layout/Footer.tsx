@@ -13,13 +13,13 @@ const footerLinks = [{
 
 const footerLegal = [{
   name: "Privacy",
-  href: "#privacy"
+  href: "/privacy"
 }, {
   name: "Terms",
-  href: "#terms"
+  href: "/terms"
 }, {
   name: "Contact",
-  href: "#contact"
+  href: "/contact"
 }];
 export const Footer = () => {
   return <footer className="py-16 lg:py-20 bg-card border-t border-border">
