@@ -4,11 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* PaperFrogs HQ Design System - Dark Maroon with Coral Accent */
-
 @layer base {
   :root {
-    /* Core palette - Dark burgundy/maroon theme */
     --background: 0 25% 5%;
     --foreground: 30 20% 95%;
 
@@ -18,7 +15,6 @@
     --popover: 0 30% 8%;
     --popover-foreground: 30 20% 95%;
 
-    /* Coral/Salmon accent from the image */
     --primary: 15 75% 55%;
     --primary-foreground: 0 25% 5%;
 
@@ -40,7 +36,6 @@
 
     --radius: 0.5rem;
 
-    /* Custom tokens */
     --coral: 15 75% 55%;
     --coral-light: 15 80% 65%;
     --coral-dark: 15 70% 45%;
@@ -48,16 +43,13 @@
     --maroon-deep: 0 40% 6%;
     --cream: 30 30% 92%;
 
-    /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(0 40% 6%) 0%, hsl(0 50% 12%) 50%, hsl(350 45% 15%) 100%);
     --gradient-glow: radial-gradient(ellipse at 80% 50%, hsl(15 75% 55% / 0.15) 0%, transparent 60%);
     --gradient-card: linear-gradient(180deg, hsl(0 30% 10%) 0%, hsl(0 30% 8%) 100%);
 
-    /* Shadows */
     --shadow-soft: 0 4px 20px hsl(0 0% 0% / 0.3);
     --shadow-glow: 0 0 40px hsl(15 75% 55% / 0.2);
 
-    /* Sidebar */
     --sidebar-background: 0 30% 8%;
     --sidebar-foreground: 30 20% 95%;
     --sidebar-primary: 15 75% 55%;
@@ -131,7 +123,6 @@
     box-shadow: var(--shadow-glow);
   }
 
-  /* Float animation */
   @keyframes float {
     0%, 100% {
       transform: translateY(0px);
@@ -145,7 +136,6 @@
     animation: float 6s ease-in-out infinite;
   }
 
-  /* Glow pulse animation */
   @keyframes glow-pulse {
     0%, 100% {
       opacity: 0.5;
@@ -159,7 +149,6 @@
     animation: glow-pulse 4s ease-in-out infinite;
   }
 
-  /* 3D Card Effects */
   .card-3d {
     transform-style: preserve-3d;
     perspective: 1000px;
@@ -206,7 +195,6 @@
   }
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }

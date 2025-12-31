@@ -10,11 +10,22 @@ const footerLinks = [{
   name: "Philosophy",
   href: "#philosophy"
 }];
+
+const footerLegal = [{
+  name: "Privacy",
+  href: "#privacy"
+}, {
+  name: "Terms",
+  href: "#terms"
+}, {
+  name: "Contact",
+  href: "#contact"
+}];
 export const Footer = () => {
   return <footer className="py-16 lg:py-20 bg-card border-t border-border">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-12 lg:gap-8">
+          <div className="grid lg:grid-cols-4 gap-12 lg:gap-8">
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 
@@ -32,6 +43,17 @@ export const Footer = () => {
               <h4 className="text-foreground font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-3">
                 {footerLinks.map(link => <li key={link.name}>
+                    <a href={link.href} className="text-muted-foreground hover:text-coral transition-colors duration-300">
+                      {link.name}
+                    </a>
+                  </li>)}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-foreground font-semibold mb-4">Legal</h4>
+              <ul className="space-y-3">
+                {footerLegal.map(link => <li key={link.name}>
                     <a href={link.href} className="text-muted-foreground hover:text-coral transition-colors duration-300">
                       {link.name}
                     </a>

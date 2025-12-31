@@ -101,7 +101,6 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div initial={{
       opacity: 0
     }} animate={{
