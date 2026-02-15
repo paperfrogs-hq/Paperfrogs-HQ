@@ -10,13 +10,13 @@ const ProjectDetail = () => {
   const project = projects.find((item) => item.slug === slug);
 
   usePageSeo({
-    title: project ? `${project.name} · Work` : "Work",
+    title: project ? `${project.name} · Projects` : "Projects",
     description: project?.summary ?? "Project details",
-    path: project ? `/work/${project.slug}` : "/work",
+    path: project ? `/projects/${project.slug}` : "/projects",
   });
 
   if (!project) {
-    return <Navigate to="/work" replace />;
+    return <Navigate to="/projects" replace />;
   }
 
   return (
@@ -24,10 +24,10 @@ const ProjectDetail = () => {
       <section className="mx-auto w-full max-w-5xl px-6 pb-16 pt-6 sm:px-10">
         <Reveal>
           <Link
-            to="/work"
+            to="/projects"
             className="text-sm text-coral transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
           >
-            Back to work
+            Back to projects
           </Link>
           <h1 className="mt-5 text-[clamp(2rem,5vw,4rem)] leading-[1.05] tracking-[-0.02em]">{project.name}</h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">{project.summary}</p>
