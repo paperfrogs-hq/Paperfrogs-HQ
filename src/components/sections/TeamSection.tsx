@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, ArrowUpRight } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -10,7 +10,6 @@ interface TeamMember {
   social?: {
     github?: string;
     linkedin?: string;
-    twitter?: string;
   };
 }
 
@@ -40,61 +39,63 @@ export const TeamSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="team" className="py-24 lg:py-32 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-40 right-20 w-64 h-64 bg-coral/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-40 left-20 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: "3s" }} />
-      </div>
-
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+    <section id="team" className="py-28 lg:py-36 bg-background relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div ref={ref} className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            transition={{ duration: 0.6 }}
+            className="mb-16"
           >
-            <span className="text-coral text-sm font-medium uppercase tracking-widest mb-4 block">
-              The Team
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-              The Minds Behind the Magic
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-px bg-coral" />
+              <span className="text-xs font-mono text-coral uppercase tracking-[0.2em]">
+                Team
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-4">
+              The people behind it all
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A passionate team of developers dedicated to building thoughtful digital products.
+            <p className="text-muted-foreground max-w-lg">
+              A small, passionate team dedicated to building thoughtful digital products.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {team.map((member, index) => (
               <motion.div
                 key={member.name}
-                initial={{ opacity: 0, y: 60, rotateY: -15 }}
-                animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2 + index * 0.15 }}
-                className="group card-3d"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                className="group"
               >
-                <div className="card-3d-inner h-full p-8 rounded-2xl glass-3d shadow-3d-hover text-center">
-                  <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-coral transition-colors duration-300">
-                    {member.name}
-                  </h3>
-                  <p className="text-coral text-sm font-medium mb-4">
-                    {member.role}
-                  </p>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                <div className="border border-border rounded-xl p-7 hover:border-foreground/20 hover:bg-card/50 transition-all duration-300 h-full flex flex-col items-center text-center">
+                  <div>
+                      <h3 className="text-lg font-bold text-foreground mb-1">
+                        {member.name}
+                      </h3>
+                      <p className="text-xs font-mono text-coral">
+                        {member.role}
+                      </p>
+                    </div>
+
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                     {member.bio}
                   </p>
 
                   {member.social && (
-                    <div className="flex justify-center gap-3">
+                    <div className="flex items-center gap-2 justify-center">
                       {member.social.github && (
                         <a
                           href={member.social.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-10 h-10 rounded-xl bg-card/50 border border-border flex items-center justify-center hover:border-coral hover:text-coral transition-all duration-300 shadow-3d-hover"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-xs text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-200"
                         >
-                          <Github size={18} />
+                          <Github size={12} />
+                          GitHub
                         </a>
                       )}
                       {member.social.linkedin && (
@@ -102,19 +103,10 @@ export const TeamSection = () => {
                           href={member.social.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-10 h-10 rounded-xl bg-card/50 border border-border flex items-center justify-center hover:border-coral hover:text-coral transition-all duration-300 shadow-3d-hover"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-xs text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-200"
                         >
-                          <Linkedin size={18} />
-                        </a>
-                      )}
-                      {member.social.twitter && (
-                        <a
-                          href={member.social.twitter}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-10 h-10 rounded-xl bg-card/50 border border-border flex items-center justify-center hover:border-coral hover:text-coral transition-all duration-300 shadow-3d-hover"
-                        >
-                          <Twitter size={18} />
+                          <Linkedin size={12} />
+                          LinkedIn
                         </a>
                       )}
                     </div>
@@ -125,21 +117,25 @@ export const TeamSection = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="mt-16 text-center"
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-10 max-w-4xl mx-auto"
           >
-            <div className="inline-block p-8 rounded-2xl glass-3d shadow-3d">
-              <p className="text-muted-foreground mb-2">
-                Want to join us?
-              </p>
-              <p className="text-foreground font-medium">
-                We're always looking for passionate builders.{" "}
-                <a href="mailto:hello@paperfrogs.dev" className="text-coral hover:underline">
-                  Get in touch →
-                </a>
-              </p>
+            <div className="border border-dashed border-border rounded-xl p-7 flex flex-col items-center justify-center gap-4 text-center">
+              <div>
+                <p className="text-foreground font-medium mb-1">Want to join us?</p>
+                <p className="text-sm text-muted-foreground">
+                  We're always looking for passionate builders.
+                </p>
+              </div>
+              <a
+                href="mailto:hello@paperfrogs.dev"
+                className="inline-flex items-center gap-2 text-sm text-coral font-medium hover:opacity-80 transition-opacity"
+              >
+                Get in touch
+                <ArrowUpRight size={14} />
+              </a>
             </div>
           </motion.div>
         </div>

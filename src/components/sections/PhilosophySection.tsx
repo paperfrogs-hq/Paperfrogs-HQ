@@ -30,50 +30,59 @@ export const PhilosophySection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="philosophy" className="py-24 lg:py-32 bg-card">
-      <div className="container mx-auto px-6 lg:px-12">
+    <section id="philosophy" className="py-28 lg:py-36 bg-card/30 relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div ref={ref} className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="mb-16"
-          >
-            <span className="text-coral text-sm font-medium uppercase tracking-widest mb-4 block">
-              Our Philosophy
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-              What We Believe In
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              These principles guide every product we create and every decision we make.
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-12 gap-16 lg:gap-20">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-4 lg:sticky lg:top-32 lg:self-start"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-px bg-coral" />
+                <span className="text-xs font-mono text-coral uppercase tracking-[0.2em]">
+                  Philosophy
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-5">
+                What we
+                <br />
+                believe in
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                These principles guide every product we create and every decision we make.
+              </p>
+            </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 40, rotateX: -10 }}
-                animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
-                className="group card-3d"
-              >
-                <div className="card-3d-inner p-6 rounded-2xl glass-3d shadow-3d-hover flex gap-6">
-                  <span className="text-5xl lg:text-6xl font-bold text-coral/30 group-hover:text-coral/60 transition-colors duration-300 drop-shadow-lg">
-                    {value.number}
-                  </span>
-                  <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-coral transition-colors duration-300">
-                      {value.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {value.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+            <div className="lg:col-span-8">
+              <div className="space-y-0 divide-y divide-border">
+                {values.map((value, index) => (
+                  <motion.div
+                    key={value.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                    className="group py-8 first:pt-0 last:pb-0"
+                  >
+                    <div className="flex items-start gap-8">
+                      <span className="text-sm font-mono text-coral/40 group-hover:text-coral transition-colors duration-300 pt-1 shrink-0">
+                        {value.number}
+                      </span>
+                      <div>
+                        <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-coral transition-colors duration-200">
+                          {value.title}
+                        </h3>
+                        <p className="text-muted-foreground leading-relaxed max-w-lg">
+                          {value.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
