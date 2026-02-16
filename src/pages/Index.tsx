@@ -1,12 +1,13 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { HeroStackedHeadline } from "@/components/site/HeroStackedHeadline";
 import { FeaturedProjectsSlider } from "@/components/site/FeaturedProjectsSlider";
 import { Reveal } from "@/components/shared/Reveal";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { homeWhatWeDo, projects, siteMeta } from "@/data/site";
+import { homeWhatWeDo, projects, siteMeta, ventureModel } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 import {
   EASING_PRIMARY,
@@ -24,10 +25,27 @@ const heroLines = [
 
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start end", "end start"],
+  });
+  const heroRotateTarget = useTransform(
+    heroProgress,
+    [0, 0.5, 1],
+    shouldReduceMotion ? [0, 0, 0] : [5, 0, -5],
+  );
+  const heroScaleTarget = useTransform(
+    heroProgress,
+    [0, 0.5, 1],
+    shouldReduceMotion ? [1, 1, 1] : [0.99, 1, 0.99],
+  );
+  const heroRotateX = useSpring(heroRotateTarget, { stiffness: 140, damping: 24, mass: 0.35 });
+  const heroScale = useSpring(heroScaleTarget, { stiffness: 140, damping: 24, mass: 0.35 });
 
   usePageSeo({
     title: "Home",
-    description: "Paperfrogs HQ builds infrastructure first systems and ships research into production-ready tools.",
+    description: "Paperfrogs HQ is a venture studio and conviction-capital partner building infrastructure-first, production-ready systems.",
     path: "/",
   });
 
@@ -36,7 +54,15 @@ const Index = () => {
   return (
     <SiteShell className="pt-20 sm:pt-24">
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 pt-2 sm:px-10 sm:pb-32 sm:pt-6">
-        <div
+        <motion.div
+          ref={heroRef}
+          style={{
+            transformPerspective: 1200,
+            transformStyle: "preserve-3d",
+            rotateX: heroRotateX,
+            scale: heroScale,
+            willChange: "transform",
+          }}
         >
           <motion.div
             initial={{ opacity: 0, y: reducedMotionValue(shouldReduceMotion, MOTION_OFFSET.large) }}
@@ -48,9 +74,6 @@ const Index = () => {
             style={{ willChange: "transform, opacity" }}
             className="space-y-3"
           >
-            <p className="text-sm tracking-[0.08em] text-muted-foreground">
-              {siteMeta.name} • {siteMeta.location}
-            </p>
             <span className="inline-flex rounded-full border border-coral/50 px-3 py-1 text-xs text-coral">
               Think - Build - Evolve
             </span>
@@ -91,7 +114,7 @@ const Index = () => {
               <Link to="/contact">Get in touch</Link>
             </Button>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">
@@ -100,6 +123,26 @@ const Index = () => {
             We believe the most useful products are the ones built for durability where research becomes real systems.
           </blockquote>
         </Reveal>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">
+        <Reveal>
+          <SectionHeader
+            label="Venture model"
+            title="Venture capital with operating depth."
+            description="Paperfrogs works as a venture studio and capital partner. We back high-conviction technical work and help ship it into real products."
+          />
+        </Reveal>
+        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          {ventureModel.map((item, index) => (
+            <Reveal key={item.title} delay={0.06 + index * 0.05}>
+              <article className="rounded-2xl border border-border bg-card/60 p-5">
+                <h3 className="text-base font-medium text-foreground">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">

@@ -69,7 +69,7 @@ const Work = () => {
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-8 sm:px-10">
         <Reveal>
-          <div className="grid gap-6 rounded-2xl border border-border bg-card/55 p-5 sm:grid-cols-2 lg:grid-cols-3 lg:p-6">
+          <div className="grid gap-6 border-y border-border py-5 sm:grid-cols-2 lg:grid-cols-3 lg:py-6">
             <FilterChips label="Pillar" options={pillarOptions} value={pillar} onChange={onPillarChange} />
             <FilterChips label="Status" options={statusOptions} value={status} onChange={setStatus} />
             <FilterDropdown label="Stack" options={stackOptions} value={stack} onChange={setStack} />
@@ -80,7 +80,7 @@ const Work = () => {
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">
         <p className="mb-6 text-sm text-muted-foreground">{filtered.length} projects</p>
         {filtered.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="divide-y divide-border border-y border-border">
             {filtered.map((project, index) => (
               <Reveal key={project.slug} delay={index * 0.03}>
                 <ProjectCard project={project} />
@@ -88,7 +88,7 @@ const Work = () => {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-border bg-card/60 p-8 text-muted-foreground">
+          <div className="border-y border-border py-8 text-muted-foreground">
             No projects found for this filter set.
           </div>
         )}

@@ -1,7 +1,6 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { Reveal } from "@/components/shared/Reveal";
-import { Button } from "@/components/ui/button";
 import { projects } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 
@@ -31,32 +30,35 @@ const ProjectDetail = () => {
           </Link>
           <h1 className="mt-5 text-[clamp(2rem,5vw,4rem)] leading-[1.05] tracking-[-0.02em]">{project.name}</h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">{project.summary}</p>
-          <div className="mt-6 flex flex-wrap gap-2 text-sm text-muted-foreground">
-            <span className="rounded-full border border-border px-3 py-1">{project.yearStarted}</span>
-            <span className="rounded-full border border-border px-3 py-1">{project.status}</span>
+          <div className="mt-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+            <span>{project.yearStarted}</span>
+            <span aria-hidden="true">•</span>
+            <span>{project.status}</span>
+            <span aria-hidden="true">•</span>
+            <span>{project.pillar}</span>
           </div>
         </Reveal>
       </section>
 
-      <section className="mx-auto grid w-full max-w-5xl gap-6 px-6 pb-24 sm:px-10 sm:pb-32">
+      <section className="mx-auto grid w-full max-w-5xl gap-10 px-6 pb-24 sm:px-10 sm:pb-32">
         {[
           ["Problem", project.problem],
           ["Approach", project.approach],
           ["What exists today", project.today],
           ["What’s next", project.next],
         ].map(([title, body], index) => (
-          <Reveal key={title} delay={index * 0.05} className="rounded-2xl border border-border bg-card/65 p-6 sm:p-8">
-            <h2 className="text-xl">{title}</h2>
+          <Reveal key={title} delay={index * 0.05} className="border-t border-border pt-6 sm:pt-8">
+            <h2 className="text-2xl">{title}</h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">{body}</p>
           </Reveal>
         ))}
 
         {project.timeline?.journey?.length ? (
-          <Reveal className="rounded-2xl border border-border bg-card/65 p-6 sm:p-8">
-            <h2 className="text-xl">Project Journey</h2>
-            <ul className="mt-5 space-y-4">
+          <Reveal className="border-t border-border pt-6 sm:pt-8">
+            <h2 className="text-2xl">Project Journey</h2>
+            <ul className="mt-6 space-y-6">
               {project.timeline.journey.map((entry) => (
-                <li key={`${entry.period}-${entry.detail}`} className="rounded-xl border border-border/80 bg-background/50 p-4">
+                <li key={`${entry.period}-${entry.detail}`} className="border-l border-border pl-4">
                   <p className="text-xs uppercase tracking-[0.16em] text-coral">{entry.period}</p>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{entry.detail}</p>
                 </li>
@@ -66,11 +68,11 @@ const ProjectDetail = () => {
         ) : null}
 
         {project.timeline?.upcoming?.length ? (
-          <Reveal className="rounded-2xl border border-border bg-card/65 p-6 sm:p-8">
-            <h2 className="text-xl">Upcoming Milestones</h2>
-            <ul className="mt-5 space-y-4">
+          <Reveal className="border-t border-border pt-6 sm:pt-8">
+            <h2 className="text-2xl">Upcoming Milestones</h2>
+            <ul className="mt-6 space-y-6">
               {project.timeline.upcoming.map((entry) => (
-                <li key={`${entry.period}-${entry.detail}`} className="rounded-xl border border-border/80 bg-background/50 p-4">
+                <li key={`${entry.period}-${entry.detail}`} className="border-l border-border pl-4">
                   <p className="text-xs uppercase tracking-[0.16em] text-coral">{entry.period}</p>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{entry.detail}</p>
                 </li>
@@ -80,29 +82,38 @@ const ProjectDetail = () => {
         ) : null}
 
         {project.links ? (
-          <Reveal className="rounded-2xl border border-border bg-card/65 p-6 sm:p-8">
-            <h2 className="text-xl">Links</h2>
-            <div className="mt-5 flex flex-wrap gap-3">
+          <Reveal className="border-t border-border pt-6 sm:pt-8">
+            <h2 className="text-2xl">Links</h2>
+            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
               {project.links.github ? (
-                <Button asChild variant="outline">
-                  <a href={project.links.github} target="_blank" rel="noreferrer">
-                    GitHub
-                  </a>
-                </Button>
+                <a
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-coral underline-offset-4 transition-colors hover:text-coral/80 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+                >
+                  GitHub
+                </a>
               ) : null}
               {project.links.docs ? (
-                <Button asChild variant="outline">
-                  <a href={project.links.docs} target="_blank" rel="noreferrer">
-                    Docs
-                  </a>
-                </Button>
+                <a
+                  href={project.links.docs}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-coral underline-offset-4 transition-colors hover:text-coral/80 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+                >
+                  Docs
+                </a>
               ) : null}
               {project.links.demo ? (
-                <Button asChild variant="outline">
-                  <a href={project.links.demo} target="_blank" rel="noreferrer">
-                    Demo
-                  </a>
-                </Button>
+                <a
+                  href={project.links.demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-coral underline-offset-4 transition-colors hover:text-coral/80 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+                >
+                  Demo
+                </a>
               ) : null}
             </div>
           </Reveal>

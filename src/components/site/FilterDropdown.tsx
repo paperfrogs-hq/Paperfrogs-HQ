@@ -18,7 +18,7 @@ export const FilterDropdown = <T extends string>({ label, options, value, onChan
     <label className="block space-y-3">
       <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
       <Select value={value} onValueChange={(next) => onChange(next as T | "All")}>
-        <SelectTrigger className="h-11 rounded-full border-border bg-card text-sm focus:ring-coral">
+        <SelectTrigger className="h-11 rounded-none border-x-0 border-t-0 border-b border-border bg-transparent px-0 text-sm focus:ring-coral">
           <SelectValue placeholder="All" />
         </SelectTrigger>
         <SelectContent className="border-border bg-card">

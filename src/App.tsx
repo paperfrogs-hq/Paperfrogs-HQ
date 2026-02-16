@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CustomCursor } from "@/components/layout/CustomCursor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
@@ -81,6 +82,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AnimatedRoutes />
+        <CustomCursor />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

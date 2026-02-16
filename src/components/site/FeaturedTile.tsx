@@ -14,24 +14,20 @@ export const FeaturedTile = ({ project }: FeaturedTileProps) => {
   return (
     <MotionLink
       to={`/projects/${project.slug}`}
-      className="group block min-w-[280px] rounded-2xl border border-border bg-card/70 p-5 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/60 hover:shadow-[0_0_0_1px_hsl(var(--coral)/0.35),0_16px_35px_hsl(var(--coral)/0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
-      whileHover={shouldReduceMotion ? {} : { y: -4 }}
+      data-cursor-label="View|Details"
+      data-cursor-scale="1.08"
+      className="group flex h-full w-full flex-col border-l-2 border-border py-2 pl-5 pr-2 transition-[transform,border-color] duration-200 ease-out hover:border-coral/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+      whileHover={shouldReduceMotion ? {} : { x: 4 }}
       whileTap={shouldReduceMotion ? {} : { scale: 0.99 }}
       transition={{ duration: MOTION_DURATION.fast, ease: "easeOut" }}
       style={{ willChange: "transform" }}
     >
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-lg font-semibold text-foreground">{project.name}</h3>
-        <span className="text-xs text-muted-foreground">{project.yearStarted}</span>
+        <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
+        <span className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{project.yearStarted}</span>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span key={`${project.slug}-${tag}`} className="rounded-full border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground">
-            {tag}
-          </span>
-        ))}
-      </div>
+      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
+      <p className="mt-auto pt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">{project.tags.join(" · ")}</p>
     </MotionLink>
   );
 };

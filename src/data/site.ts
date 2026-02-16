@@ -361,3 +361,18 @@ export const engagementModes = [
 export const contactTopics = ["Partnership", "Hiring", "Product", "Research", "Other"] as const;
 
 export const homeWhatWeDo = ["Embedded infrastructure", "Experimental research", "Applied tooling"] as const;
+
+export const ventureModel = [
+  {
+    title: "Thesis-led capital",
+    description: "We deploy conviction capital into infrastructure and security systems with long compounding timelines.",
+  },
+  {
+    title: "Studio co-building",
+    description: "Beyond checks, we work inside product and engineering loops to shape architecture, risk, and delivery.",
+  },
+  {
+    title: "Long-horizon partnership",
+    description: "We stay engaged through early validation, production hardening, and scale.",
+  },
+] as const;

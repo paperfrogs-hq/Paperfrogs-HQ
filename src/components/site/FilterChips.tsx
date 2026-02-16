@@ -23,10 +23,10 @@ export const FilterChips = <T extends string>({ label, options, value, onChange 
             type="button"
             onClick={() => onChange(option as T | "All")}
             className={cn(
-              "rounded-full border px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral",
+              "border-b px-0.5 pb-1 text-xs uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral",
               value === option
-                ? "border-coral/70 bg-coral/10 text-foreground"
-                : "border-border bg-card text-muted-foreground hover:border-coral/40 hover:text-foreground",
+                ? "border-coral text-foreground"
+                : "border-transparent text-muted-foreground hover:border-coral/40 hover:text-foreground",
             )}
             whileHover={shouldReduceMotion ? {} : { y: -1 }}
             whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}

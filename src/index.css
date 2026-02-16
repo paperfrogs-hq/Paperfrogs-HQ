@@ -115,6 +115,15 @@
     position: relative;
   }
 
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .noise-bg::after {
     content: "";
     position: absolute;
