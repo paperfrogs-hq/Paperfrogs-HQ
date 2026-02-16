@@ -2,24 +2,70 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+type CursorKind = "interactive" | "label" | "text";
+
 type CursorMeta = {
+  kind: CursorKind;
   labelLines: string[];
   scale: number;
 };
 
-const CURSOR_LERP = 0.12;
-const SCALE_LERP = 0.18;
-const SCALE_LERP_PRESSED = 0.28;
+const CURSOR_LERP = 0.34;
+const DOT_SCALE_LERP = 0.38;
+const HALO_SCALE_LERP = 0.3;
+const HALO_OPACITY_LERP = 0.28;
+const SCALE_LERP_PRESSED = 0.46;
+const HALO_BASE_SCALE = 0.85;
 const LABEL_OFFSET = 14;
+
+const INTERACTIVE_SELECTOR = [
+  "a[href]",
+  "button:not(:disabled)",
+  "summary",
+  "label[for]",
+  "[role='button']:not([aria-disabled='true'])",
+  "[data-cursor-label]",
+  "[data-cursor-scale]",
+  "input:not([type='hidden']):not(:disabled)",
+  "select:not(:disabled)",
+  "textarea:not(:disabled)",
+].join(", ");
+
+const TEXT_INPUT_SELECTOR = [
+  "textarea:not(:disabled)",
+  "input:not([type='button']):not([type='submit']):not([type='reset']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']):not([type='image']):not([type='hidden']):not(:disabled)",
+  "[contenteditable='true']",
+  "[contenteditable='']",
+].join(", ");
 
 const getCursorMeta = (target: EventTarget | null): CursorMeta | null => {
   if (!(target instanceof Element)) {
     return null;
   }
 
+  if (target.closest(TEXT_INPUT_SELECTOR)) {
+    return {
+      kind: "text",
+      labelLines: [],
+      scale: 1,
+    };
+  }
+
   const region = target.closest<HTMLElement>("[data-cursor-label]");
   if (!region?.dataset.cursorLabel) {
-    return null;
+    const interactiveRegion = target.closest<HTMLElement>(INTERACTIVE_SELECTOR);
+    if (!interactiveRegion) {
+      return null;
+    }
+
+    const parsedScale = Number(interactiveRegion.dataset.cursorScale ?? "1");
+    const interactiveScale = Number.isFinite(parsedScale) ? Math.max(parsedScale * 1.85, 1.8) : 1.8;
+
+    return {
+      kind: "interactive",
+      labelLines: [],
+      scale: interactiveScale,
+    };
   }
 
   const labelLines = region.dataset.cursorLabel
@@ -33,9 +79,10 @@ const getCursorMeta = (target: EventTarget | null): CursorMeta | null => {
   }
 
   const parsedScale = Number(region.dataset.cursorScale ?? "1");
-  const scale = Number.isFinite(parsedScale) ? parsedScale : 1;
+  const scale = Number.isFinite(parsedScale) ? Math.max(parsedScale * 2.25, 2.2) : 2.2;
 
   return {
+    kind: "label",
     labelLines,
     scale,
   };
@@ -47,7 +94,8 @@ export const CustomCursor = () => {
   const [isLabelVisible, setIsLabelVisible] = useState(false);
   const [labelLines, setLabelLines] = useState<string[]>([]);
 
-  const followerRef = useRef<HTMLDivElement | null>(null);
+  const dotRef = useRef<HTMLDivElement | null>(null);
+  const haloRef = useRef<HTMLDivElement | null>(null);
   const labelAnchorRef = useRef<HTMLDivElement | null>(null);
   const rafIdRef = useRef<number | null>(null);
 
@@ -55,9 +103,12 @@ export const CustomCursor = () => {
   const targetYRef = useRef(0);
   const currentXRef = useRef(0);
   const currentYRef = useRef(0);
-  const currentScaleRef = useRef(1);
+  const currentDotScaleRef = useRef(1);
+  const currentHaloScaleRef = useRef(HALO_BASE_SCALE);
+  const currentHaloOpacityRef = useRef(0.45);
   const isPointerActiveRef = useRef(false);
   const isPointerDownRef = useRef(false);
+  const isCursorSuppressedRef = useRef(false);
   const cursorMetaRef = useRef<CursorMeta | null>(null);
 
   const isEnabled = isFinePointer && !shouldReduceMotion;
@@ -83,20 +134,24 @@ export const CustomCursor = () => {
 
     document.body.classList.add("pf-cursor-enabled");
 
-    const followerEl = followerRef.current;
+    const dotEl = dotRef.current;
+    const haloEl = haloRef.current;
     const labelAnchorEl = labelAnchorRef.current;
-    if (!followerEl || !labelAnchorEl) {
+    if (!dotEl || !haloEl || !labelAnchorEl) {
       return;
     }
 
     const applyMeta = (meta: CursorMeta | null) => {
       cursorMetaRef.current = meta;
-      if (meta) {
+      isCursorSuppressedRef.current = meta?.kind === "text";
+
+      if (meta?.kind === "label") {
         setLabelLines(meta.labelLines);
         setIsLabelVisible(true);
-      } else {
-        setIsLabelVisible(false);
+        return;
       }
+
+      setIsLabelVisible(false);
     };
 
     const onMouseMove = (event: MouseEvent) => {
@@ -118,6 +173,7 @@ export const CustomCursor = () => {
         applyMeta(null);
         return;
       }
+
       applyMeta(getCursorMeta(event.relatedTarget));
     };
 
@@ -139,23 +195,32 @@ export const CustomCursor = () => {
     };
 
     const tick = () => {
-      if (isPointerActiveRef.current) {
+      if (isPointerActiveRef.current && !isCursorSuppressedRef.current) {
         currentXRef.current += (targetXRef.current - currentXRef.current) * CURSOR_LERP;
         currentYRef.current += (targetYRef.current - currentYRef.current) * CURSOR_LERP;
 
-        const hoverScale = cursorMetaRef.current?.scale ?? 1;
-        const scaleTarget = isPointerDownRef.current ? hoverScale * 0.92 : hoverScale;
-        const scaleLerp = isPointerDownRef.current ? SCALE_LERP_PRESSED : SCALE_LERP;
-        currentScaleRef.current += (scaleTarget - currentScaleRef.current) * scaleLerp;
+        const meta = cursorMetaRef.current;
+        const isHoveringInteractive = meta?.kind === "interactive" || meta?.kind === "label";
+        const dotScaleTarget = isPointerDownRef.current ? 0.72 : isHoveringInteractive ? 0.9 : 1;
+        const haloScaleTarget = isHoveringInteractive ? meta.scale : HALO_BASE_SCALE;
+        const haloOpacityTarget = isHoveringInteractive ? 0.9 : 0.45;
+        const dotScaleLerp = isPointerDownRef.current ? SCALE_LERP_PRESSED : DOT_SCALE_LERP;
+
+        currentDotScaleRef.current += (dotScaleTarget - currentDotScaleRef.current) * dotScaleLerp;
+        currentHaloScaleRef.current += (haloScaleTarget - currentHaloScaleRef.current) * HALO_SCALE_LERP;
+        currentHaloOpacityRef.current += (haloOpacityTarget - currentHaloOpacityRef.current) * HALO_OPACITY_LERP;
 
         const x = currentXRef.current;
         const y = currentYRef.current;
 
-        followerEl.style.opacity = "1";
-        followerEl.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0) scale(${currentScaleRef.current})`;
+        dotEl.style.opacity = "1";
+        haloEl.style.opacity = `${currentHaloOpacityRef.current}`;
+        dotEl.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0) scale(${currentDotScaleRef.current})`;
+        haloEl.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0) scale(${currentHaloScaleRef.current})`;
         labelAnchorEl.style.transform = `translate3d(${x + LABEL_OFFSET}px, ${y + LABEL_OFFSET}px, 0)`;
       } else {
-        followerEl.style.opacity = "0";
+        dotEl.style.opacity = "0";
+        haloEl.style.opacity = "0";
       }
 
       rafIdRef.current = window.requestAnimationFrame(tick);
@@ -195,8 +260,13 @@ export const CustomCursor = () => {
   return (
     <div className="pointer-events-none fixed inset-0 z-[120]" aria-hidden="true">
       <div
-        ref={followerRef}
-        className="absolute h-2 w-2 rounded-full bg-[hsl(var(--coral)/0.78)] opacity-0"
+        ref={haloRef}
+        className="absolute h-9 w-9 rounded-full border border-[hsl(var(--coral)/0.6)] bg-[hsl(var(--coral)/0.12)] opacity-0"
+        style={{ willChange: "transform, opacity" }}
+      />
+      <div
+        ref={dotRef}
+        className="absolute h-2.5 w-2.5 rounded-full bg-[hsl(var(--coral)/0.95)] opacity-0 shadow-[0_0_20px_hsl(var(--coral)/0.7)]"
         style={{ willChange: "transform, opacity" }}
       />
       <div
@@ -206,7 +276,7 @@ export const CustomCursor = () => {
       >
         <div
           className={cn(
-            "border border-border bg-[hsl(var(--background)/0.78)] px-3 py-2 text-[13px] font-medium leading-[1.15] text-coral",
+            "border border-border bg-[hsl(var(--background)/0.8)] px-3 py-2 text-[13px] font-medium leading-[1.15] text-coral",
             "transition-[opacity,transform] ease-out",
             isLabelVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
           )}

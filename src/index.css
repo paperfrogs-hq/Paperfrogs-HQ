@@ -150,3 +150,28 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground));
 }
+
+@media (pointer: fine) {
+  body.pf-cursor-enabled,
+  body.pf-cursor-enabled * {
+    cursor: none !important;
+  }
+
+  body.pf-cursor-enabled textarea,
+  body.pf-cursor-enabled input[type="text"],
+  body.pf-cursor-enabled input[type="search"],
+  body.pf-cursor-enabled input[type="email"],
+  body.pf-cursor-enabled input[type="url"],
+  body.pf-cursor-enabled input[type="tel"],
+  body.pf-cursor-enabled input[type="password"],
+  body.pf-cursor-enabled input[type="number"],
+  body.pf-cursor-enabled input[type="date"],
+  body.pf-cursor-enabled input[type="month"],
+  body.pf-cursor-enabled input[type="week"],
+  body.pf-cursor-enabled input[type="time"],
+  body.pf-cursor-enabled input[type="datetime-local"],
+  body.pf-cursor-enabled [contenteditable="true"],
+  body.pf-cursor-enabled [contenteditable=""] {
+    cursor: text !important;
+  }
+}
