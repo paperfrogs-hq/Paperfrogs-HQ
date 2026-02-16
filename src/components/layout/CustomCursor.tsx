@@ -11,7 +11,6 @@ type CursorMeta = {
 };
 
 const CURSOR_LERP = 0.34;
-const DOT_SCALE_LERP = 0.38;
 const HALO_SCALE_LERP = 0.3;
 const HALO_OPACITY_LERP = 0.28;
 const SCALE_LERP_PRESSED = 0.46;
@@ -92,9 +91,9 @@ export const CustomCursor = () => {
   const shouldReduceMotion = useReducedMotion();
   const [isFinePointer, setIsFinePointer] = useState(false);
   const [isLabelVisible, setIsLabelVisible] = useState(false);
+  const [isInteractiveHover, setIsInteractiveHover] = useState(false);
   const [labelLines, setLabelLines] = useState<string[]>([]);
 
-  const dotRef = useRef<HTMLDivElement | null>(null);
   const haloRef = useRef<HTMLDivElement | null>(null);
   const labelAnchorRef = useRef<HTMLDivElement | null>(null);
   const rafIdRef = useRef<number | null>(null);
@@ -103,7 +102,6 @@ export const CustomCursor = () => {
   const targetYRef = useRef(0);
   const currentXRef = useRef(0);
   const currentYRef = useRef(0);
-  const currentDotScaleRef = useRef(1);
   const currentHaloScaleRef = useRef(HALO_BASE_SCALE);
   const currentHaloOpacityRef = useRef(0.45);
   const isPointerActiveRef = useRef(false);
@@ -129,21 +127,22 @@ export const CustomCursor = () => {
     if (!isEnabled) {
       document.body.classList.remove("pf-cursor-enabled");
       setIsLabelVisible(false);
+      setIsInteractiveHover(false);
       return;
     }
 
     document.body.classList.add("pf-cursor-enabled");
 
-    const dotEl = dotRef.current;
     const haloEl = haloRef.current;
     const labelAnchorEl = labelAnchorRef.current;
-    if (!dotEl || !haloEl || !labelAnchorEl) {
+    if (!haloEl || !labelAnchorEl) {
       return;
     }
 
     const applyMeta = (meta: CursorMeta | null) => {
       cursorMetaRef.current = meta;
       isCursorSuppressedRef.current = meta?.kind === "text";
+      setIsInteractiveHover(meta?.kind === "interactive" || meta?.kind === "label");
 
       if (meta?.kind === "label") {
         setLabelLines(meta.labelLines);
@@ -188,6 +187,7 @@ export const CustomCursor = () => {
     const onWindowLeave = () => {
       isPointerActiveRef.current = false;
       setIsLabelVisible(false);
+      setIsInteractiveHover(false);
     };
 
     const onWindowEnter = () => {
@@ -201,25 +201,21 @@ export const CustomCursor = () => {
 
         const meta = cursorMetaRef.current;
         const isHoveringInteractive = meta?.kind === "interactive" || meta?.kind === "label";
-        const dotScaleTarget = isPointerDownRef.current ? 0.72 : isHoveringInteractive ? 0.9 : 1;
-        const haloScaleTarget = isHoveringInteractive ? meta.scale : HALO_BASE_SCALE;
+        const haloScaleBaseTarget = isHoveringInteractive ? meta.scale : HALO_BASE_SCALE;
+        const haloScaleTarget = isPointerDownRef.current ? haloScaleBaseTarget * 0.92 : haloScaleBaseTarget;
         const haloOpacityTarget = isHoveringInteractive ? 0.9 : 0.45;
-        const dotScaleLerp = isPointerDownRef.current ? SCALE_LERP_PRESSED : DOT_SCALE_LERP;
+        const haloScaleLerp = isPointerDownRef.current ? SCALE_LERP_PRESSED : HALO_SCALE_LERP;
 
-        currentDotScaleRef.current += (dotScaleTarget - currentDotScaleRef.current) * dotScaleLerp;
-        currentHaloScaleRef.current += (haloScaleTarget - currentHaloScaleRef.current) * HALO_SCALE_LERP;
+        currentHaloScaleRef.current += (haloScaleTarget - currentHaloScaleRef.current) * haloScaleLerp;
         currentHaloOpacityRef.current += (haloOpacityTarget - currentHaloOpacityRef.current) * HALO_OPACITY_LERP;
 
         const x = currentXRef.current;
         const y = currentYRef.current;
 
-        dotEl.style.opacity = "1";
         haloEl.style.opacity = `${currentHaloOpacityRef.current}`;
-        dotEl.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0) scale(${currentDotScaleRef.current})`;
         haloEl.style.transform = `translate3d(${x}px, ${y}px, 0) translate3d(-50%, -50%, 0) scale(${currentHaloScaleRef.current})`;
         labelAnchorEl.style.transform = `translate3d(${x + LABEL_OFFSET}px, ${y + LABEL_OFFSET}px, 0)`;
       } else {
-        dotEl.style.opacity = "0";
         haloEl.style.opacity = "0";
       }
 
@@ -261,12 +257,12 @@ export const CustomCursor = () => {
     <div className="pointer-events-none fixed inset-0 z-[120]" aria-hidden="true">
       <div
         ref={haloRef}
-        className="absolute h-9 w-9 rounded-full border border-[hsl(var(--coral)/0.6)] bg-[hsl(var(--coral)/0.12)] opacity-0"
-        style={{ willChange: "transform, opacity" }}
-      />
-      <div
-        ref={dotRef}
-        className="absolute h-2.5 w-2.5 rounded-full bg-[hsl(var(--coral)/0.95)] opacity-0 shadow-[0_0_20px_hsl(var(--coral)/0.7)]"
+        className={cn(
+          "absolute h-9 w-9 rounded-full opacity-0 transition-[border-color,background-color,box-shadow] duration-200 ease-out",
+          isInteractiveHover
+            ? "border border-[hsl(var(--coral)/0.86)] bg-[hsl(var(--coral)/0.2)] shadow-[0_0_24px_hsl(var(--coral)/0.4)]"
+            : "border border-[hsl(var(--foreground)/0.5)] bg-[hsl(var(--foreground)/0.08)]",
+        )}
         style={{ willChange: "transform, opacity" }}
       />
       <div
