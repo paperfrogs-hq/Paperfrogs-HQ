@@ -55,37 +55,39 @@ const Ideas = () => {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-8 sm:px-10">
-        <div className="grid gap-4 rounded-2xl border border-border bg-card/60 p-5 sm:grid-cols-[1fr_auto] sm:items-end">
-          <label className="space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Search</span>
-            <Input
-              value={search}
-              onChange={(event) => {
-                setSearch(event.target.value);
-                setPage(1);
-              }}
-              placeholder="Search title or excerpt"
-              className="h-11 rounded-xl border-border bg-background/80 focus-visible:ring-coral"
-            />
-          </label>
+        <Reveal>
+          <div className="grid gap-4 rounded-2xl border border-border bg-card/60 p-5 sm:grid-cols-[1fr_auto] sm:items-end">
+            <label className="space-y-2">
+              <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Search</span>
+              <Input
+                value={search}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                  setPage(1);
+                }}
+                placeholder="Search title or excerpt"
+                className="h-11 rounded-xl border-border bg-background/80 focus-visible:ring-coral"
+              />
+            </label>
 
-          <div className="flex flex-wrap gap-2">
-            {["All", ...uniqueTags].map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setTagWithReset(option)}
-                className={`rounded-full border px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
-                  tag === option
-                    ? "border-coral/70 bg-coral/10 text-foreground"
-                    : "border-border bg-background text-muted-foreground hover:border-coral/40 hover:text-foreground"
-                }`}
-              >
-                {option}
-              </button>
-            ))}
+            <div className="flex flex-wrap gap-2">
+              {["All", ...uniqueTags].map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setTagWithReset(option)}
+                  className={`rounded-full border px-3 py-1.5 text-sm transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
+                    tag === option
+                      ? "border-coral/70 bg-coral/10 text-foreground"
+                      : "border-border bg-background text-muted-foreground hover:border-coral/40 hover:text-foreground"
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-16 sm:px-10">
@@ -107,7 +109,7 @@ const Ideas = () => {
           type="button"
           onClick={() => setPage((value) => Math.max(1, value - 1))}
           disabled={currentPage === 1}
-          className="rounded-full border border-border px-4 py-2 text-sm text-foreground disabled:opacity-40"
+          className="rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors duration-200 ease-out hover:border-coral/60 disabled:opacity-40"
         >
           Previous
         </button>
@@ -118,7 +120,7 @@ const Ideas = () => {
           type="button"
           onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
           disabled={currentPage === totalPages}
-          className="rounded-full border border-border px-4 py-2 text-sm text-foreground disabled:opacity-40"
+          className="rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors duration-200 ease-out hover:border-coral/60 disabled:opacity-40"
         >
           Next
         </button>

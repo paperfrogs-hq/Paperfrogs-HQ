@@ -33,7 +33,6 @@ const ProjectDetail = () => {
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">{project.summary}</p>
           <div className="mt-6 flex flex-wrap gap-2 text-sm text-muted-foreground">
             <span className="rounded-full border border-border px-3 py-1">{project.yearStarted}</span>
-            <span className="rounded-full border border-border px-3 py-1">{project.pillar}</span>
             <span className="rounded-full border border-border px-3 py-1">{project.status}</span>
           </div>
         </Reveal>

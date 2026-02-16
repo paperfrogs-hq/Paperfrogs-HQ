@@ -1,20 +1,30 @@
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { HeroStackedHeadline } from "@/components/site/HeroStackedHeadline";
-import { FeaturedTile } from "@/components/site/FeaturedTile";
+import { FeaturedProjectsSlider } from "@/components/site/FeaturedProjectsSlider";
 import { Reveal } from "@/components/shared/Reveal";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { homeWhatWeDo, projects, siteMeta } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
+import {
+  EASING_PRIMARY,
+  MOTION_DURATION,
+  MOTION_OFFSET,
+  reducedMotionDuration,
+  reducedMotionValue,
+} from "@/lib/motion";
 
 const heroLines = [
-  "Building infrastructure first systems.",
-  "Shipping research into production.",
-  "Developing tools that matter.",
+  "Building infrastructure.",
+  "Shipping real systems.",
+  "Tools that matter.",
 ];
 
 const Index = () => {
+  const shouldReduceMotion = useReducedMotion();
+
   usePageSeo({
     title: "Home",
     description: "Paperfrogs HQ builds infrastructure first systems and ships research into production-ready tools.",
@@ -26,28 +36,62 @@ const Index = () => {
   return (
     <SiteShell className="pt-20 sm:pt-24">
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 pt-2 sm:px-10 sm:pb-32 sm:pt-6">
-        <Reveal>
-          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            <p>{siteMeta.name}</p>
-            <span aria-hidden="true">•</span>
-            <p>{siteMeta.location}</p>
-            <span className="rounded-full border border-coral/50 px-3 py-1 text-[10px] text-coral">Think - Build - Evolve</span>
-          </div>
+        <div
+        >
+          <motion.div
+            initial={{ opacity: 0, y: reducedMotionValue(shouldReduceMotion, MOTION_OFFSET.large) }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reducedMotionDuration(shouldReduceMotion, MOTION_DURATION.hero),
+              ease: EASING_PRIMARY,
+            }}
+            style={{ willChange: "transform, opacity" }}
+            className="space-y-3"
+          >
+            <p className="text-sm tracking-[0.08em] text-muted-foreground">
+              {siteMeta.name} • {siteMeta.location}
+            </p>
+            <span className="inline-flex rounded-full border border-coral/50 px-3 py-1 text-xs text-coral">
+              Think - Build - Evolve
+            </span>
+          </motion.div>
+
           <div className="mt-6">
-            <HeroStackedHeadline lines={heroLines} />
+            <HeroStackedHeadline lines={heroLines} delay={0.08} />
           </div>
-          <p className="mt-6 max-w-2xl text-balance text-lg leading-relaxed text-coral sm:text-xl">
+
+          <motion.p
+            initial={{ opacity: 0, y: reducedMotionValue(shouldReduceMotion, MOTION_OFFSET.large) }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reducedMotionDuration(shouldReduceMotion, MOTION_DURATION.hero),
+              ease: EASING_PRIMARY,
+              delay: shouldReduceMotion ? 0 : 0.34,
+            }}
+            style={{ willChange: "transform, opacity" }}
+            className="mt-6 max-w-2xl text-balance text-lg leading-relaxed text-coral sm:text-xl"
+          >
             {siteMeta.tagline}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: reducedMotionValue(shouldReduceMotion, MOTION_OFFSET.large) }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reducedMotionDuration(shouldReduceMotion, MOTION_DURATION.hero),
+              ease: EASING_PRIMARY,
+              delay: shouldReduceMotion ? 0 : 0.48,
+            }}
+            style={{ willChange: "transform, opacity" }}
+            className="mt-8 flex flex-wrap gap-3"
+          >
             <Button asChild size="lg" variant="hero">
               <Link to="/projects">Explore projects</Link>
             </Button>
             <Button asChild size="lg" variant="heroOutline">
               <Link to="/contact">Get in touch</Link>
             </Button>
-          </div>
-        </Reveal>
+          </motion.div>
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">
@@ -66,12 +110,8 @@ const Index = () => {
             description="A focused set of systems, tools, and research currently in motion."
           />
         </Reveal>
-        <div className="mt-8 flex gap-4 overflow-x-auto pb-2 [scrollbar-width:thin]">
-          {featuredProjects.map((project, index) => (
-            <Reveal key={project.slug} delay={index * 0.04} className="shrink-0">
-              <FeaturedTile project={project} />
-            </Reveal>
-          ))}
+        <div className="mt-8">
+          <FeaturedProjectsSlider projects={featuredProjects} />
         </div>
       </section>
 

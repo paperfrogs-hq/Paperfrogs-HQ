@@ -68,11 +68,13 @@ const Work = () => {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-8 sm:px-10">
-        <div className="grid gap-6 rounded-2xl border border-border bg-card/55 p-5 sm:grid-cols-2 lg:grid-cols-3 lg:p-6">
-          <FilterChips label="Pillar" options={pillarOptions} value={pillar} onChange={onPillarChange} />
-          <FilterChips label="Status" options={statusOptions} value={status} onChange={setStatus} />
-          <FilterDropdown label="Stack" options={stackOptions} value={stack} onChange={setStack} />
-        </div>
+        <Reveal>
+          <div className="grid gap-6 rounded-2xl border border-border bg-card/55 p-5 sm:grid-cols-2 lg:grid-cols-3 lg:p-6">
+            <FilterChips label="Pillar" options={pillarOptions} value={pillar} onChange={onPillarChange} />
+            <FilterChips label="Status" options={statusOptions} value={status} onChange={setStatus} />
+            <FilterDropdown label="Stack" options={stackOptions} value={stack} onChange={setStack} />
+          </div>
+        </Reveal>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">

@@ -26,7 +26,7 @@ const Team = () => {
         <div className="mt-9 grid gap-4 md:grid-cols-2">
           {founders.map((founder, index) => (
             <Reveal key={founder.name} delay={index * 0.07}>
-              <article className="rounded-2xl border border-border bg-card/70 p-7">
+              <article className="rounded-2xl border border-border bg-card/70 p-7 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50 hover:shadow-[0_0_0_1px_hsl(var(--coral)/0.25),0_16px_30px_hsl(var(--coral)/0.10)]">
                 <h2 className="text-2xl">{founder.name}</h2>
                 <p className="mt-2 text-sm uppercase tracking-[0.16em] text-muted-foreground">{founder.role}</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{founder.bio}</p>
@@ -60,7 +60,9 @@ const Team = () => {
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {capabilities.map((capability, index) => (
               <Reveal key={capability} delay={0.06 + index * 0.03}>
-                <div className="rounded-xl border border-border bg-card/60 p-4 text-sm">{capability}</div>
+                <div className="rounded-xl border border-border bg-card/60 p-4 text-sm transition-[transform,border-color] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50">
+                  {capability}
+                </div>
               </Reveal>
             ))}
           </div>

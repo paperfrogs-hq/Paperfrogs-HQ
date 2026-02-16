@@ -20,7 +20,7 @@
     --secondary-foreground: 0 0% 85%;
 
     --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 58%;
+    --muted-foreground: 0 0% 66%;
 
     --accent: 16 85% 58%;
     --accent-foreground: 0 0% 4%;
@@ -63,7 +63,7 @@
     --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 85%;
     --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 58%;
+    --muted-foreground: 0 0% 66%;
     --accent: 16 85% 58%;
     --accent-foreground: 0 0% 4%;
     --border: 0 0% 14%;
@@ -83,6 +83,8 @@
     @apply bg-background text-foreground antialiased;
     font-family: "Sora", system-ui, sans-serif;
     text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 1.65;
   }
 
   h1,
@@ -93,6 +95,10 @@
   h6 {
     font-family: "Sora", system-ui, sans-serif;
     @apply font-semibold tracking-tight;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   a,

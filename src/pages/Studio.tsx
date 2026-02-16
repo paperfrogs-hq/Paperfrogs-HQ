@@ -52,7 +52,7 @@ const Studio = () => {
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {aboutItems.map((item, index) => (
             <Reveal key={item.number} delay={index * 0.05}>
-              <article className="rounded-2xl border border-border bg-card/60 p-5">
+              <article className="rounded-2xl border border-border bg-card/60 p-5 transition-[transform,border-color] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50">
                 <p className="text-sm text-coral">{item.number}</p>
                 <h3 className="mt-2 text-lg leading-snug">{item.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
@@ -66,7 +66,7 @@ const Studio = () => {
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             {engagementModes.map((mode, index) => (
               <Reveal key={mode.name} delay={0.06 + index * 0.05}>
-                <article className="rounded-2xl border border-border bg-card/60 p-6">
+                <article className="rounded-2xl border border-border bg-card/60 p-6 transition-[transform,border-color] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50">
                   <h3 className="text-xl">{mode.name}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{mode.description}</p>
                 </article>

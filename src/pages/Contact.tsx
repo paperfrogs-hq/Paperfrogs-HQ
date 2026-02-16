@@ -23,7 +23,7 @@ const Contact = () => {
 
         <div className="mt-12 space-y-6">
           <Reveal>
-            <article className="rounded-3xl border border-border bg-card/65 p-6 sm:p-8">
+            <article className="rounded-3xl border border-border bg-card/65 p-6 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50 hover:shadow-[0_0_0_1px_hsl(var(--coral)/0.2),0_14px_28px_hsl(var(--coral)/0.08)] sm:p-8">
               <h2 className="text-2xl">Email</h2>
               <p className="mt-3 text-muted-foreground">
                 Send us an email and we&apos;ll get back to you as soon as possible.
@@ -38,7 +38,7 @@ const Contact = () => {
           </Reveal>
 
           <Reveal delay={0.06}>
-            <article className="rounded-3xl border border-border bg-card/65 p-6 sm:p-8">
+            <article className="rounded-3xl border border-border bg-card/65 p-6 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50 hover:shadow-[0_0_0_1px_hsl(var(--coral)/0.2),0_14px_28px_hsl(var(--coral)/0.08)] sm:p-8">
               <h2 className="text-2xl">GitHub</h2>
               <p className="mt-3 text-muted-foreground">Check out our projects and contribute on GitHub.</p>
               <a
@@ -53,7 +53,7 @@ const Contact = () => {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <article className="rounded-3xl border border-border bg-card/65 p-6 sm:p-8">
+            <article className="rounded-3xl border border-border bg-card/65 p-6 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/50 hover:shadow-[0_0_0_1px_hsl(var(--coral)/0.2),0_14px_28px_hsl(var(--coral)/0.08)] sm:p-8">
               <h2 className="text-2xl">Let&apos;s Build Together</h2>
               <p className="mt-3 text-muted-foreground">
                 Whether you have feedback, want to collaborate, or just want to say hello, we&apos;re always open to
