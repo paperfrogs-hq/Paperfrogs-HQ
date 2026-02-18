@@ -20,9 +20,9 @@ const Team = () => {
         <Reveal>
           <div className={panelClass + " p-8 text-center sm:p-12"}>
             <p className="text-xs uppercase tracking-[0.2em] text-coral/85">Team</p>
-            <h1 className="mt-4 text-4xl leading-[1.05] tracking-[-0.03em] sm:text-5xl">Comming soon</h1>
+            <h1 className="mt-4 text-4xl leading-[1.05] tracking-[-0.03em] sm:text-5xl">Team page in progress</h1>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              We are preparing a dedicated team page. For now, you can view founder details in the Studio page.
+              We are currently preparing the full team experience. For now, you can view founder details in the Studio page.
             </p>
             <div className="mt-8 flex justify-center">
               <Button asChild variant="hero" size="sm">

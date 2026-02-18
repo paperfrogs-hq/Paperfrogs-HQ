@@ -388,20 +388,25 @@ const Index = () => {
           viewAllTo="/studio"
         >
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            <Reveal>
+            <Reveal className="lg:col-span-2">
               <SurfaceCard className="h-full p-6 sm:p-7">
                 <p className="text-sm uppercase tracking-[0.16em] text-coral/80">About Paperfrogs</p>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p className="mt-4 text-sm leading-relaxed text-foreground/90 sm:text-base">
                   Paperfrogs HQ is an infrastructure-first studio founded in {siteMeta.founded} in {siteMeta.location}.
                   We turn deep technical exploration into dependable systems that can run under pressure.
                 </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <StatusChip className="text-foreground/90">{siteMeta.tagline}</StatusChip>
+                  <StatusChip className="text-foreground/90">Founded {siteMeta.founded}</StatusChip>
+                  <StatusChip className="text-foreground/90">{siteMeta.location}</StatusChip>
+                </div>
               </SurfaceCard>
             </Reveal>
 
             <Reveal delay={0.05}>
               <SurfaceCard className="h-full p-6 sm:p-7">
                 <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Vision</p>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p className="mt-4 text-sm leading-relaxed text-foreground/85 sm:text-base">
                   Build long-horizon infrastructure and tools that improve trust, reliability, and real-world execution
                   in critical systems.
                 </p>
@@ -411,21 +416,21 @@ const Index = () => {
             <Reveal delay={0.08}>
               <SurfaceCard className="h-full p-6 sm:p-7">
                 <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Future Plan</p>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p className="mt-4 text-sm leading-relaxed text-foreground/85 sm:text-base">
                   Continue shipping from research into production, expand open technical initiatives, and scale
                   infrastructure partnerships through the next phases of growth.
                 </p>
               </SurfaceCard>
             </Reveal>
 
-            <Reveal delay={0.11}>
+            <Reveal delay={0.11} className="lg:col-span-2">
               <SurfaceCard className="h-full p-6 sm:p-7">
                 <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Founders</p>
-                <ul className="mt-4 space-y-4">
+                <ul className="mt-4 grid gap-4 md:grid-cols-2">
                   {founders.slice(0, 2).map((founder) => (
-                    <li key={founder.name} className="flex items-center justify-between gap-3">
+                    <li key={founder.name} className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
                       <div>
-                        <p className="text-base text-foreground">{founder.name}</p>
+                        <p className="text-base font-medium text-foreground">{founder.name}</p>
                         <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{founder.role}</p>
                       </div>
                       <div className="flex items-center gap-2">

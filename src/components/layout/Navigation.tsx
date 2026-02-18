@@ -14,6 +14,8 @@ const menuItems = [
   { label: "Contact", to: "/contact" },
 ] as const;
 
+const desktopNavItems = menuItems.filter((item) => item.to !== "/contact");
+
 export const Navigation = () => {
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -67,7 +69,7 @@ export const Navigation = () => {
 
           <div className="flex items-center gap-2 sm:gap-4">
             <nav className="hidden items-center gap-5 md:flex">
-              {menuItems.map((item) => (
+              {desktopNavItems.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
