@@ -1,6 +1,5 @@
 import { SiteShell } from "@/components/layout/SiteShell";
 import { Reveal } from "@/components/shared/Reveal";
-import { SectionHeader } from "@/components/shared/SectionHeader";
 import { usePageSeo } from "@/hooks/usePageSeo";
 
 const sections = [
@@ -43,6 +42,9 @@ const sections = [
   },
 ] as const;
 
+const panelClass =
+  "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl";
+
 const Terms = () => {
   usePageSeo({
     title: "Terms",
@@ -52,43 +54,41 @@ const Terms = () => {
 
   return (
     <SiteShell>
-      <section className="mx-auto w-full max-w-4xl px-6 pb-24 pt-6 sm:px-10 sm:pb-32">
+      <section className="mx-auto w-full max-w-5xl px-6 pb-24 pt-8 sm:px-10 sm:pb-32">
         <Reveal>
-          <SectionHeader
-            label="Legal"
-            title="Terms of Service"
-            description="The legal terms that govern use of Paperfrogs HQ websites and products."
-          />
+          <div className={panelClass + " p-6 sm:p-8"}>
+            <p className="text-xs uppercase tracking-[0.2em] text-coral/85">Legal</p>
+            <h1 className="mt-4 text-4xl leading-[1.05] tracking-[-0.03em] sm:text-5xl">Terms of Service</h1>
+            <p className="mt-5 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              The legal terms that govern use of Paperfrogs HQ websites and products.
+            </p>
+          </div>
         </Reveal>
 
-        <div className="mt-10 border-y border-border">
+        <div className="mt-4 space-y-4">
           {sections.map((section, index) => (
-            <Reveal
-              key={section.title}
-              delay={index * 0.04}
-              className="grid gap-5 border-b border-border py-7 last:border-b-0 md:grid-cols-[220px_1fr] md:gap-8"
-            >
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{String(index + 1).padStart(2, "0")}</p>
-                <h2 className="mt-2 text-xl leading-snug">{section.title}</h2>
-              </div>
+            <Reveal key={section.title} delay={0.05 + index * 0.03}>
+              <article className={panelClass + " p-6 sm:p-7"}>
+                <p className="text-[11px] uppercase tracking-[0.16em] text-coral/75">{String(index + 1).padStart(2, "0")}</p>
+                <h2 className="mt-2 text-2xl leading-tight">{section.title}</h2>
 
-              <div className="space-y-4">
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph} className="leading-relaxed text-muted-foreground">
-                    {paragraph}
-                  </p>
-                ))}
-                {section.points ? (
-                  <ul className="space-y-3 border-l border-border pl-4">
-                    {section.points.map((point) => (
-                      <li key={point} className="leading-relaxed text-muted-foreground">
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
+                <div className="mt-4 space-y-4">
+                  {section.paragraphs.map((paragraph) => (
+                    <p key={paragraph} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                      {paragraph}
+                    </p>
+                  ))}
+                  {section.points ? (
+                    <ul className="space-y-3 border-l border-white/15 pl-4">
+                      {section.points.map((point) => (
+                        <li key={point} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              </article>
             </Reveal>
           ))}
         </div>

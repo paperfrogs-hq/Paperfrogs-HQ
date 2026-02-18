@@ -225,8 +225,8 @@ export const CustomCursor = () => {
         className={cn(
           "absolute h-7 w-7 rounded-full opacity-0 transition-[border-color,background-color] duration-200 ease-out",
           isInteractiveHover
-            ? "border border-[hsl(var(--coral)/0.7)] bg-[hsl(var(--coral)/0.12)]"
-            : "border border-[hsl(var(--foreground)/0.35)] bg-[hsl(var(--foreground)/0.04)]",
+            ? "border border-[hsl(var(--coral)/0.65)] bg-transparent"
+            : "border border-transparent bg-transparent",
         )}
         style={{ willChange: "transform, opacity" }}
       />

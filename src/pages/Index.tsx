@@ -16,16 +16,10 @@ import {
   Twitter,
 } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
+import { Navigation } from "@/components/layout/Navigation";
 import { founders, homeWhatWeDo, pillarCards, projects, siteMeta, ventureModel } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { label: "Work", href: "#work" },
-  { label: "Approach", href: "#approach" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-] as const;
 
 const socialLinks = [
   { label: "GitHub", href: siteMeta.links.github, icon: Github },
@@ -56,7 +50,7 @@ const LandingButton = ({ className, ...props }: ButtonProps) => (
 const StatusChip = ({ children, className }: { children: ReactNode; className?: string }) => (
   <span
     className={cn(
-      "inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-muted-foreground",
+      "inline-flex items-center rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-muted-foreground",
       className,
     )}
   >
@@ -67,7 +61,7 @@ const StatusChip = ({ children, className }: { children: ReactNode; className?: 
 const SurfaceCard = ({ className, children }: { className?: string; children: ReactNode }) => (
   <div
     className={cn(
-      "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl",
+      "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl",
       className,
     )}
   >
@@ -96,21 +90,36 @@ const Section = ({
   label,
   title,
   description,
+  viewAllTo,
+  viewAllLabel = "View all",
   children,
 }: {
   id: string;
   label: string;
   title: string;
   description?: string;
+  viewAllTo?: string;
+  viewAllLabel?: string;
   children: ReactNode;
 }) => (
   <section id={id} className="scroll-mt-32 py-16 sm:py-24">
     <Container>
       <Reveal>
-        <div className="max-w-3xl">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-coral/80">{label}</p>
-          <h2 className="mt-4 text-3xl leading-tight text-foreground sm:text-4xl">{title}</h2>
-          {description ? <p className="mt-4 text-base text-muted-foreground sm:text-lg">{description}</p> : null}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-coral/80">{label}</p>
+            <h2 className="mt-4 text-3xl leading-tight text-foreground sm:text-4xl">{title}</h2>
+            {description ? <p className="mt-4 text-base text-muted-foreground sm:text-lg">{description}</p> : null}
+          </div>
+          {viewAllTo ? (
+            <Link
+              to={viewAllTo}
+              className="inline-flex items-center gap-2 text-sm text-coral transition-opacity hover:opacity-80"
+            >
+              {viewAllLabel}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : null}
         </div>
       </Reveal>
       {children}
@@ -120,7 +129,6 @@ const Section = ({
 
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [copied, setCopied] = useState(false);
 
   usePageSeo({
@@ -129,13 +137,6 @@ const Index = () => {
       "Paperfrogs HQ is an infrastructure-first, research-driven studio building production-ready systems and tools that matter.",
     path: "/",
   });
-
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (!copied) {
@@ -174,50 +175,10 @@ const Index = () => {
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <header
-        className={cn(
-          "sticky top-0 z-50 border-b transition-all duration-300",
-          isScrolled
-            ? "border-white/10 bg-background/70 backdrop-blur-xl"
-            : "border-transparent bg-background/30 backdrop-blur-sm",
-        )}
-      >
-        <Container className="flex h-16 items-center justify-between gap-4 sm:h-20">
-          <a
-            href="#top"
-            className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
-            aria-label="Paperfrogs HQ home"
-          >
-            <img
-              src="/paperfrogs-logo-nav.png"
-              alt="Paperfrogs HQ"
-              className="h-10 w-10 object-contain sm:h-11 sm:w-11"
-              loading="eager"
-              decoding="async"
-            />
-          </a>
+      <Navigation />
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="transition-colors duration-200 hover:text-foreground focus-visible:text-foreground"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <LandingButton asChild variant="hero" size="sm" className="px-4 sm:px-5">
-              <a href="#contact">Contact</a>
-            </LandingButton>
-          </div>
-        </Container>
-      </header>
-
-      <main id="top" className="relative z-10 pb-14 sm:pb-20">
-        <Container className="pt-14 sm:pt-20">
+      <main id="top" className="relative z-10 pb-14 pt-24 sm:pb-20 sm:pt-28">
+        <Container className="pt-2 sm:pt-6">
           <section className="grid gap-10 pb-12 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-12 lg:pb-16">
             <motion.div
               initial="hidden"
@@ -333,6 +294,7 @@ const Index = () => {
           label="Work"
           title="Selected initiatives in motion."
           description="A focused slate of infrastructure and research programs moving from exploration to deployment."
+          viewAllTo="/projects"
         >
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {projects.slice(0, 6).map((project, index) => (
@@ -342,7 +304,7 @@ const Index = () => {
                   transition={{ duration: 0.24, ease: "easeOut" }}
                   className="group"
                 >
-                  <SurfaceCard className="h-full p-6 transition-colors duration-300 group-hover:border-coral/55 group-hover:bg-white/[0.04]">
+                  <SurfaceCard className="h-full p-6 transition-colors duration-300 group-hover:border-coral/55 group-hover:bg-coral/[0.04]">
                     <div className="flex items-center justify-between gap-3">
                       <StatusChip className="text-foreground/85">{statusLabel[project.status]}</StatusChip>
                       <StatusChip className="text-coral/90">{project.pillar}</StatusChip>
@@ -352,10 +314,7 @@ const Index = () => {
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
 
                     <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-                      <Link
-                        to={`/work/${project.slug}`}
-                        className="inline-flex items-center gap-2 text-foreground transition-colors hover:text-coral"
-                      >
+                      <Link to={`/projects/${project.slug}`} className="inline-flex items-center gap-2 text-foreground transition-colors hover:text-coral">
                         View details
                         <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                       </Link>
@@ -380,8 +339,9 @@ const Index = () => {
         <Section
           id="approach"
           label="Approach"
-          title="How Paperfrogs builds."
-          description="Infrastructure-first execution with research discipline and production outcomes."
+          title="Studio approach."
+          description="A clear research-to-production method for building durable systems."
+          viewAllTo="/studio"
         >
           <div className="mt-6 flex flex-wrap gap-2">
             {homeWhatWeDo.map((item) => (
@@ -423,36 +383,76 @@ const Index = () => {
         <Section
           id="about"
           label="About"
-          title="Research-driven studio from Dhaka."
-          description="Paperfrogs HQ was founded in 2025 to turn deep technical exploration into dependable systems that can run under pressure."
+          title="About Paperfrogs HQ."
+          description="Who we are, what we believe, and where we are going next."
+          viewAllTo="/studio"
         >
-          <div className="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr_0.9fr]">
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <Reveal>
               <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Paperfrogs HQ</p>
-                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                  We build infrastructure with conviction, from early research through production hardening.
+                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">About Paperfrogs</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  Paperfrogs HQ is an infrastructure-first studio founded in {siteMeta.founded} in {siteMeta.location}.
+                  We turn deep technical exploration into dependable systems that can run under pressure.
                 </p>
-                <div className="mt-6 space-y-3 text-sm text-muted-foreground">
-                  <p>
-                    Founded <span className="text-foreground">{siteMeta.founded}</span>
-                  </p>
-                  <p>
-                    Based in <span className="text-foreground">{siteMeta.location}</span>
-                  </p>
-                </div>
               </SurfaceCard>
             </Reveal>
 
-            {founders.slice(0, 2).map((founder, index) => (
-              <Reveal key={founder.name} delay={0.08 + index * 0.05}>
-                <SurfaceCard className="h-full p-6 sm:p-7">
-                  <p className="text-xs uppercase tracking-[0.16em] text-coral/80">Founder</p>
-                  <h3 className="mt-3 text-xl text-foreground">{founder.name}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{founder.bio}</p>
-                </SurfaceCard>
-              </Reveal>
-            ))}
+            <Reveal delay={0.05}>
+              <SurfaceCard className="h-full p-6 sm:p-7">
+                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Vision</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  Build long-horizon infrastructure and tools that improve trust, reliability, and real-world execution
+                  in critical systems.
+                </p>
+              </SurfaceCard>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <SurfaceCard className="h-full p-6 sm:p-7">
+                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Future Plan</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  Continue shipping from research into production, expand open technical initiatives, and scale
+                  infrastructure partnerships through the next phases of growth.
+                </p>
+              </SurfaceCard>
+            </Reveal>
+
+            <Reveal delay={0.11}>
+              <SurfaceCard className="h-full p-6 sm:p-7">
+                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Founders</p>
+                <ul className="mt-4 space-y-4">
+                  {founders.slice(0, 2).map((founder) => (
+                    <li key={founder.name} className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-base text-foreground">{founder.name}</p>
+                        <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{founder.role}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={founder.links.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${founder.name} LinkedIn`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-black/25 text-coral transition-colors hover:border-coral/60 hover:bg-coral/10"
+                        >
+                          <Linkedin className="h-3.5 w-3.5" />
+                        </a>
+                        <a
+                          href={founder.links.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${founder.name} GitHub`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-black/25 text-coral transition-colors hover:border-coral/60 hover:bg-coral/10"
+                        >
+                          <Github className="h-3.5 w-3.5" />
+                        </a>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </SurfaceCard>
+            </Reveal>
           </div>
         </Section>
 
@@ -461,6 +461,7 @@ const Index = () => {
           label="Contact"
           title="Start with a problem statement."
           description="Share constraints, timelines, and goals. We reply with a concrete next step."
+          viewAllTo="/contact"
         >
           <div className="mt-8 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
             <Reveal>
@@ -519,7 +520,7 @@ const Index = () => {
 
         <Container>
           <Reveal>
-            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+            <div className="rounded-3xl border border-white/10 bg-black/25 p-6 sm:p-8">
               <p className="inline-flex items-center gap-2 text-coral">
                 <Sparkles className="h-4 w-4" />
                 Built openly. Built iteratively.

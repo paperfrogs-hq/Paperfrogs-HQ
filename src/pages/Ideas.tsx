@@ -2,14 +2,15 @@ import { useMemo, useState } from "react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { PostCard } from "@/components/site/PostCard";
 import { Reveal } from "@/components/shared/Reveal";
-import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Input } from "@/components/ui/input";
 import { ideas } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 
 const PAGE_SIZE = 4;
-
 const uniqueTags = Array.from(new Set(ideas.map((item) => item.tag)));
+
+const panelClass =
+  "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl";
 
 const Ideas = () => {
   usePageSeo({
@@ -44,72 +45,76 @@ const Ideas = () => {
 
   return (
     <SiteShell>
-      <section className="mx-auto w-full max-w-6xl px-6 pb-12 pt-6 sm:px-10">
+      <section className="mx-auto w-full max-w-6xl px-6 pb-8 pt-8 sm:px-10 sm:pb-10">
         <Reveal>
-          <SectionHeader
-            label="Ideas"
-            title="Writing"
-            description="Editorial notes on systems, research, and production practice."
-          />
+          <div className={panelClass + " p-6 sm:p-8"}>
+            <p className="text-xs uppercase tracking-[0.2em] text-coral/85">Ideas</p>
+            <h1 className="mt-4 text-4xl leading-[1.05] tracking-[-0.03em] sm:text-5xl">Notes from research and production practice.</h1>
+            <p className="mt-5 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Essays and working notes on systems architecture, security decisions, and durable product execution.
+            </p>
+          </div>
         </Reveal>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-6 pb-8 sm:px-10">
         <Reveal>
-          <div className="grid gap-4 rounded-2xl border border-border bg-card/60 p-5 sm:grid-cols-[1fr_auto] sm:items-end">
-            <label className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Search</span>
-              <Input
-                value={search}
-                onChange={(event) => {
-                  setSearch(event.target.value);
-                  setPage(1);
-                }}
-                placeholder="Search title or excerpt"
-                className="h-11 rounded-xl border-border bg-background/80 focus-visible:ring-coral"
-              />
-            </label>
+          <div className={panelClass + " p-5 sm:p-6"}>
+            <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+              <label className="space-y-2">
+                <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Search</span>
+                <Input
+                  value={search}
+                  onChange={(event) => {
+                    setSearch(event.target.value);
+                    setPage(1);
+                  }}
+                  placeholder="Search title or excerpt"
+                  className="h-11 rounded-xl border-white/15 bg-black/25 focus-visible:ring-coral"
+                />
+              </label>
 
-            <div className="flex flex-wrap gap-2">
-              {["All", ...uniqueTags].map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setTagWithReset(option)}
-                  className={`rounded-full border px-3 py-1.5 text-sm transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
-                    tag === option
-                      ? "border-coral/70 bg-coral/10 text-foreground"
-                      : "border-border bg-background text-muted-foreground hover:border-coral/40 hover:text-foreground"
-                  }`}
-                >
-                  {option}
-                </button>
-              ))}
+              <div className="flex flex-wrap gap-2">
+                {["All", ...uniqueTags].map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => setTagWithReset(option)}
+                    className={`rounded-full border px-3 py-1.5 text-sm transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
+                      tag === option
+                        ? "border-coral/70 bg-coral/10 text-foreground"
+                        : "border-white/15 bg-black/20 text-muted-foreground hover:border-coral/40 hover:text-foreground"
+                    }`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </Reveal>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 pb-16 sm:px-10">
+      <section className="mx-auto w-full max-w-6xl px-6 pb-12 sm:px-10">
         {paginated.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2">
             {paginated.map((post, index) => (
-              <Reveal key={post.slug} delay={index * 0.04}>
+              <Reveal key={post.slug} delay={0.05 + index * 0.04}>
                 <PostCard post={post} />
               </Reveal>
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-border bg-card/60 p-7 text-muted-foreground">No posts match your filters.</div>
+          <div className={panelClass + " p-7 text-muted-foreground"}>No posts match your filters.</div>
         )}
       </section>
 
-      <section className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 pb-24 sm:px-10 sm:pb-32">
+      <section className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-6 pb-24 sm:flex-row sm:px-10 sm:pb-32">
         <button
           type="button"
           onClick={() => setPage((value) => Math.max(1, value - 1))}
           disabled={currentPage === 1}
-          className="rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors duration-200 ease-out hover:border-coral/60 disabled:opacity-40"
+          className="w-full rounded-full border border-white/15 px-4 py-2 text-sm text-foreground transition-colors duration-200 ease-out hover:border-coral/60 disabled:opacity-40 sm:w-auto"
         >
           Previous
         </button>
@@ -120,7 +125,7 @@ const Ideas = () => {
           type="button"
           onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
           disabled={currentPage === totalPages}
-          className="rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors duration-200 ease-out hover:border-coral/60 disabled:opacity-40"
+          className="w-full rounded-full border border-white/15 px-4 py-2 text-sm text-foreground transition-colors duration-200 ease-out hover:border-coral/60 disabled:opacity-40 sm:w-auto"
         >
           Next
         </button>

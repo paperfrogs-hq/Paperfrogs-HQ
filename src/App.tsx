@@ -4,10 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import Contact from "@/pages/Contact";
-import IdeaPost from "@/pages/IdeaPost";
-import Ideas from "@/pages/Ideas";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import Privacy from "@/pages/Privacy";
@@ -19,6 +17,11 @@ import Work from "@/pages/Work";
 import { EASING_PRIMARY, EASING_SECONDARY, MOTION_DURATION, MOTION_OFFSET, reducedMotionDuration, reducedMotionValue } from "@/lib/motion";
 
 const queryClient = new QueryClient();
+
+const LegacyWorkProjectRedirect = () => {
+  const { slug } = useParams<{ slug: string }>();
+  return <Navigate to={slug ? `/projects/${slug}` : "/projects"} replace />;
+};
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -59,12 +62,12 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/projects" element={<Work />} />
           <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/work/:slug" element={<ProjectDetail />} />
+          <Route path="/work" element={<Navigate to="/projects" replace />} />
+          <Route path="/work/:slug" element={<LegacyWorkProjectRedirect />} />
           <Route path="/studio" element={<Studio />} />
           <Route path="/team" element={<Team />} />
-          <Route path="/ideas" element={<Ideas />} />
-          <Route path="/ideas/:slug" element={<IdeaPost />} />
+          <Route path="/ideas" element={<Navigate to="/studio" replace />} />
+          <Route path="/ideas/:slug" element={<Navigate to="/studio" replace />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />

@@ -15,7 +15,7 @@ export const PostCard = ({ post }: PostCardProps) => {
   return (
     <MotionLink
       to={`/ideas/${post.slug}`}
-      className="group block rounded-2xl border border-border bg-card/60 p-6 transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/60 hover:shadow-[0_0_0_1px_hsl(var(--coral)/0.35),0_20px_45px_hsl(var(--coral)/0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+      className="group block rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-[transform,border-color,box-shadow] duration-200 ease-out motion-safe:hover:-translate-y-1 hover:border-coral/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
       whileHover={shouldReduceMotion ? {} : { y: -4 }}
       whileTap={shouldReduceMotion ? {} : { scale: 0.99 }}
       transition={{ duration: MOTION_DURATION.fast, ease: "easeOut" }}
