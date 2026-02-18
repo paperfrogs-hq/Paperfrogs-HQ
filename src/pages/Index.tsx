@@ -304,16 +304,16 @@ const Index = () => {
                   transition={{ duration: 0.24, ease: "easeOut" }}
                   className="group h-full"
                 >
-                  <SurfaceCard className="flex h-full min-h-[260px] flex-col p-6 transition-colors duration-300 group-hover:border-coral/55 group-hover:bg-coral/[0.04]">
+                  <SurfaceCard className="flex h-full min-h-[220px] flex-col p-5 sm:p-6 transition-colors duration-300 group-hover:border-coral/55 group-hover:bg-coral/[0.04]">
                     <div className="flex items-center justify-between gap-3">
                       <StatusChip className="text-foreground/85">{statusLabel[project.status]}</StatusChip>
                       <StatusChip className="text-coral/90">{project.pillar}</StatusChip>
                     </div>
 
-                    <h3 className="mt-5 text-xl text-foreground">{project.name}</h3>
+                    <h3 className="mt-4 text-lg text-foreground sm:text-xl">{project.name}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
 
-                    <div className="mt-auto pt-6 flex flex-wrap items-center gap-3 text-sm">
+                    <div className="mt-auto flex flex-wrap items-center gap-3 pt-5 text-sm">
                       <Link to={`/projects/${project.slug}`} className="inline-flex items-center gap-2 text-foreground transition-colors hover:text-coral">
                         View details
                         <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
