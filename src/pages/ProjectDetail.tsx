@@ -23,23 +23,23 @@ const ProjectDetail = () => {
   const project = projects.find((p) => p.slug === slug);
 
   usePageSeo({
-    title: project ? `${project.name} · Projects` : "Projects",
-    description: project?.summary ?? "Project details",
-    path: project ? `/projects/${project.slug}` : "/projects",
+    title: project ? `${project.name} · Products` : "Products",
+    description: project?.summary ?? "Product details",
+    path: project ? `/products/${project.slug}` : "/products",
   });
 
-  if (!project) return <Navigate to="/projects" replace />;
+  if (!project) return <Navigate to="/products" replace />;
 
   return (
     <SiteShell>
       {/* Back */}
       <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-16">
         <Link
-          to="/projects"
+          to="/products"
           className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/35 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back to projects
+          Back to products
         </Link>
       </section>
 
@@ -164,11 +164,11 @@ const ProjectDetail = () => {
         <Reveal>
           <div className="flex flex-wrap items-center justify-between gap-6">
             <Link
-              to="/projects"
+              to="/products"
               className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-foreground/35 transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              All projects
+              All products
             </Link>
             <Link
               to="/contact"

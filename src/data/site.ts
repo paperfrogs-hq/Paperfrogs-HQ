@@ -42,7 +42,7 @@ export const designTokens = {
 export type Pillar = "Infrastructure" | "Research" | "Tooling";
 export type ProjectStatus = "Active" | "Research" | "Early";
 export type ProjectTag = "Infrastructure" | "Research" | "Tooling" | "Security" | "OSS";
-export type StackTag = "Rust" | "TypeScript" | "Python" | "Linux" | "Security";
+export type StackTag = "Rust" | "TypeScript" | "Python" | "Linux" | "Security" | "Go";
 
 export type Project = {
   slug: string;
@@ -110,7 +110,7 @@ export const projects: Project[] = [
   {
     slug: "appfence",
     name: "AppFence",
-    summary: "A Wayland-first, open-source Application Permission Firewall for Linux.",
+    summary: "Open-source application permission firewall for Linux. Wayland-first.",
     yearStarted: 2025,
     pillar: "Infrastructure",
     status: "Research",
@@ -163,6 +163,24 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "burnlink",
+    name: "BurnLink",
+    summary: "Encrypted file sharing. One-time links that burn themselves after access.",
+    yearStarted: 2025,
+    pillar: "Tooling",
+    status: "Active",
+    tags: ["Security", "Tooling", "OSS"],
+    stack: ["TypeScript", "Security"],
+    problem: "Sharing sensitive files safely requires trust in a third party — which creates liability, leakage risk, and permanent storage nobody asked for.",
+    approach: "BurnLink encrypts files end-to-end and issues one-time links that permanently destroy themselves after a single access. No accounts, no permanent storage, no trust required.",
+    today: "Live and publicly accessible. Links burn on first open.",
+    next: "Expand expiry controls, file-size limits, and optional password protection.",
+    links: {
+      demo: "https://burnlink.page/",
+      github: "https://github.com/Joy-Majumder/BurnLink",
+    },
+  },
+  {
     slug: "apc",
     name: "APC",
     summary: "Audio watermarking infrastructure for provenance and authenticity.",
@@ -179,7 +197,7 @@ export const projects: Project[] = [
   {
     slug: "fusion-verifier",
     name: "Fusion Verifier",
-    summary: "Audio Provenance Detection and Validation System.",
+    summary: "Audio provenance detection and validation system.",
     yearStarted: 2026,
     pillar: "Tooling",
     status: "Early",

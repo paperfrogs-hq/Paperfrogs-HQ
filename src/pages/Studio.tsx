@@ -55,7 +55,7 @@ const Studio = () => {
         <Reveal delay={0.08}>
           <div className="mt-10 flex flex-wrap gap-10 border-t border-white/[0.07] pt-10">
             {[
-              { num: String(projects.length).padStart(2, "0"), label: "Projects" },
+              { num: String(projects.length).padStart(2, "0"), label: "Products" },
               { num: String(activeCount).padStart(2, "0"), label: "In production" },
               { num: String(researchCount).padStart(2, "0"), label: "In research" },
               { num: "Dhaka", label: "Base" },

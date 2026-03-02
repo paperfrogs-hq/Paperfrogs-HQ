@@ -112,7 +112,7 @@ const Index = () => {
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
-                to="/projects"
+                to="/products"
                 className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
               >
                 Explore work <ArrowRight className="h-3.5 w-3.5" />

@@ -21,7 +21,7 @@ const EASING = [0.22, 1, 0.36, 1] as const;
 
 const LegacyWorkProjectRedirect = () => {
   const { slug } = useParams<{ slug: string }>();
-  return <Navigate to={slug ? `/projects/${slug}` : "/projects"} replace />;
+  return <Navigate to={slug ? `/products/${slug}` : "/products"} replace />;
 };
 
 const AnimatedRoutes = () => {
@@ -43,9 +43,11 @@ const AnimatedRoutes = () => {
       >
         <Routes location={location}>
           <Route path="/" element={<Index />} />
-          <Route path="/projects" element={<Work />} />
-          <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/work" element={<Navigate to="/projects" replace />} />
+          <Route path="/products" element={<Work />} />
+          <Route path="/products/:slug" element={<ProjectDetail />} />
+          <Route path="/projects" element={<Navigate to="/products" replace />} />
+          <Route path="/projects/:slug" element={<LegacyWorkProjectRedirect />} />
+          <Route path="/work" element={<Navigate to="/products" replace />} />
           <Route path="/work/:slug" element={<LegacyWorkProjectRedirect />} />
           <Route path="/studio" element={<Studio />} />
           <Route path="/team" element={<Team />} />

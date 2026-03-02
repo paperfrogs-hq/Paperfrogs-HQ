@@ -14,9 +14,9 @@ const statusLabel: Record<ProjectStatus, string> = {
 
 const Work = () => {
   usePageSeo({
-    title: "Projects",
-    description: "Explore Paperfrogs HQ projects across infrastructure, research, and tooling.",
-    path: "/projects",
+    title: "Products",
+    description: "Explore Paperfrogs HQ products across infrastructure, research, and tooling.",
+    path: "/products",
   });
 
   return (
@@ -24,13 +24,13 @@ const Work = () => {
       {/* Hero */}
       <section className="mx-auto w-full max-w-7xl px-6 pt-16 pb-0 sm:px-10 lg:px-16 sm:pt-20">
         <Reveal>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Projects</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Products</p>
           <h1 className="mt-4 text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[1.03] tracking-[-0.035em] text-foreground">
             Work in motion.{" "}
             <span className="text-coral">Infrastructure, research, tooling.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/40">
-            Projects run with a research-to-production loop: explicit constraints, stable architecture, practical shipping milestones.
+            Products built with a research-to-production loop: explicit constraints, stable architecture, practical shipping milestones.
           </p>
         </Reveal>
 
@@ -58,8 +58,8 @@ const Work = () => {
           {projects.map((project, i) => (
             <Reveal key={project.slug} delay={i * 0.04}>
               <Link
-                to={`/projects/${project.slug}`}
-                className="group flex flex-col gap-4 py-8 transition-colors sm:flex-row sm:items-center sm:gap-10 sm:py-10"
+                to={`/products/${project.slug}`}
+                className="group flex flex-col gap-4 py-8 transition-colors sm:flex-row sm:items-start sm:gap-10 sm:py-10"
               >
                 <span className="w-14 shrink-0 text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/25">
                   {project.yearStarted}
@@ -67,7 +67,7 @@ const Work = () => {
                 <span className="flex-1 text-xl font-bold tracking-[-0.025em] text-foreground/65 transition-colors duration-200 group-hover:text-foreground sm:text-2xl">
                   {project.name}
                 </span>
-                <span className="hidden max-w-xs text-[13px] leading-relaxed text-foreground/30 sm:block">
+                <span className="hidden w-64 shrink-0 text-[13px] leading-snug text-foreground/30 sm:block">
                   {project.summary}
                 </span>
                 <div className="flex shrink-0 items-center gap-3">

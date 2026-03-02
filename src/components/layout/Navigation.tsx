@@ -8,7 +8,7 @@ const EASING = [0.22, 1, 0.36, 1] as const;
 
 const menuItems = [
   { label: "Home", to: "/" },
-  { label: "Projects", to: "/projects" },
+  { label: "Products", to: "/products" },
   { label: "Studio", to: "/studio" },
   { label: "People", to: "/team" },
   { label: "Careers", to: "/careers" },
