@@ -27,7 +27,7 @@ const Work = () => {
           <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Projects</p>
           <h1 className="mt-4 text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[1.03] tracking-[-0.035em] text-foreground">
             Work in motion.{" "}
-            <span className="text-foreground/25">Infrastructure, research, tooling.</span>
+            <span className="text-coral">Infrastructure, research, tooling.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/40">
             Projects run with a research-to-production loop: explicit constraints, stable architecture, practical shipping milestones.

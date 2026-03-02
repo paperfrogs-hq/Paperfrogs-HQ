@@ -40,7 +40,7 @@ const Contact = () => {
           <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Contact</p>
           <h1 className="mt-4 text-[clamp(2.4rem,6vw,4.8rem)] font-bold leading-[1.03] tracking-[-0.035em] text-foreground">
             Start with context.{" "}
-            <span className="text-foreground/30">We reply with action.</span>
+            <span className="text-coral">We reply with action.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/40">
             Share your problem statement, constraints, and delivery timeline. We will return a concrete next step.

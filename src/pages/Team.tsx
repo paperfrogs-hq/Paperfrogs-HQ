@@ -19,7 +19,7 @@ const Team = () => {
           <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Team</p>
           <h1 className="mt-4 text-[clamp(2.4rem,6vw,4.8rem)] font-bold leading-[1.03] tracking-[-0.035em] text-foreground">
             The people{" "}
-            <span className="text-foreground/30">behind the work.</span>
+            <span className="text-coral">behind the work.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/40">
             A small, focused team with deep technical roots in infrastructure, security, and applied research.
