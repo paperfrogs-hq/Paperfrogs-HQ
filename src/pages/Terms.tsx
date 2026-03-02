@@ -5,45 +5,36 @@ import { usePageSeo } from "@/hooks/usePageSeo";
 const sections = [
   {
     title: "Agreement to Terms",
-    paragraphs: [
-      "These Terms of Service constitute a legally binding agreement made between you and Paperfrogs HQ. By accessing and using this website and our products, you accept and agree to be bound by and comply with these terms and our Privacy Policy.",
-    ],
+    body: "These Terms of Service constitute a legally binding agreement between you and Paperfrogs HQ. By accessing and using this website and our products, you accept and agree to be bound by these terms and our Privacy Policy.",
+    points: null as string[] | null,
   },
   {
     title: "Use License",
-    paragraphs: [
-      "Permission is granted to temporarily download one copy of the materials (information or software) on Paperfrogs HQ's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:",
-    ],
+    body: "Permission is granted to temporarily view materials on Paperfrogs HQ's website for personal, non-commercial use only. Under this license you may not:",
     points: [
       "Modify or copy the materials",
-      "Use the materials for any commercial purpose or for any public display",
-      "Attempt to reverse engineer any software contained on the website",
-      "Remove any copyright or other proprietary notations from the materials",
-      'Transfer the materials to another person or "mirror" the materials on any other server',
+      "Use the materials for any commercial purpose or public display",
+      "Attempt to reverse engineer any software on the website",
+      "Remove any copyright or proprietary notations from the materials",
+      "Transfer the materials or mirror them on another server",
     ],
   },
   {
     title: "Disclaimer",
-    paragraphs: [
-      "The materials on Paperfrogs HQ's website are provided on an 'as is' basis. Paperfrogs HQ makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
-    ],
+    body: "The materials on Paperfrogs HQ's website are provided on an 'as is' basis. Paperfrogs HQ makes no warranties, expressed or implied, and hereby disclaims all other warranties including implied warranties of merchantability, fitness for a particular purpose, or non-infringement.",
+    points: null,
   },
   {
     title: "Limitations",
-    paragraphs: [
-      "In no event shall Paperfrogs HQ or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Paperfrogs HQ's website.",
-    ],
+    body: "In no event shall Paperfrogs HQ or its suppliers be liable for any damages arising out of the use or inability to use the materials on Paperfrogs HQ's website, including damages for loss of data or profit.",
+    points: null,
   },
   {
     title: "Revisions",
-    paragraphs: [
-      "Paperfrogs HQ may revise these Terms of Service for its website at any time without notice. By using this website, you are agreeing to be bound by the then current version of these Terms of Service.",
-    ],
+    body: "Paperfrogs HQ may revise these Terms of Service at any time without notice. By using this website, you agree to be bound by the then current version of these Terms of Service.",
+    points: null,
   },
-] as const;
-
-const panelClass =
-  "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl";
+];
 
 const Terms = () => {
   usePageSeo({
@@ -54,41 +45,45 @@ const Terms = () => {
 
   return (
     <SiteShell>
-      <section className="mx-auto w-full max-w-5xl px-6 pb-24 pt-8 sm:px-10 sm:pb-32">
+      {/* Hero */}
+      <section className="mx-auto w-full max-w-7xl px-6 pt-16 pb-0 sm:px-10 lg:px-16 sm:pt-20">
         <Reveal>
-          <div className={panelClass + " p-6 sm:p-8"}>
-            <p className="text-xs uppercase tracking-[0.2em] text-coral/85">Legal</p>
-            <h1 className="mt-4 text-4xl leading-[1.05] tracking-[-0.03em] sm:text-5xl">Terms of Service</h1>
-            <p className="mt-5 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              The legal terms that govern use of Paperfrogs HQ websites and products.
-            </p>
-          </div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Legal</p>
+          <h1 className="mt-4 text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[1.03] tracking-[-0.035em] text-foreground">
+            Terms of Service.
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/40">
+            The legal terms that govern use of Paperfrogs HQ websites and products.
+          </p>
         </Reveal>
+        <div className="mt-12 border-t border-white/[0.07]" />
+      </section>
 
-        <div className="mt-4 space-y-4">
-          {sections.map((section, index) => (
-            <Reveal key={section.title} delay={0.05 + index * 0.03}>
-              <article className={panelClass + " p-6 sm:p-7"}>
-                <p className="text-[11px] uppercase tracking-[0.16em] text-coral/75">{String(index + 1).padStart(2, "0")}</p>
-                <h2 className="mt-2 text-2xl leading-tight">{section.title}</h2>
-
-                <div className="mt-4 space-y-4">
-                  {section.paragraphs.map((paragraph) => (
-                    <p key={paragraph} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-                      {paragraph}
-                    </p>
-                  ))}
-                  {section.points ? (
-                    <ul className="space-y-3 border-l border-white/15 pl-4">
+      {/* Sections */}
+      <section className="mx-auto w-full max-w-7xl px-6 pb-32 sm:px-10 lg:px-16 sm:pb-40">
+        <div className="divide-y divide-white/[0.06]">
+          {sections.map((section, i) => (
+            <Reveal key={section.title} delay={i * 0.04}>
+              <div className="grid grid-cols-1 gap-6 py-10 sm:grid-cols-[220px_1fr] sm:gap-16">
+                <div>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/60">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="mt-2 text-lg font-bold tracking-[-0.02em] text-foreground/65">{section.title}</p>
+                </div>
+                <div>
+                  <p className="text-[15px] leading-relaxed text-foreground/45">{section.body}</p>
+                  {section.points && (
+                    <ul className="mt-4 space-y-2 border-l border-white/[0.08] pl-5">
                       {section.points.map((point) => (
-                        <li key={point} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                        <li key={point} className="text-[14px] leading-relaxed text-foreground/35">
                           {point}
                         </li>
                       ))}
                     </ul>
-                  ) : null}
+                  )}
                 </div>
-              </article>
+              </div>
             </Reveal>
           ))}
         </div>

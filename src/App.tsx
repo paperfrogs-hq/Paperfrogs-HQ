@@ -5,6 +5,7 @@ import { CustomCursor } from "@/components/layout/CustomCursor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
+import Careers from "@/pages/Careers";
 import Contact from "@/pages/Contact";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
@@ -14,9 +15,9 @@ import Studio from "@/pages/Studio";
 import Team from "@/pages/Team";
 import Terms from "@/pages/Terms";
 import Work from "@/pages/Work";
-import { EASING_PRIMARY, EASING_SECONDARY, MOTION_DURATION, MOTION_OFFSET, reducedMotionDuration, reducedMotionValue } from "@/lib/motion";
 
 const queryClient = new QueryClient();
+const EASING = [0.22, 1, 0.36, 1] as const;
 
 const LegacyWorkProjectRedirect = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -25,36 +26,18 @@ const LegacyWorkProjectRedirect = () => {
 
 const AnimatedRoutes = () => {
   const location = useLocation();
-  const shouldReduceMotion = useReducedMotion();
+  const rm = useReducedMotion();
 
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={location.pathname}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={{
-          initial: {
-            opacity: 0,
-            y: reducedMotionValue(shouldReduceMotion, MOTION_OFFSET.page),
-          },
-          animate: {
-            opacity: 1,
-            y: 0,
-            transition: {
-              duration: reducedMotionDuration(shouldReduceMotion, MOTION_DURATION.pageIn),
-              ease: EASING_PRIMARY,
-            },
-          },
-          exit: {
-            opacity: 0,
-            y: 0,
-            transition: {
-              duration: reducedMotionDuration(shouldReduceMotion, MOTION_DURATION.pageOut),
-              ease: EASING_SECONDARY,
-            },
-          },
+        initial={{ opacity: 0, y: rm ? 0 : 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: rm ? 0 : -10 }}
+        transition={{
+          duration: rm ? 0.1 : 0.42,
+          ease: EASING,
         }}
         style={{ willChange: "transform, opacity" }}
       >
@@ -68,6 +51,7 @@ const AnimatedRoutes = () => {
           <Route path="/team" element={<Team />} />
           <Route path="/ideas" element={<Navigate to="/studio" replace />} />
           <Route path="/ideas/:slug" element={<Navigate to="/studio" replace />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />

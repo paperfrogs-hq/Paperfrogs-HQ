@@ -1,23 +1,26 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, CalendarClock, Layers3, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CalendarClock } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { Reveal } from "@/components/shared/Reveal";
 import { projects } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 
-const panelClass =
-  "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl";
+const statusLabel: Record<string, string> = {
+  Active: "Building",
+  Research: "Research",
+  Early: "Open",
+};
 
-const sectionBlocks = (project: (typeof projects)[number]) => [
-  ["Problem", project.problem],
-  ["Approach", project.approach],
-  ["What exists today", project.today],
-  ["What’s next", project.next],
+const sections = (project: (typeof projects)[number]) => [
+  { title: "The Problem", body: project.problem },
+  { title: "Our Approach", body: project.approach },
+  { title: "Where We Are Today", body: project.today },
+  { title: "What Is Next", body: project.next },
 ] as const;
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const project = projects.find((item) => item.slug === slug);
+  const project = projects.find((p) => p.slug === slug);
 
   usePageSeo({
     title: project ? `${project.name} · Projects` : "Projects",
@@ -25,149 +28,155 @@ const ProjectDetail = () => {
     path: project ? `/projects/${project.slug}` : "/projects",
   });
 
-  if (!project) {
-    return <Navigate to="/projects" replace />;
-  }
+  if (!project) return <Navigate to="/projects" replace />;
 
   return (
     <SiteShell>
-      <section className="mx-auto w-full max-w-6xl px-6 pb-8 pt-8 sm:px-10 sm:pb-10">
+      {/* Back */}
+      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-16">
+        <Link
+          to="/projects"
+          className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/35 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to projects
+        </Link>
+      </section>
+
+      {/* Hero */}
+      <section className="mx-auto w-full max-w-7xl px-6 pt-8 pb-0 sm:px-10 lg:px-16">
         <Reveal>
-          <div className={panelClass + " grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end"}>
-            <div>
-              <Link
-                to="/projects"
-                className="inline-flex items-center gap-2 text-sm text-coral transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/60">
+              {project.pillar}
+            </span>
+            <span className="text-foreground/20">·</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/30">
+              {statusLabel[project.status] ?? project.status}
+            </span>
+            <span className="text-foreground/20">·</span>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/30">
+              <CalendarClock className="h-3.5 w-3.5" />
+              {project.yearStarted}
+            </span>
+          </div>
+          <h1 className="text-[clamp(2.4rem,6vw,5rem)] font-bold leading-[1.02] tracking-[-0.035em] text-foreground">
+            {project.name}
+          </h1>
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-foreground/45">
+            {project.summary}
+          </p>
+
+          {/* Stack */}
+          <div className="mt-8 flex flex-wrap gap-2">
+            {project.stack.map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-white/[0.08] bg-white/[0.02] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/35"
               >
-                <ArrowLeft className="h-4 w-4" />
-                Back to projects
-              </Link>
-
-              <h1 className="mt-5 text-[clamp(2.1rem,5vw,4.2rem)] leading-[1.05] tracking-[-0.03em]">{project.name}</h1>
-              <p className="mt-4 max-w-3xl text-base leading-relaxed text-foreground/80 sm:text-lg">{project.summary}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                <span>{project.status}</span>
-                <span aria-hidden="true">•</span>
-                <span>{project.pillar}</span>
-              </div>
-            </div>
-
-            <div className="grid gap-3 text-sm">
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-foreground/90">
-                <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-coral/80">
-                  <CalendarClock className="h-4 w-4" />
-                  Year Started
-                </p>
-                <p className="mt-2 text-lg text-foreground">{project.yearStarted}</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-foreground/90">
-                <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-coral/80">
-                  <Layers3 className="h-4 w-4" />
-                  Stack
-                </p>
-                <p className="mt-2 text-sm text-foreground/85">{project.stack.join(" · ")}</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-foreground/90">
-                <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-coral/80">
-                  <ShieldCheck className="h-4 w-4" />
-                  Focus
-                </p>
-                <p className="mt-2 text-sm text-foreground/85">{project.tags.join(" · ")}</p>
-              </div>
-            </div>
+                {s}
+              </span>
+            ))}
           </div>
-        </Reveal>
-      </section>
 
-      <section className="mx-auto grid w-full max-w-6xl gap-4 px-6 pb-8 sm:px-10">
-        {sectionBlocks(project).map(([title, body], index) => (
-          <Reveal key={title} delay={0.05 + index * 0.04}>
-            <article className={panelClass + " p-6 sm:p-7"}>
-              <h2 className="text-2xl">{title}</h2>
-              <p className="mt-4 text-sm leading-relaxed text-foreground/80 sm:text-base">{body}</p>
-            </article>
-          </Reveal>
-        ))}
-      </section>
-
-      {(project.timeline?.journey?.length || project.timeline?.upcoming?.length) ? (
-        <section className="mx-auto w-full max-w-6xl px-6 pb-8 sm:px-10">
-          <div className="grid gap-4 lg:grid-cols-2">
-            {project.timeline?.journey?.length ? (
-              <Reveal>
-                <article className={panelClass + " h-full p-6 sm:p-7"}>
-                  <h2 className="text-2xl">Project Journey</h2>
-                  <ul className="mt-6 space-y-5">
-                    {project.timeline.journey.map((entry) => (
-                      <li key={`${entry.period}-${entry.detail}`} className="border-l border-white/15 pl-4">
-                        <p className="text-xs uppercase tracking-[0.16em] text-coral">{entry.period}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-foreground/80">{entry.detail}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              </Reveal>
-            ) : null}
-
-            {project.timeline?.upcoming?.length ? (
-              <Reveal>
-                <article className={panelClass + " h-full p-6 sm:p-7"}>
-                  <h2 className="text-2xl">Upcoming Milestones</h2>
-                  <ul className="mt-6 space-y-5">
-                    {project.timeline.upcoming.map((entry) => (
-                      <li key={`${entry.period}-${entry.detail}`} className="border-l border-white/15 pl-4">
-                        <p className="text-xs uppercase tracking-[0.16em] text-coral">{entry.period}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-foreground/80">{entry.detail}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              </Reveal>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="mx-auto w-full max-w-6xl px-6 pb-24 sm:px-10 sm:pb-32">
-        <Reveal>
-          <article className={panelClass + " p-6 sm:p-7"}>
-            <h2 className="text-2xl">Links</h2>
-            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-              {project.links?.github ? (
+          {/* Links */}
+          {project.links && (
+            <div className="mt-6 flex flex-wrap gap-3">
+              {project.links.github && (
                 <a
                   href={project.links.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-coral transition-opacity hover:opacity-80"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground/50 transition-all hover:border-coral/40 hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
                 >
-                  GitHub <ArrowUpRight className="h-4 w-4" />
+                  GitHub <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
-              ) : null}
-              {project.links?.docs ? (
-                <a
-                  href={project.links.docs}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-coral transition-opacity hover:opacity-80"
-                >
-                  Docs <ArrowUpRight className="h-4 w-4" />
-                </a>
-              ) : null}
-              {project.links?.demo ? (
+              )}
+              {project.links.demo && (
                 <a
                   href={project.links.demo}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-coral transition-opacity hover:opacity-80"
+                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
                 >
-                  Demo <ArrowUpRight className="h-4 w-4" />
+                  Live demo <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
-              ) : null}
-              {!project.links?.github && !project.links?.docs && !project.links?.demo ? (
-                <p className="text-muted-foreground">Public links will be added as this project progresses.</p>
-              ) : null}
+              )}
             </div>
-          </article>
+          )}
+        </Reveal>
+        <div className="mt-12 border-t border-white/[0.07]" />
+      </section>
+
+      {/* Content sections */}
+      <section className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-10 lg:px-16">
+        <div className="divide-y divide-white/[0.06]">
+          {sections(project).map(({ title, body }, i) => (
+            <Reveal key={title} delay={i * 0.05}>
+              <div className="grid grid-cols-1 gap-6 py-10 sm:grid-cols-[220px_1fr] sm:gap-16">
+                <h2 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/30 mt-1">
+                  {title}
+                </h2>
+                <p className="text-[15px] leading-relaxed text-foreground/55">{body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Timeline */}
+      {(project.timeline?.journey?.length || project.timeline?.upcoming?.length) && (
+        <section className="mx-auto w-full max-w-7xl border-t border-white/[0.07] px-6 py-16 sm:px-10 lg:px-16">
+          <div className="grid gap-12 lg:grid-cols-2">
+            {project.timeline?.journey?.length ? (
+              <Reveal>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30 mb-8">Journey</p>
+                <div className="divide-y divide-white/[0.06]">
+                  {project.timeline.journey.map(({ period, detail }) => (
+                    <div key={period} className="flex flex-col gap-1.5 py-5">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-coral/55">{period}</p>
+                      <p className="text-[14px] leading-relaxed text-foreground/45">{detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            ) : null}
+
+            {project.timeline?.upcoming?.length ? (
+              <Reveal delay={0.08}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30 mb-8">Upcoming</p>
+                <div className="divide-y divide-white/[0.06]">
+                  {project.timeline.upcoming.map(({ period, detail }) => (
+                    <div key={period} className="flex flex-col gap-1.5 py-5">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground/30">{period}</p>
+                      <p className="text-[14px] leading-relaxed text-foreground/40">{detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            ) : null}
+          </div>
+        </section>
+      )}
+
+      {/* Related Nav */}
+      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.07] px-6 pb-32 pt-12 sm:px-10 lg:px-16 sm:pb-40">
+        <Reveal>
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-foreground/35 transition-colors hover:text-foreground"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              All projects
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+            >
+              Work with us
+            </Link>
+          </div>
         </Reveal>
       </section>
     </SiteShell>

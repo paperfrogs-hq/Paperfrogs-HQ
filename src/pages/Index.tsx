@@ -1,25 +1,14 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
-import {
-  ArrowRight,
-  Check,
-  Clipboard,
-  FlaskConical,
-  Github,
-  Linkedin,
-  MapPin,
-  Server,
-  ShieldCheck,
-  Sparkles,
-  Twitter,
-} from "lucide-react";
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Github, Linkedin, Twitter } from "lucide-react";
 import { Navigation } from "@/components/layout/Navigation";
-import { founders, homeWhatWeDo, pillarCards, projects, siteMeta, ventureModel } from "@/data/site";
+import { Footer } from "@/components/layout/Footer";
+import { founders, pillarCards, projects, siteMeta } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 import { cn } from "@/lib/utils";
+
+const EASING = [0.22, 1, 0.36, 1] as const;
 
 const socialLinks = [
   { label: "GitHub", href: siteMeta.links.github, icon: Github },
@@ -27,57 +16,61 @@ const socialLinks = [
   { label: "X", href: siteMeta.links.x, icon: Twitter },
 ] as const;
 
-const statusLabel = {
-  Active: "Building",
-  Research: "Research",
-  Early: "Open",
-} as const;
+const heroLines = [
+  "infrastructure first.",
+  "research driven.",
+  "production ready.",
+  "secure by default.",
+  "built to last.",
+] as const;
 
-const pillarIcons: Record<(typeof pillarCards)[number]["key"], LucideIcon> = {
-  Infrastructure: Server,
-  Research: FlaskConical,
-  Tooling: ShieldCheck,
+const projectNames = projects.map((p) => p.name);
+const techTags = projects.flatMap((p) => p.tags || []);
+
+const CyclingText = () => {
+  const rm = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % heroLines.length), 3500);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <AnimatePresence mode="wait">
+      <motion.span
+        key={index}
+        initial={{ opacity: 0, y: rm ? 0 : 60, filter: rm ? "none" : "blur(4px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        exit={{ opacity: 0, y: rm ? 0 : -40, filter: rm ? "none" : "blur(4px)" }}
+        transition={{ duration: rm ? 0.15 : 0.5, ease: EASING }}
+        className="block text-coral"
+      >
+        {heroLines[index]}
+      </motion.span>
+    </AnimatePresence>
+  );
 };
 
-const Container = ({ className, children }: { className?: string; children: ReactNode }) => (
-  <div className={cn("mx-auto w-full max-w-6xl px-6 sm:px-10", className)}>{children}</div>
-);
-
-const LandingButton = ({ className, ...props }: ButtonProps) => (
-  <Button className={cn("h-11 rounded-full px-6", className)} {...props} />
-);
-
-const StatusChip = ({ children, className }: { children: ReactNode; className?: string }) => (
-  <span
-    className={cn(
-      "inline-flex items-center rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-muted-foreground",
-      className,
-    )}
-  >
-    {children}
-  </span>
-);
-
-const SurfaceCard = ({ className, children }: { className?: string; children: ReactNode }) => (
-  <div
-    className={cn(
-      "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl",
-      className,
-    )}
-  >
-    {children}
+const Ticker = ({ items, reverse = false }: { items: string[]; reverse?: boolean }) => (
+  <div className="overflow-hidden py-4 border-y border-white/[0.06]">
+    <div className={cn("flex gap-8 whitespace-nowrap", reverse ? "marquee-track-slow" : "marquee-track")}>
+      {[...items, ...items, ...items, ...items].map((item, i) => (
+        <span key={i} className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground/25">
+          {item}
+          <span className="ml-8 text-foreground/10">·</span>
+        </span>
+      ))}
+    </div>
   </div>
 );
 
 const Reveal = ({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) => {
-  const shouldReduceMotion = useReducedMotion();
-
+  const rm = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 28 }}
+      initial={{ opacity: 0, y: rm ? 0 : 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: shouldReduceMotion ? 0.22 : 0.65, ease: [0.22, 1, 0.36, 1], delay: shouldReduceMotion ? 0 : delay }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: rm ? 0.15 : 0.65, ease: EASING, delay: rm ? 0 : delay }}
       className={className}
     >
       {children}
@@ -85,458 +78,153 @@ const Reveal = ({ children, className, delay = 0 }: { children: ReactNode; class
   );
 };
 
-const Section = ({
-  id,
-  label,
-  title,
-  description,
-  viewAllTo,
-  viewAllLabel = "View all",
-  children,
-}: {
-  id: string;
-  label: string;
-  title: string;
-  description?: string;
-  viewAllTo?: string;
-  viewAllLabel?: string;
-  children: ReactNode;
-}) => (
-  <section id={id} className="scroll-mt-32 py-16 sm:py-24">
-    <Container>
-      <Reveal>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-3xl">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-coral/80">{label}</p>
-            <h2 className="mt-4 text-3xl leading-tight text-foreground sm:text-4xl">{title}</h2>
-            {description ? <p className="mt-4 text-base text-muted-foreground sm:text-lg">{description}</p> : null}
-          </div>
-          {viewAllTo ? (
-            <Link
-              to={viewAllTo}
-              className="inline-flex items-center gap-2 text-sm text-coral transition-opacity hover:opacity-80"
-            >
-              {viewAllLabel}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          ) : null}
-        </div>
-      </Reveal>
-      {children}
-    </Container>
-  </section>
+const SectionLabel = ({ children }: { children: ReactNode }) => (
+  <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">{children}</p>
 );
 
 const Index = () => {
-  const shouldReduceMotion = useReducedMotion();
-  const [copied, setCopied] = useState(false);
-
   usePageSeo({
     title: "Home",
-    description:
-      "Paperfrogs HQ is an infrastructure-first, research-driven studio building production-ready systems and tools that matter.",
+    description: "Paperfrogs HQ is an infrastructure-first, research-driven studio building production-ready systems and tools that matter.",
     path: "/",
   });
 
-  useEffect(() => {
-    if (!copied) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => setCopied(false), 1500);
-    return () => window.clearTimeout(timer);
-  }, [copied]);
-
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(siteMeta.email);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
-  };
-
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(55% 35% at 0% 0%, hsl(var(--coral) / 0.18) 0%, transparent 70%), radial-gradient(45% 28% at 100% 0%, hsl(var(--coral) / 0.14) 0%, transparent 72%), linear-gradient(180deg, #07090B 0%, #090D11 100%)",
-        }}
-      />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 noise-bg opacity-75" />
-
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-14rem] h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-coral/20 blur-[120px]"
-        animate={shouldReduceMotion ? undefined : { y: [0, 18, 0], opacity: [0.35, 0.52, 0.35] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-
       <Navigation />
+      <main className="relative z-10">
 
-      <main id="top" className="relative z-10 pb-14 pt-24 sm:pb-20 sm:pt-28">
-        <Container className="pt-2 sm:pt-6">
-          <section className="grid gap-10 pb-12 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:gap-12 lg:pb-16">
-            <motion.div
-              initial="hidden"
-              animate="show"
-              variants={{
-                hidden: { opacity: 0 },
-                show: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: shouldReduceMotion ? 0 : 0.1,
-                    delayChildren: shouldReduceMotion ? 0 : 0.08,
-                  },
-                },
-              }}
-              className="max-w-3xl"
-            >
-              <motion.p
-                variants={{
-                  hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 22 },
-                  show: { opacity: 1, y: 0, transition: { duration: shouldReduceMotion ? 0.2 : 0.7, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                className="inline-flex items-center rounded-full border border-coral/35 bg-coral/10 px-3 py-1 text-xs tracking-[0.12em] text-coral"
+        {/* Hero */}
+        <section className="mx-auto w-full max-w-7xl px-6 pt-40 pb-0 sm:px-10 lg:px-16 sm:pt-48">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASING, delay: 0.05 }}
+          >
+            <SectionLabel>Paperfrogs HQ · Est. {siteMeta.founded}</SectionLabel>
+            <h1 className="mt-6 text-[clamp(2.8rem,7.5vw,7rem)] font-bold leading-[1.0] tracking-[-0.04em] text-foreground">
+              We build tools
+              <br />
+              <CyclingText />
+            </h1>
+            <p className="mt-8 max-w-xl text-base leading-relaxed text-foreground/40 sm:text-lg">
+              An infrastructure-first studio combining deep technical research with production-grade execution.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
               >
-                Think · Build · Evolve
-              </motion.p>
-
-              <motion.h1
-                variants={{
-                  hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
-                  show: { opacity: 1, y: 0, transition: { duration: shouldReduceMotion ? 0.2 : 0.75, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                className="mt-6 text-balance text-4xl leading-[1.05] tracking-[-0.03em] sm:text-5xl md:text-6xl"
-                style={{ fontFamily: "Inter, Sora, system-ui, sans-serif" }}
+                Explore work <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link
+                to="/studio"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground/50 transition-all hover:border-white/25 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
               >
-                Building infrastructure-first systems.
-              </motion.h1>
+                How we work
+              </Link>
+            </div>
+          </motion.div>
 
-              <motion.p
-                variants={{
-                  hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
-                  show: { opacity: 1, y: 0, transition: { duration: shouldReduceMotion ? 0.2 : 0.7, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                className="mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg"
-              >
-                {siteMeta.tagline} Research to production, with durable systems designed for real constraints.
-              </motion.p>
+        </section>
 
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
-                  show: { opacity: 1, y: 0, transition: { duration: shouldReduceMotion ? 0.2 : 0.68, ease: [0.22, 1, 0.36, 1] } },
-                }}
-                className="mt-8 flex flex-wrap gap-3"
-              >
-                <LandingButton asChild size="lg" variant="hero">
-                  <a href="#work">Explore Work</a>
-                </LandingButton>
-                <LandingButton asChild size="lg" variant="heroOutline" className="border-white/20 bg-transparent">
-                  <a href="#contact">Get in touch</a>
-                </LandingButton>
-              </motion.div>
-            </motion.div>
+        {/* Ticker — project names */}
+        <div className="mt-16 w-full overflow-hidden">
+          <Ticker items={projectNames} />
+        </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: shouldReduceMotion ? 0.2 : 0.8, ease: [0.22, 1, 0.36, 1], delay: shouldReduceMotion ? 0 : 0.24 }}
-            >
-              <SurfaceCard className="relative overflow-hidden p-6 sm:p-8">
-                <motion.div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -inset-[38%] rounded-full bg-[conic-gradient(from_160deg_at_50%_50%,rgba(255,255,255,0.05),rgba(255,127,80,0.18),rgba(255,255,255,0.05))] blur-3xl"
-                  animate={shouldReduceMotion ? undefined : { rotate: [0, 360] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                />
-
-                <div className="relative space-y-5">
-                  <StatusChip className="border-coral/30 bg-coral/12 text-coral">Infrastructure studio</StatusChip>
-                  <p className="text-lg leading-relaxed text-foreground sm:text-xl">
-                    Premium systems work, grounded in clear interfaces, careful research, and production readiness.
-                  </p>
-
-                  <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                      <p className="text-xs uppercase tracking-[0.18em] text-coral/80">Founded</p>
-                      <p className="mt-2 text-foreground">{siteMeta.founded}</p>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                      <p className="text-xs uppercase tracking-[0.18em] text-coral/80">Location</p>
-                      <p className="mt-2 flex items-center gap-2 text-foreground">
-                        <MapPin className="h-4 w-4 text-coral" />
-                        {siteMeta.location}
-                      </p>
-                    </div>
+        {/* Pillars */}
+        <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-16 sm:py-28">
+          <Reveal className="mb-14">
+            <SectionLabel>Approach</SectionLabel>
+            <h2 className="mt-5 text-[clamp(1.8rem,4.5vw,4rem)] font-bold leading-[1.07] tracking-[-0.03em] text-foreground">
+              Three pillars,<br />one loop.
+            </h2>
+          </Reveal>
+          <div className="divide-y divide-white/[0.06]">
+            {pillarCards.map((pillar, i) => (
+              <Reveal key={pillar.key} delay={i * 0.06}>
+                <div className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-[200px_1fr] sm:gap-14">
+                  <div>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/60">{String(i + 1).padStart(2, "0")}</span>
+                    <p className="mt-2 text-lg font-bold tracking-[-0.02em] text-foreground/65">{pillar.title}</p>
                   </div>
-
-                  <div className="relative h-px overflow-hidden rounded-full bg-white/10">
-                    <motion.span
-                      aria-hidden="true"
-                      className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-coral to-transparent"
-                      animate={shouldReduceMotion ? undefined : { x: ["-30%", "130%"] }}
-                      transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                  </div>
+                  <p className="text-[15px] leading-relaxed text-foreground/40">{pillar.description}</p>
                 </div>
-              </SurfaceCard>
-            </motion.div>
-          </section>
-        </Container>
-
-        <Section
-          id="work"
-          label="Work"
-          title="Selected initiatives in motion."
-          description="A focused slate of infrastructure and research programs moving from exploration to deployment."
-          viewAllTo="/projects"
-        >
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {projects.slice(0, 6).map((project, index) => (
-              <Reveal key={project.slug} delay={0.06 + index * 0.05}>
-                <motion.article
-                  whileHover={shouldReduceMotion ? undefined : { y: -4 }}
-                  transition={{ duration: 0.24, ease: "easeOut" }}
-                  className="group h-full"
-                >
-                  <SurfaceCard className="flex h-full min-h-[220px] flex-col p-5 sm:p-6 transition-colors duration-300 group-hover:border-coral/55 group-hover:bg-coral/[0.04]">
-                    <div className="flex items-center justify-between gap-3">
-                      <StatusChip className="text-foreground/85">{statusLabel[project.status]}</StatusChip>
-                      <StatusChip className="text-coral/90">{project.pillar}</StatusChip>
-                    </div>
-
-                    <h3 className="mt-4 text-lg text-foreground sm:text-xl">{project.name}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.summary}</p>
-
-                    <div className="mt-auto flex flex-wrap items-center gap-3 pt-5 text-sm">
-                      <Link to={`/projects/${project.slug}`} className="inline-flex items-center gap-2 text-foreground transition-colors hover:text-coral">
-                        View details
-                        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </Link>
-                      {project.links?.github ? (
-                        <a
-                          href={project.links.github}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                          GitHub
-                        </a>
-                      ) : null}
-                    </div>
-                  </SurfaceCard>
-                </motion.article>
               </Reveal>
             ))}
           </div>
-        </Section>
+        </section>
 
-        <Section
-          id="approach"
-          label="Approach"
-          title="Studio approach."
-          description="A clear research-to-production method for building durable systems."
-          viewAllTo="/studio"
-        >
-          <div className="mt-6 flex flex-wrap gap-2">
-            {homeWhatWeDo.map((item) => (
-              <StatusChip key={item}>{item}</StatusChip>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {pillarCards.map((pillar, index) => {
-              const Icon = pillarIcons[pillar.key];
-
-              return (
-                <Reveal key={pillar.title} delay={0.07 + index * 0.05}>
-                  <SurfaceCard className="h-full p-6">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-coral/30 bg-coral/10 text-coral">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-4 text-lg text-foreground">{pillar.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pillar.description}</p>
-                  </SurfaceCard>
-                </Reveal>
-              );
-            })}
-          </div>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {ventureModel.map((item, index) => (
-              <Reveal key={item.title} delay={0.08 + index * 0.05}>
-                <SurfaceCard className="h-full p-5">
-                  <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Venture model</p>
-                  <h3 className="mt-3 text-base text-foreground">{item.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground">{item.description}</p>
-                </SurfaceCard>
-              </Reveal>
-            ))}
-          </div>
-        </Section>
-
-        <Section
-          id="about"
-          label="About"
-          title="About Paperfrogs HQ."
-          description="Who we are, what we believe, and where we are going next."
-          viewAllTo="/studio"
-        >
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            <Reveal className="lg:col-span-2">
-              <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">About Paperfrogs</p>
-                <p className="mt-4 text-sm leading-relaxed text-foreground/90 sm:text-base">
-                  Paperfrogs HQ is an infrastructure-first studio founded in {siteMeta.founded} in {siteMeta.location}.
-                  We turn deep technical exploration into dependable systems that can run under pressure.
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <StatusChip className="text-foreground/90">{siteMeta.tagline}</StatusChip>
-                  <StatusChip className="text-foreground/90">Founded {siteMeta.founded}</StatusChip>
-                  <StatusChip className="text-foreground/90">{siteMeta.location}</StatusChip>
-                </div>
-              </SurfaceCard>
-            </Reveal>
-
-            <Reveal delay={0.05}>
-              <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Vision</p>
-                <p className="mt-4 text-sm leading-relaxed text-foreground/85 sm:text-base">
-                  Build long-horizon infrastructure and tools that improve trust, reliability, and real-world execution
-                  in critical systems.
-                </p>
-              </SurfaceCard>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Future Plan</p>
-                <p className="mt-4 text-sm leading-relaxed text-foreground/85 sm:text-base">
-                  Continue shipping from research into production, expand open technical initiatives, and scale
-                  infrastructure partnerships through the next phases of growth.
-                </p>
-              </SurfaceCard>
-            </Reveal>
-
-            <Reveal delay={0.11} className="lg:col-span-2">
-              <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-sm uppercase tracking-[0.16em] text-coral/80">Founders</p>
-                <ul className="mt-4 grid gap-4 md:grid-cols-2">
-                  {founders.slice(0, 2).map((founder) => (
-                    <li key={founder.name} className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div>
-                        <p className="text-base font-medium text-foreground">{founder.name}</p>
-                        <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{founder.role}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={founder.links.linkedin}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={`${founder.name} LinkedIn`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-black/25 text-coral transition-colors hover:border-coral/60 hover:bg-coral/10"
-                        >
-                          <Linkedin className="h-3.5 w-3.5" />
-                        </a>
-                        <a
-                          href={founder.links.github}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={`${founder.name} GitHub`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-black/25 text-coral transition-colors hover:border-coral/60 hover:bg-coral/10"
-                        >
-                          <Github className="h-3.5 w-3.5" />
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </SurfaceCard>
-            </Reveal>
-          </div>
-        </Section>
-
-        <Section
-          id="contact"
-          label="Contact"
-          title="Start with a problem statement."
-          description="Share constraints, timelines, and goals. We reply with a concrete next step."
-          viewAllTo="/contact"
-        >
-          <div className="mt-8 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-            <Reveal>
-              <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-xs uppercase tracking-[0.16em] text-coral/80">Email</p>
-                <a
-                  href={`mailto:${siteMeta.email}`}
-                  className="mt-4 inline-flex text-2xl tracking-[-0.02em] text-foreground transition-colors hover:text-coral"
-                  style={{ fontFamily: "Inter, Sora, system-ui, sans-serif" }}
-                >
-                  {siteMeta.email}
-                </a>
-
-                <div className="mt-6">
-                  <LandingButton
-                    type="button"
-                    variant="heroOutline"
-                    className="border-white/20 bg-transparent"
-                    onClick={copyEmail}
-                  >
-                    {copied ? <Check className="h-4 w-4" /> : <Clipboard className="h-4 w-4" />}
-                    {copied ? "Copied" : "Copy email"}
-                  </LandingButton>
-                </div>
-              </SurfaceCard>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <SurfaceCard className="h-full p-6 sm:p-7">
-                <p className="text-xs uppercase tracking-[0.16em] text-coral/80">Social</p>
-                <div className="mt-5 space-y-3">
-                  {socialLinks.map(({ label, href, icon: Icon }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-muted-foreground transition-colors hover:border-coral/45 hover:text-foreground"
-                    >
-                      <span className="inline-flex items-center gap-2">
-                        <Icon className="h-4 w-4 text-coral" />
-                        {label}
-                      </span>
-                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+        {/* Founders */}
+        <section className="mx-auto w-full max-w-7xl border-t border-white/[0.07] px-6 py-20 sm:px-10 lg:px-16 sm:py-28">
+          <Reveal className="mb-14 flex items-end justify-between gap-4">
+            <div>
+              <SectionLabel>People</SectionLabel>
+              <h2 className="mt-5 text-[clamp(1.8rem,4.5vw,4rem)] font-bold leading-[1.07] tracking-[-0.03em] text-foreground">Built by two founders.</h2>
+            </div>
+            <Link to="/team" className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/30 transition-colors hover:text-coral">
+              People <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </Reveal>
+          <div className="divide-y divide-white/[0.06]">
+            {founders.map((founder, i) => (
+              <Reveal key={founder.name} delay={i * 0.06}>
+                <div className="flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:gap-14">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-base font-bold text-foreground/30">
+                    {founder.name.charAt(0)}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xl font-bold tracking-[-0.025em] text-foreground">{founder.name}</p>
+                    <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/50">{founder.role}</p>
+                    <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-foreground/35">{founder.bio}</p>
+                  </div>
+                  <div className="flex shrink-0 gap-4">
+                    <a href={founder.links.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-foreground/25 transition-colors hover:text-coral">
+                      <Linkedin className="h-4 w-4" />
                     </a>
-                  ))}
+                    <a href={founder.links.github} target="_blank" rel="noreferrer" aria-label="GitHub" className="text-foreground/25 transition-colors hover:text-coral">
+                      <Github className="h-4 w-4" />
+                    </a>
+                  </div>
                 </div>
-              </SurfaceCard>
-            </Reveal>
+              </Reveal>
+            ))}
           </div>
+        </section>
 
-          <p className="mt-12 border-t border-white/10 pt-6 text-sm text-muted-foreground">
-            © {new Date().getFullYear()} {siteMeta.name}. We build tools for things that matter.
-          </p>
-        </Section>
-
-        <Container>
+        {/* CTA */}
+        <section className="mx-auto w-full max-w-7xl border-t border-white/[0.07] px-6 pb-32 pt-20 sm:px-10 lg:px-16 sm:pb-40 sm:pt-28">
           <Reveal>
-            <div className="rounded-3xl border border-white/10 bg-black/25 p-6 sm:p-8">
-              <p className="inline-flex items-center gap-2 text-coral">
-                <Sparkles className="h-4 w-4" />
-                Built openly. Built iteratively.
-              </p>
-              <p className="mt-3 max-w-3xl text-sm text-muted-foreground sm:text-base">
-                We believe the most useful products are the ones built for durability, where research becomes real systems.
-              </p>
+            <SectionLabel>Contact</SectionLabel>
+            <h2 className="mt-5 text-[clamp(1.8rem,4.5vw,4rem)] font-bold leading-[1.07] tracking-[-0.03em] text-foreground">Ready to build something?</h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-foreground/40">Share your problem. We will return with a concrete next step.</p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href={`mailto:${siteMeta.email}`}
+                className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+              >
+                {siteMeta.email}
+              </a>
+              <div className="flex items-center gap-3">
+                {socialLinks.map(({ label, href, icon: Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-foreground/30 transition-colors hover:border-coral/40 hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
             </div>
           </Reveal>
-        </Container>
+        </section>
       </main>
+      <Footer />
     </div>
   );
 };
