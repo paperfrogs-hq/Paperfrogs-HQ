@@ -33,11 +33,6 @@ const Team = () => {
           {founders.map((founder, i) => (
             <Reveal key={founder.name} delay={i * 0.07}>
               <div className="flex flex-col gap-8 py-12 sm:flex-row sm:items-start sm:gap-16 sm:py-14">
-                {/* Avatar placeholder */}
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-2xl font-bold text-foreground/30">
-                  {founder.name.charAt(0)}
-                </div>
-
                 <div className="flex-1">
                   <p className="text-2xl font-bold tracking-[-0.025em] text-foreground sm:text-3xl">{founder.name}</p>
                   <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/60">{founder.role}</p>

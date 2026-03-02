@@ -187,9 +187,6 @@ const Studio = () => {
           {founders.map((founder, i) => (
             <Reveal key={founder.name} delay={i * 0.06}>
               <div className="flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:gap-14">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-base font-bold text-foreground/30">
-                  {founder.name.charAt(0)}
-                </div>
                 <div className="flex-1">
                   <p className="text-xl font-bold tracking-[-0.025em] text-foreground">{founder.name}</p>
                   <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/50">{founder.role}</p>
