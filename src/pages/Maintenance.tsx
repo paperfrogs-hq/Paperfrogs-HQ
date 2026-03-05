@@ -112,8 +112,7 @@ const Maintenance = () => {
         transition={{ duration, delay: 0.65, ease: EASING }}
       >
         <p className="text-[11px] uppercase tracking-[0.20em] text-muted-foreground">
-          &copy; {new Date().getFullYear()} Paperfrogs HQ &middot; Dhaka,
-          Bangladesh
+          &copy; {new Date().getFullYear()} Paperfrogs HQ &middot; Handcrafted in Dhaka, BD
         </p>
       </motion.footer>
     </div>
