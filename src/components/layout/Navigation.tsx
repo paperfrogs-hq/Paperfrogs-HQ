@@ -28,10 +28,14 @@ export const Navigation = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   const isActive = (path: string) =>
-    path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(path);
 
   return (
     <>
@@ -42,7 +46,7 @@ export const Navigation = () => {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-300",
           isScrolled
-            ? "border-b border-white/[0.07] bg-background/85 backdrop-blur-xl"
+            ? "border-b border-white/[0.07] bg-background/40 backdrop-blur-md"
             : "border-b border-transparent bg-transparent",
         )}
       >
@@ -69,18 +73,22 @@ export const Navigation = () => {
           <div className="flex items-center gap-6">
             {/* Desktop links */}
             <nav className="hidden items-center gap-6 md:flex">
-              {menuItems.filter((item) => item.to !== "/contact").map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={cn(
-                    "text-[11px] font-semibold uppercase tracking-[0.22em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral",
-                    isActive(item.to) ? "text-foreground" : "text-foreground/35 hover:text-foreground",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {menuItems
+                .filter((item) => item.to !== "/contact")
+                .map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={cn(
+                      "text-[11px] font-semibold uppercase tracking-[0.22em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral",
+                      isActive(item.to)
+                        ? "text-foreground"
+                        : "text-foreground/35 hover:text-foreground",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
             </nav>
 
             {/* Contact button — desktop */}
