@@ -8,11 +8,11 @@ type CursorMeta = {
   scale: number;
 };
 
-const CURSOR_LERP = 0.14;
-const RING_LERP = 0.1;
-const RING_SCALE_LERP = 0.12;
-const RING_OPACITY_LERP = 0.12;
-const DOT_SCALE_LERP = 0.18;
+const CURSOR_LERP = 0.2;
+const RING_LERP = 0.15;
+const RING_SCALE_LERP = 0.18;
+const RING_OPACITY_LERP = 0.18;
+const DOT_SCALE_LERP = 0.24;
 const PRESSED_SCALE_LERP = 0.22;
 
 const INTERACTIVE_SELECTOR = [
@@ -77,7 +77,7 @@ export const CustomCursor = () => {
   const currentRingYRef = useRef(0);
   const currentRingScaleRef = useRef(1);
   const currentDotScaleRef = useRef(1);
-  const currentRingOpacityRef = useRef(0.22);
+  const currentRingOpacityRef = useRef(0.26);
   const isPointerActiveRef = useRef(false);
   const isPointerDownRef = useRef(false);
   const isCursorSuppressedRef = useRef(false);
@@ -163,23 +163,41 @@ export const CustomCursor = () => {
     const tick = () => {
       if (isPointerActiveRef.current && !isCursorSuppressedRef.current) {
         // dot follows cursor precisely
-        currentXRef.current += (targetXRef.current - currentXRef.current) * CURSOR_LERP;
-        currentYRef.current += (targetYRef.current - currentYRef.current) * CURSOR_LERP;
+        currentXRef.current +=
+          (targetXRef.current - currentXRef.current) * CURSOR_LERP;
+        currentYRef.current +=
+          (targetYRef.current - currentYRef.current) * CURSOR_LERP;
         // ring trails behind with extra lag
-        currentRingXRef.current += (targetXRef.current - currentRingXRef.current) * RING_LERP;
-        currentRingYRef.current += (targetYRef.current - currentRingYRef.current) * RING_LERP;
+        currentRingXRef.current +=
+          (targetXRef.current - currentRingXRef.current) * RING_LERP;
+        currentRingYRef.current +=
+          (targetYRef.current - currentRingYRef.current) * RING_LERP;
 
         const meta = cursorMetaRef.current;
         const isHoveringInteractive = Boolean(meta?.interactive);
-        const ringScaleBaseTarget = isHoveringInteractive ? (meta?.scale ?? 1.3) : 1;
-        const ringScaleTarget = isPointerDownRef.current ? ringScaleBaseTarget * 0.88 : ringScaleBaseTarget;
-        const dotScaleTarget = isPointerDownRef.current ? 0.6 : isHoveringInteractive ? 0 : 1;
-        const ringOpacityTarget = isHoveringInteractive ? 1 : 0.28;
-        const ringScaleLerp = isPointerDownRef.current ? PRESSED_SCALE_LERP : RING_SCALE_LERP;
+        const ringScaleBaseTarget = isHoveringInteractive
+          ? (meta?.scale ?? 1.3)
+          : 1;
+        const ringScaleTarget = isPointerDownRef.current
+          ? ringScaleBaseTarget * 0.88
+          : ringScaleBaseTarget;
+        const dotScaleTarget = isPointerDownRef.current
+          ? 0.6
+          : isHoveringInteractive
+            ? 0
+            : 1;
+        const ringOpacityTarget = isHoveringInteractive ? 0.95 : 0.32;
+        const ringScaleLerp = isPointerDownRef.current
+          ? PRESSED_SCALE_LERP
+          : RING_SCALE_LERP;
 
-        currentRingScaleRef.current += (ringScaleTarget - currentRingScaleRef.current) * ringScaleLerp;
-        currentDotScaleRef.current += (dotScaleTarget - currentDotScaleRef.current) * DOT_SCALE_LERP;
-        currentRingOpacityRef.current += (ringOpacityTarget - currentRingOpacityRef.current) * RING_OPACITY_LERP;
+        currentRingScaleRef.current +=
+          (ringScaleTarget - currentRingScaleRef.current) * ringScaleLerp;
+        currentDotScaleRef.current +=
+          (dotScaleTarget - currentDotScaleRef.current) * DOT_SCALE_LERP;
+        currentRingOpacityRef.current +=
+          (ringOpacityTarget - currentRingOpacityRef.current) *
+          RING_OPACITY_LERP;
 
         const rx = currentRingXRef.current;
         const ry = currentRingYRef.current;
@@ -230,22 +248,25 @@ export const CustomCursor = () => {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[120]" aria-hidden="true">
+    <div
+      className="pointer-events-none fixed inset-0 z-[120]"
+      aria-hidden="true"
+    >
       {/* Ring — always present, trails the dot */}
       <div
         ref={ringRef}
         className={cn(
-          "absolute h-10 w-10 rounded-full opacity-0 transition-[border-color] duration-300 ease-out",
+          "absolute h-14 w-14 rounded-full opacity-0 transition-[border-color,box-shadow] duration-300 ease-out",
           isInteractiveHover
-            ? "border border-[hsl(var(--coral)/0.9)]"
-            : "border border-white/20",
+            ? "border border-orange-400/90 shadow-[0_0_28px_rgba(251,146,60,0.38)]"
+            : "border border-orange-300/35 shadow-[0_0_18px_rgba(251,146,60,0.18)]",
         )}
         style={{ willChange: "transform, opacity" }}
       />
       {/* Dot — snaps to cursor, hides when hovering interactive */}
       <div
         ref={dotRef}
-        className="absolute h-[5px] w-[5px] rounded-full bg-coral opacity-0"
+        className="absolute h-[6px] w-[6px] rounded-full bg-orange-300 opacity-0 shadow-[0_0_14px_rgba(251,146,60,0.7)]"
         style={{ willChange: "transform, opacity" }}
       />
     </div>
