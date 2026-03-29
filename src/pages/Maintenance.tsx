@@ -93,14 +93,14 @@ const Maintenance = () => {
         </motion.p>
 
         <motion.a
-          href="mailto:hello@paperfrogs.net"
+          href="mailto:hello@paperfrogs.dev"
           className="link-slide text-sm font-medium"
           style={{ color: "hsl(16 90% 68%)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration, delay: 0.55, ease: EASING }}
         >
-          hello@paperfrogs.net
+          hello@paperfrogs.dev
         </motion.a>
       </motion.div>
 
