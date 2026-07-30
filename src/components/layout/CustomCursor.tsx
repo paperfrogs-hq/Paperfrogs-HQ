@@ -171,10 +171,11 @@ export const CustomCursor = () => {
 
         const meta = cursorMetaRef.current;
         const isHoveringInteractive = Boolean(meta?.interactive);
-        const ringScaleBaseTarget = isHoveringInteractive ? (meta?.scale ?? 1.3) : 1;
+        // Idle: ring at 1.0 (full 44px). Hover: ring tightens to ~0.86 (≈38px).
+        const ringScaleBaseTarget = isHoveringInteractive ? 0.86 : 1;
         const ringScaleTarget = isPointerDownRef.current ? ringScaleBaseTarget * 0.88 : ringScaleBaseTarget;
         const dotScaleTarget = isPointerDownRef.current ? 0.6 : isHoveringInteractive ? 0 : 1;
-        const ringOpacityTarget = isHoveringInteractive ? 1 : 0.28;
+        const ringOpacityTarget = isHoveringInteractive ? 1 : 0.5;
         const ringScaleLerp = isPointerDownRef.current ? PRESSED_SCALE_LERP : RING_SCALE_LERP;
 
         currentRingScaleRef.current += (ringScaleTarget - currentRingScaleRef.current) * ringScaleLerp;
@@ -235,17 +236,17 @@ export const CustomCursor = () => {
       <div
         ref={ringRef}
         className={cn(
-          "absolute h-10 w-10 rounded-full opacity-0 transition-[border-color] duration-300 ease-out",
+          "absolute h-11 w-11 rounded-full opacity-0 transition-[border-color,box-shadow] duration-300 ease-out",
           isInteractiveHover
-            ? "border border-[hsl(var(--coral)/0.9)]"
-            : "border border-white/20",
+            ? "border border-[hsl(var(--coral)/0.9)] shadow-[0_0_22px_-2px_hsl(var(--coral)/0.55)]"
+            : "border border-white/30 shadow-[0_0_18px_-6px_rgba(255,255,255,0.35)]",
         )}
         style={{ willChange: "transform, opacity" }}
       />
-      {/* Dot — snaps to cursor, hides when hovering interactive */}
+      {/* Dot — snaps to cursor with a soft glow, hides when hovering interactive */}
       <div
         ref={dotRef}
-        className="absolute h-[5px] w-[5px] rounded-full bg-coral opacity-0"
+        className="absolute h-[9px] w-[9px] rounded-full bg-coral opacity-0 shadow-[0_0_14px_2px_hsl(var(--coral)/0.55),0_0_28px_6px_hsl(var(--coral)/0.25)]"
         style={{ willChange: "transform, opacity" }}
       />
     </div>
