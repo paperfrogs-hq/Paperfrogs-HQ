@@ -40,7 +40,7 @@ export const designTokens = {
 } as const;
 
 export type Pillar = "Infrastructure" | "Research" | "Tooling";
-export type ProjectStatus = "Active" | "Research" | "Early";
+export type ProjectStatus = "Live" | "Active" | "Research" | "Early";
 export type ProjectTag = "Infrastructure" | "Research" | "Tooling" | "Security" | "OSS";
 export type StackTag = "Rust" | "TypeScript" | "Python" | "Linux" | "Security" | "Go";
 
@@ -168,7 +168,7 @@ export const projects: Project[] = [
     summary: "Encrypted file sharing. One-time links that burn themselves after access.",
     yearStarted: 2025,
     pillar: "Tooling",
-    status: "Active",
+    status: "Live",
     tags: ["Security", "Tooling", "OSS"],
     stack: ["TypeScript", "Security"],
     problem: "Sharing sensitive files safely requires trust in a third party — which creates liability, leakage risk, and permanent storage nobody asked for.",
@@ -178,6 +178,36 @@ export const projects: Project[] = [
     links: {
       demo: "https://burnlink.page/",
       github: "https://github.com/Joy-Majumder/BurnLink",
+    },
+  },
+  {
+    slug: "burnlink-cli",
+    name: "Burnlink CLI",
+    summary: "Zero-knowledge, self-destructing file sharing from your terminal.",
+    yearStarted: 2026,
+    pillar: "Tooling",
+    status: "Live",
+    tags: ["Security", "Tooling", "OSS"],
+    stack: ["TypeScript", "Security"],
+    problem: "Sensitive files shared from a terminal still depend on third-party trust — and leave permanent storage behind.",
+    approach: "Burnlink CLI encrypts files end-to-end and burns them after a single access, straight from your shell. Zero dependencies, single binary, AES-GCM and Ed25519 under the hood.",
+    today: "v0.2.3 published on npm. Install globally with `npm i -g burnlink` and run `burnlink --help`.",
+    next: "Streaming uploads, config-based defaults, and shell completions.",
+    links: {
+      github: "https://github.com/Joy-Majumder/BurnLink",
+      docs: "https://www.npmjs.com/package/burnlink",
+      demo: "https://burnlink.page/",
+    },
+    timeline: {
+      journey: [
+        { period: "2025", detail: "Web-based BurnLink shipped with one-time links and end-to-end encryption." },
+        { period: "Q2 2026", detail: "Burnlink CLI published on npm — zero dependencies, terminal-first workflow." },
+      ],
+      upcoming: [
+        { period: "Q3 2026", detail: "Streaming uploads for large files." },
+        { period: "Q4 2026", detail: "Configurable defaults and shell completion." },
+        { period: "Q1 2027", detail: "Optional key escrow and audit-grade provenance." },
+      ],
     },
   },
   {

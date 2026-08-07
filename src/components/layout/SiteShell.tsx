@@ -17,7 +17,7 @@ export const SiteShell = ({ children, className, showFooter = true }: SiteShellP
       className="pointer-events-none absolute inset-0"
       style={{
         backgroundImage:
-          "radial-gradient(50% 32% at 0% 0%, hsl(var(--coral) / 0.09) 0%, transparent 60%), radial-gradient(35% 22% at 100% 0%, hsl(var(--coral) / 0.06) 0%, transparent 70%)",
+          "radial-gradient(45% 30% at 0% 0%, hsl(var(--coral) / 0.07) 0%, transparent 65%), radial-gradient(32% 20% at 100% 0%, hsl(var(--coral) / 0.045) 0%, transparent 70%)",
       }}
     />
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 noise-bg" />

@@ -1,162 +1,259 @@
-import { ArrowRight, Mail, Sparkles } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Clock, Github } from "lucide-react";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { Reveal } from "@/components/shared/Reveal";
 import { siteMeta } from "@/data/site";
 import { usePageSeo } from "@/hooks/usePageSeo";
 
-const values = [
-  { num: "01", title: "Depth over breadth", body: "We go deep on hard problems. Generalists who go deep are welcome. Generalists who stay shallow are not the right fit." },
-  { num: "02", title: "Ship, then harden", body: "We value production experience. We expect you to ship, observe, learn, and improve." },
-  { num: "03", title: "Async by default", body: "Decisions happen in writing. We document context, not just outcomes." },
-  { num: "04", title: "Security is everyone's job", body: "Every engineer thinks about threat models and failure paths. Security is not a separate team." },
+const howToApply = [
+  "Send your CV to the email below. PDF or plain text — we read both.",
+  "Include one link: a repo, a write-up, a deployed thing. Anything you've actually made.",
+  "Three sentences on what you'd want to work on here. Don't overthink it.",
+  "We reply to every application. If we don't reply within ten days, write again — it got lost.",
 ] as const;
 
-const traits = [
-  "You ship infrastructure that doesn't fall over at 3am",
-  "You read source before you read docs",
-  "You write things down so the next person doesn't pay your learning tax",
-  "You care about the boring parts — naming, types, error messages, rollback plans",
-] as const;
+const whatWePay = [
+  { role: "Engineer (mid)", range: "৳ 1.8L — 3.5L / month", note: "Bangladesh, full-time, remote. Global rates negotiable for the right person." },
+  { role: "Engineer (senior)", range: "৳ 3.5L — 6L / month", note: "Same. Plus a seat at the founding table once we've worked together for a quarter." },
+  { role: "Research engineer", range: "৳ 2.5L — 5L / month", note: "Security, audio provenance, watermarking. Comfortable with long timelines." },
+];
+
+const whoReplies = [
+  { name: "Joy", role: "Founder · reviews every CV" },
+  { name: "Niloy", role: "Founder · second pass" },
+  { name: "You", role: "Probably the next hire" },
+];
 
 const Careers = () => {
   usePageSeo({
     title: "Careers",
-    description: "Drop your CV at hello@paperfrogs.dev. We hire for depth, not headcount.",
+    description: "Open applications at Paperfrogs HQ. Concrete work, real compensation, two founders reviewing.",
     path: "/careers",
   });
 
   return (
     <SiteShell>
-      {/* Hero */}
-      <section className="mx-auto w-full max-w-7xl px-6 pt-16 pb-0 sm:px-10 lg:px-16 sm:pt-20">
+      <section className="mx-auto w-full max-w-7xl px-5 pt-16 pb-0 sm:px-10 sm:pt-20 lg:px-16 lg:pt-24">
         <Reveal>
           <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/35">Careers</p>
-          <h1 className="mt-4 text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[1.03] tracking-[-0.035em] text-foreground">
-            No open roles.{" "}
-            <span className="text-coral">Send your CV anyway.</span>
+          <h1 className="mt-4 text-[clamp(2.2rem,6vw,5.5rem)] font-bold leading-[1.03] tracking-[-0.04em] text-foreground text-balance">
+            Two of us. <span className="text-coral">Looking for a third.</span>
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/40">
-            We hire on signal, not on job postings. If the work we describe below sounds like you — and you can show us you've done work like it — write to us. We read every CV. We reply to every one.
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-foreground/45 sm:mt-6 text-pretty">
+            We don't have a job board. We don't have an ATS. We have two founders, a shared inbox, and a list of things we can't build alone. If one of those things sounds like your kind of problem, write to us.
           </p>
         </Reveal>
-        <div className="mt-12 border-t border-white/[0.07]" />
-      </section>
 
-      {/* The CV-drop panel */}
-      <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-16 sm:py-28">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-coral/15 bg-gradient-to-br from-coral/[0.06] via-white/[0.02] to-white/[0.01] p-8 sm:p-12 lg:p-16">
-            {/* decorative grid */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-[0.35]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
-                backgroundSize: "48px 48px",
-                maskImage:
-                  "radial-gradient(ellipse at top right, black 30%, transparent 75%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse at top right, black 30%, transparent 75%)",
-              }}
-            />
-
-            <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-coral/30 bg-coral/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-coral">
-                  <Sparkles className="h-3 w-3" />
-                  Always hiring exceptional people
-                </span>
-                <h2 className="mt-6 text-[clamp(1.9rem,4.2vw,3.6rem)] font-bold leading-[1.06] tracking-[-0.03em] text-foreground">
-                  Drop your CV at{" "}
-                  <span className="text-coral">{siteMeta.email}</span>
-                </h2>
-                <p className="mt-5 max-w-xl text-[15.5px] leading-relaxed text-foreground/45">
-                  We don't run formal rounds. No take-homes timed by a stopwatch, no whiteboard puzzles about inverting binary trees. Send us your CV, a link to something you've built or written, and a one-paragraph note on what you'd want to work on at Paperfrogs. That's the entire application.
-                </p>
-
-                <a
-                  href={`mailto:${siteMeta.email}?subject=${encodeURIComponent("CV — open application")}`}
-                  className="mt-8 inline-flex items-center gap-3 rounded-full bg-coral px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-background transition-all hover:bg-coral/90 hover:gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                >
-                  <Mail className="h-4 w-4" />
-                  {siteMeta.email}
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-
-                <p className="mt-5 text-[12px] font-medium tracking-wide text-foreground/30">
-                  Typical reply window · 5 business days
-                </p>
-              </div>
-
-              <div className="lg:border-l lg:border-white/[0.07] lg:pl-16">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/25">
-                  We reply faster if your CV shows
-                </p>
-                <ul className="mt-5 flex flex-col gap-4">
-                  {traits.map((t, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-3 text-[14.5px] leading-relaxed text-foreground/55"
-                    >
-                      <span className="mt-[7px] inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-coral/70 shadow-[0_0_12px_rgba(255,107,93,0.6)]" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-8 rounded-xl border border-white/[0.07] bg-white/[0.02] p-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/30">
-                    What we work on
-                  </p>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-foreground/45">
-                    Infrastructure tooling, systems programming, applied security research, and the product layer that sits on top of it. Rust, TypeScript, Nix, Linux — boring stack, deep work.
-                  </p>
-                </div>
-              </div>
+        <Reveal delay={0.08}>
+          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/[0.06] pt-10 sm:mt-12 sm:gap-x-12">
+            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/35">
+              <MapPin className="h-3.5 w-3.5 text-coral/55" />
+              Remote · Dhaka
+            </div>
+            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/35">
+              <Clock className="h-3.5 w-3.5 text-coral/55" />
+              Async, with overlap
+            </div>
+            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/35">
+              <Github className="h-3.5 w-3.5 text-coral/55" />
+              Every product on GitHub
             </div>
           </div>
         </Reveal>
+
+        <div className="mt-12 pf-divider sm:mt-14" />
       </section>
 
-      {/* Values */}
-      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.07] px-6 py-20 sm:px-10 lg:px-16 sm:py-28">
-        <Reveal className="mb-14">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">How we work</p>
-          <h2 className="mt-5 text-[clamp(1.8rem,4vw,3.5rem)] font-bold leading-[1.08] tracking-[-0.03em] text-foreground">
-            What working here looks like.
+      <section className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+          <Reveal>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">How to apply</p>
+            <h2 className="mt-4 text-[clamp(1.6rem,3.6vw,2.6rem)] font-bold leading-[1.1] tracking-[-0.04em] text-foreground text-balance">
+              Email. Three sentences. One link.
+            </h2>
+            <ol className="mt-10 flex flex-col gap-5">
+              {howToApply.map((step, i) => (
+                <li key={i} className="flex items-start gap-5 border-b border-white/[0.05] pb-5 last:border-b-0">
+                  <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/65 sm:text-[12px]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="text-[14.5px] leading-relaxed text-foreground/60 sm:text-[15px] text-pretty">
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="pf-surface rounded-2xl p-6 sm:p-8 lg:sticky lg:top-24 lg:p-10">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-coral/65">
+                Send to
+              </p>
+              <a
+                href={`mailto:${siteMeta.email}?subject=${encodeURIComponent("Application — open role")}`}
+                className="mt-3 block break-all font-mono text-[15px] font-medium text-foreground transition-colors hover:text-coral sm:text-base"
+              >
+                {siteMeta.email}
+              </a>
+              <p className="mt-2 text-[12px] font-medium uppercase tracking-[0.18em] text-foreground/30">
+                Subject: Application — [what you'd work on]
+              </p>
+
+              <div className="mt-8 border-t border-white/[0.06] pt-6">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-foreground/35">
+                  Who reads it
+                </p>
+                <ul className="mt-4 flex flex-col gap-3">
+                  {whoReplies.map((p) => (
+                    <li key={p.name} className="flex items-baseline gap-3 text-[13px]">
+                      <span className="w-14 shrink-0 font-bold tracking-[-0.01em] text-foreground">
+                        {p.name}
+                      </span>
+                      <span className="text-foreground/45">{p.role}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-8 border-t border-white/[0.06] pt-6">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-foreground/35">
+                  What happens next
+                </p>
+                <p className="mt-3 text-[13px] leading-relaxed text-foreground/55">
+                  One founder replies within ten days. If there's a fit, a 30-minute call. After that, a paid one-week trial on real work — no whiteboard, no take-home puzzles, no panel of five.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.06] px-5 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+        <Reveal className="mb-10 sm:mb-14">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">Compensation</p>
+          <h2 className="mt-4 text-[clamp(1.6rem,3.6vw,2.6rem)] font-bold leading-[1.1] tracking-[-0.04em] text-foreground text-balance">
+            We pay in numbers, not stock.
           </h2>
+          <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-foreground/50 sm:text-[15px] text-pretty">
+            Ranges below are cash, monthly, BDT. We don't do equity-only compensation. We don't do "competitive" — that's a word that hides the number. These are the numbers.
+          </p>
         </Reveal>
-        <div className="divide-y divide-white/[0.06]">
-          {values.map(({ num, title, body }, i) => (
-            <Reveal key={num} delay={i * 0.04}>
-              <div className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-[200px_1fr] sm:gap-14">
-                <div>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/60">{num}</span>
-                  <p className="mt-2 text-lg font-bold tracking-[-0.02em] text-foreground/65">{title}</p>
-                </div>
-                <p className="text-[15px] leading-relaxed text-foreground/40">{body}</p>
+
+        <div className="divide-y divide-white/[0.05]">
+          {whatWePay.map((row, i) => (
+            <Reveal key={row.role} delay={i * 0.05}>
+              <div className="grid grid-cols-1 gap-3 py-7 sm:grid-cols-[200px_1fr_1.4fr] sm:gap-10 sm:py-9 lg:grid-cols-[240px_220px_1fr]">
+                <p className="text-base font-bold tracking-[-0.02em] text-foreground sm:text-lg">
+                  {row.role}
+                </p>
+                <p className="font-mono text-[14px] font-medium tracking-[-0.01em] text-coral/80 sm:text-[15px]">
+                  {row.range}
+                </p>
+                <p className="text-[13.5px] leading-relaxed text-foreground/45 sm:text-[14px] text-pretty">
+                  {row.note}
+                </p>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Final nudge */}
-      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.07] px-6 pb-32 pt-16 sm:px-10 lg:px-16 sm:pb-40 sm:pt-20">
+      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.06] px-5 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+        <Reveal className="mb-10 sm:mb-14">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">What we'd build with you</p>
+          <h2 className="mt-4 text-[clamp(1.6rem,3.6vw,2.6rem)] font-bold leading-[1.1] tracking-[-0.04em] text-foreground text-balance">
+            Three problems we can't crack alone.
+          </h2>
+        </Reveal>
+
+        <div className="divide-y divide-white/[0.05]">
+          {[
+            {
+              title: "Burnlink at scale",
+              detail:
+                "The CLI shipped last week. The web version has been live since 2025. We need someone who actually likes crypto primitives to make the protocol boring — key rotation, replay protection, audit logs, the unsexy parts.",
+              tag: "Security · Tooling",
+            },
+            {
+              title: "Fusion v2 in production",
+              detail:
+                "Audio provenance infrastructure, version 2. We've had two false starts. The architecture is locked. What's missing is the engineer who'll spend three months on the boring parts — encoding, decoding, integration tests, SDKs that don't break.",
+              tag: "Infrastructure",
+            },
+            {
+              title: "APC watermarking research",
+              detail:
+                "Audio watermarking that survives compression, resampling, and adversarial edits. We have research partners. We have test corpora. We need a research engineer who can read papers, write prototypes, and ship them — in that order.",
+              tag: "Research · Security",
+            },
+          ].map((p, i) => (
+            <Reveal key={p.title} delay={i * 0.05}>
+              <article className="grid grid-cols-1 gap-4 py-8 sm:grid-cols-[1fr_240px] sm:gap-10 sm:py-10 lg:grid-cols-[1fr_280px] lg:gap-14">
+                <div>
+                  <h3 className="text-[clamp(1.2rem,2.2vw,1.6rem)] font-bold leading-[1.15] tracking-[-0.03em] text-foreground">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-foreground/55 sm:text-[14.5px] text-pretty">
+                    {p.detail}
+                  </p>
+                </div>
+                <p className="self-start text-[10px] font-semibold uppercase tracking-[0.22em] text-coral/65 sm:text-right">
+                  {p.tag}
+                </p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.06] px-5 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+        <Reveal className="mb-10 sm:mb-14">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">What we won't do</p>
+          <h2 className="mt-4 text-[clamp(1.6rem,3.6vw,2.6rem)] font-bold leading-[1.1] tracking-[-0.04em] text-foreground text-balance">
+            Things to skip if any of these bother you.
+          </h2>
+        </Reveal>
+
+        <div className="divide-y divide-white/[0.05]">
+          {[
+            "Standups every morning. We work async, in writing, with a 30-minute weekly sync.",
+            "Tracking hours. We pay for outcomes, not for lines of code or hours logged.",
+            "Polished take-home assignments. Trial week is on real work that ships to real users.",
+            "Five-round interview loops. If a one-week trial doesn't tell us, three more interviews won't either.",
+            "Performance reviews on a quarterly calendar. We tell you when something's off, or we tell you it's working.",
+          ].map((item, i) => (
+            <Reveal key={i} delay={i * 0.04}>
+              <div className="flex items-start gap-5 py-6 sm:py-7">
+                <span className="mt-[3px] shrink-0 text-[11px] font-semibold uppercase tracking-[0.22em] text-coral/55">
+                  ×
+                </span>
+                <p className="text-[14.5px] leading-relaxed text-foreground/55 sm:text-[15px] text-pretty">
+                  {item}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl border-t border-white/[0.06] px-5 pb-28 pt-16 sm:px-10 sm:pb-32 sm:pt-20 lg:px-16 lg:pb-40 lg:pt-28">
         <Reveal>
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">One more thing</p>
-              <p className="mt-3 max-w-xl text-base leading-relaxed text-foreground/40">
-                If you've made it this far and you're still thinking about writing to us — write to us. The CV we'd most like to read is the one we haven't seen yet.
+              <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-foreground/30">Last thing</p>
+              <h2 className="mt-4 max-w-2xl text-[clamp(1.6rem,3.6vw,2.4rem)] font-bold leading-[1.1] tracking-[-0.04em] text-foreground text-balance">
+                If you've read this far, you're already more qualified than 90% of applicants.
+              </h2>
+              <p className="mt-5 max-w-xl text-[14px] leading-relaxed text-foreground/45 sm:text-[15px] text-pretty">
+                Send the email. Even if we're not hiring for what you do. We keep a folder. The folder is shorter than you'd think.
               </p>
             </div>
             <a
-              href={`mailto:${siteMeta.email}?subject=${encodeURIComponent("CV — open application")}`}
-              className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.12] px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-foreground/55 transition-all hover:border-coral/50 hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+              href={`mailto:${siteMeta.email}?subject=${encodeURIComponent("Application — open role")}`}
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-foreground px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-background transition-all hover:scale-[1.02] hover:bg-foreground/85 hover:shadow-[0_10px_30px_-10px_hsl(0_0%_100%/0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral sm:self-auto sm:px-6 sm:py-3.5 sm:text-[12px]"
             >
-              {siteMeta.email} <ArrowRight className="h-3.5 w-3.5" />
+              <Mail className="h-3.5 w-3.5" />
+              Write to us <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </div>
         </Reveal>

@@ -42,33 +42,30 @@ export const Navigation = () => {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-300",
           isScrolled
-            ? "border-b border-white/[0.07] bg-background/85 backdrop-blur-xl"
+            ? "border-b border-white/[0.05] bg-background/80 backdrop-blur-xl"
             : "border-b border-transparent bg-transparent",
         )}
       >
-        <div className="mx-auto flex h-[66px] w-full max-w-7xl items-center justify-between px-6 sm:px-10 lg:px-16">
-          {/* Logo */}
+        <div className="mx-auto flex h-[60px] w-full max-w-7xl items-center justify-between gap-4 px-5 sm:h-[66px] sm:px-10 lg:px-16">
           <Link
             to="/"
-            className="inline-flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+            className="inline-flex shrink-0 items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
             aria-label="Paperfrogs HQ home"
           >
             <img
               src="/paperfrogs-logo-nav.png"
               alt="Paperfrogs HQ"
-              className="h-9 w-9 object-contain"
+              className="h-8 w-8 object-contain sm:h-9 sm:w-9"
               loading="eager"
               decoding="async"
             />
-            <span className="hidden text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/40 sm:block">
+            <span className="hidden text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/40 lg:block">
               Paperfrogs
             </span>
           </Link>
 
-          {/* Desktop nav + Menu button */}
-          <div className="flex items-center gap-6">
-            {/* Desktop links */}
-            <nav className="hidden items-center gap-6 md:flex">
+          <div className="flex items-center gap-3 sm:gap-5 md:gap-6">
+            <nav className="hidden items-center gap-5 md:flex lg:gap-6">
               {menuItems.filter((item) => item.to !== "/contact").map((item) => (
                 <Link
                   key={item.to}
@@ -83,15 +80,13 @@ export const Navigation = () => {
               ))}
             </nav>
 
-            {/* Contact button — desktop */}
             <Link
               to="/contact"
-              className="hidden md:inline-flex h-9 items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/50 transition-colors hover:border-white/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+              className="hidden h-9 items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/55 transition-all hover:border-coral/30 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral md:inline-flex"
             >
               Contact
             </Link>
 
-            {/* Mobile menu button */}
             <motion.button
               type="button"
               onClick={() => setOpen(true)}
@@ -100,7 +95,7 @@ export const Navigation = () => {
               transition={{ duration: 0.18 }}
               aria-label="Open navigation menu"
               aria-expanded={open}
-              className="md:hidden inline-flex h-9 items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/50 transition-colors hover:border-white/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+              className="inline-flex h-9 items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/55 transition-colors hover:border-white/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral md:hidden"
             >
               Menu
             </motion.button>

@@ -107,6 +107,16 @@
   50%       { opacity: 0.6; }
 }
 
+@keyframes pfPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.82); }
+}
+
+@keyframes pfShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* ── Utilities ─────────────────────────────── */
 @layer utilities {
   .marquee-track {
@@ -171,6 +181,62 @@
     height: 1px;
     background: hsl(var(--border));
     width: 100%;
+  }
+
+  /* Gradient divider — soft fade-in/fade-out */
+  .pf-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      hsl(0 0% 100% / 0.09) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Elevated surface — used for cards, snippets */
+  .pf-surface {
+    background: hsl(0 0% 100% / 0.02);
+    border: 1px solid hsl(0 0% 100% / 0.06);
+    box-shadow: inset 0 1px 0 0 hsl(0 0% 100% / 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Pulse dot — animated coral status indicator */
+  .pf-pulse {
+    position: relative;
+    padding-left: 14px;
+  }
+  .pf-pulse::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: hsl(var(--coral));
+    transform: translateY(-50%);
+    box-shadow: 0 0 12px hsl(var(--coral) / 0.55);
+    animation: pfPulse 2s ease-in-out infinite;
+  }
+
+  /* Text balance + pretty wrap */
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty;  }
+
+  /* Subtle shimmer for terminal caret / skeleton */
+  .pf-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(0 0% 100% / 0) 0%,
+      hsl(0 0% 100% / 0.06) 50%,
+      hsl(0 0% 100% / 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: pfShimmer 3s ease-in-out infinite;
   }
 }
 
