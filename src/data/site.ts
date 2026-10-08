@@ -108,61 +108,6 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "appfence",
-    name: "AppFence",
-    summary: "Open-source application permission firewall for Linux. Wayland-first.",
-    yearStarted: 2025,
-    pillar: "Infrastructure",
-    status: "Research",
-    tags: ["Infrastructure", "Security", "OSS"],
-    stack: ["Rust", "Linux", "Security"],
-    problem: "Desktop applications on Linux need policy-driven least-privilege controls with clear, enforceable boundaries.",
-    approach: "AppFence uses an operating-system-level security framework with Wayland-first mediation and policy enforcement.",
-    today: "Foundation and architecture are scoped for a multi-phase security roadmap.",
-    next: "Move through trust-anchor development, enforcement foundations, and security validation milestones.",
-    links: {
-      github: "https://github.com/paperfrogs-hq/AppFence",
-    },
-    timeline: {
-      journey: [
-        {
-          period: "December 2025",
-          detail:
-            "Project formally initiated as an operating-system-level application security framework (Wayland-first, least-privilege, policy-driven design).",
-        },
-      ],
-      upcoming: [
-        {
-          period: "Q1 2026",
-          detail:
-            "Foundation and trust-anchor development (Core daemon, threat model, scope lock, and identity primitives).",
-        },
-        {
-          period: "Q2 2026",
-          detail:
-            "Controlled execution and enforcement foundations (Application launcher, process tracking, filesystem and network isolation).",
-        },
-        {
-          period: "Q3 2026",
-          detail: "User mediation and desktop integration (Prompt infrastructure, desktop UI, and portal mediation).",
-        },
-        {
-          period: "Q4 2026",
-          detail: "System hardening and safety guarantees (Failure modes, recovery paths, observability, and diagnostics).",
-        },
-        {
-          period: "Q1 2027",
-          detail: "Security validation and packaging (Threat-model traceability, negative testing, Fedora packaging).",
-        },
-        {
-          period: "Q2 2027",
-          detail:
-            "Public beta and demonstration milestone (Reproducible builds, demo artifacts, documented limitations).",
-        },
-      ],
-    },
-  },
-  {
     slug: "burnlink",
     name: "BurnLink",
     summary: "Encrypted file sharing. One-time links that burn themselves after access.",
@@ -182,7 +127,7 @@ export const projects: Project[] = [
   },
   {
     slug: "burnlink-cli",
-    name: "Burnlink CLI",
+    name: "BurnLink CLI",
     summary: "Zero-knowledge, self-destructing file sharing from your terminal.",
     yearStarted: 2026,
     pillar: "Tooling",
@@ -190,8 +135,8 @@ export const projects: Project[] = [
     tags: ["Security", "Tooling", "OSS"],
     stack: ["TypeScript", "Security"],
     problem: "Sensitive files shared from a terminal still depend on third-party trust — and leave permanent storage behind.",
-    approach: "Burnlink CLI encrypts files end-to-end and burns them after a single access, straight from your shell. Zero dependencies, single binary, AES-GCM and Ed25519 under the hood.",
-    today: "v0.2.3 published on npm. Install globally with `npm i -g burnlink` and run `burnlink --help`.",
+    approach: "Burnlink CLI brings encrypted, one-time file sharing into a terminal workflow.",
+    today: "BurnLink CLI is published on npm. Install globally with `npm i -g burnlink` and run `burnlink --help`.",
     next: "Streaming uploads, config-based defaults, and shell completions.",
     links: {
       github: "https://github.com/Joy-Majumder/BurnLink",
@@ -201,7 +146,7 @@ export const projects: Project[] = [
     timeline: {
       journey: [
         { period: "2025", detail: "Web-based BurnLink shipped with one-time links and end-to-end encryption." },
-        { period: "Q2 2026", detail: "Burnlink CLI published on npm — zero dependencies, terminal-first workflow." },
+        { period: "2026", detail: "BurnLink CLI published on npm with a terminal-first workflow." },
       ],
       upcoming: [
         { period: "Q3 2026", detail: "Streaming uploads for large files." },

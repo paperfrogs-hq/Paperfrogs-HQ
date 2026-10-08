@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import {
   ArrowUpRight,
   AudioWaveform,
-  Shield,
   Flame,
   Droplet,
   ScanSearch,
@@ -37,17 +36,6 @@ const products: Product[] = [
     icon: AudioWaveform,
     link: "https://fusion.paperfrogs.dev",
     linkLabel: "Website",
-    hasTimeline: true,
-  },
-  {
-    year: "2025",
-    name: "AppFence",
-    tagline: "Open-source application permission firewall for Linux. Wayland-first.",
-    pillar: "Infrastructure",
-    status: "Research",
-    icon: Shield,
-    link: "https://github.com/paperfrogs-hq/AppFence",
-    linkLabel: "GitHub",
     hasTimeline: true,
   },
   {
@@ -119,8 +107,7 @@ export const ProductsSection = () => {
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [timelineProject, setTimelineProject] = useState<string | null>(null);
 
-  // Timeline data — Fusion and AppFence keep their detailed histories; the new
-  // entries get sensible placeholders so the modal still feels alive.
+  // Timeline details for the projects represented in this legacy section.
   const timelines: Record<
     string,
     {
@@ -141,47 +128,6 @@ export const ProductsSection = () => {
         { date: "Q2 2026", title: "Platform integrations and enterprise pilots" },
         { date: "Q3 2026", title: "Infrastructure scaling and expanded use cases" },
         { date: "Q4 2026", title: "Market expansion and ecosystem growth" },
-      ],
-    },
-    AppFence: {
-      past: [
-        {
-          date: "December 2025",
-          title:
-            "Project formally initiated as an operating-system–level application security framework (Wayland-first, least-privilege, policy-driven design)",
-        },
-      ],
-      upcoming: [
-        {
-          date: "Q1 2026",
-          title:
-            "Foundation and trust-anchor development (Core daemon, threat model, scope lock, and identity primitives)",
-        },
-        {
-          date: "Q2 2026",
-          title:
-            "Controlled execution and enforcement foundations (Application launcher, process tracking, filesystem and network isolation)",
-        },
-        {
-          date: "Q3 2026",
-          title:
-            "User mediation and desktop integration (Prompt infrastructure, desktop UI, and portal mediation)",
-        },
-        {
-          date: "Q4 2026",
-          title:
-            "System hardening and safety guarantees (Failure modes, recovery paths, observability, and diagnostics)",
-        },
-        {
-          date: "Q1 2027",
-          title:
-            "Security validation and packaging (Threat-model traceability, negative testing, Fedora packaging)",
-        },
-        {
-          date: "Q2 2027",
-          title:
-            "Public beta and demonstration milestone (Reproducible builds, demo artifacts, documented limitations)",
-        },
       ],
     },
     BurnLink: {
