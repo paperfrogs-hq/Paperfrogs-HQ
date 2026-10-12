@@ -1,5 +1,6 @@
 import { SiteShell } from "@/components/layout/SiteShell";
 import { usePageSeo } from "@/hooks/usePageSeo";
+
 const sections = [
   {title:"Introduction",body:"At Paperfrogs HQ, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our products.",points:null},
   {title:"Information We Collect",body:"We may collect information about you in a variety of ways, including:",points:["Personal Data: name, email address, and other contact information","Usage Data: browser type, IP address, pages visited, and time spent","Device Data: device type, operating system, and unique identifiers"]},
@@ -7,4 +8,8 @@ const sections = [
   {title:"Security",body:"We use administrative, technical, and physical security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, so we cannot guarantee absolute security.",points:null},
   {title:"Contact Us",body:"If you have questions about this Privacy Policy, please contact us through the contact page.",points:null},
 ];
-export default function Privacy(){usePageSeo({title:"Privacy",description:"Paperfrogs HQ Privacy Policy.",path:"/privacy"});return <SiteShell><div className="page-hero wrap legal-hero"><p className="eyebrow">The details / Legal</p><div className="page-hero-grid"><h1>Privacy<br/><em>policy.</em></h1><p>How Paperfrogs HQ handles data collection, usage, and protection.</p></div><div className="page-hero-foot"><span>Paperfrogs HQ</span><span>Questions? hello@paperfrogs.dev</span></div></div><section className="wrap legal-content">{sections.map((s,i)=><div key={s.title}><span>{String(i+1).padStart(2,"0")}</span><h2>{s.title}</h2><div><p>{s.body}</p>{s.points && <ul>{s.points.map(x=><li key={x}>{x}</li>)}</ul>}</div></div>)}</section></SiteShell>}
+
+export default function Privacy(){
+  usePageSeo("/privacy");
+  return <SiteShell><div className="page-hero wrap legal-hero"><p className="eyebrow">The details / Legal</p><div className="page-hero-grid"><h1>Privacy<br/><em>policy.</em></h1><p>How Paperfrogs HQ handles data collection, usage, and protection.</p></div><div className="page-hero-foot"><span>Paperfrogs HQ</span><span>Questions? hello@paperfrogs.dev</span></div></div><section className="wrap legal-content">{sections.map((s,i)=><div key={s.title}><span>{String(i+1).padStart(2,"0")}</span><h2>{s.title}</h2><div><p>{s.body}</p>{s.points && <ul>{s.points.map(x=><li key={x}>{x}</li>)}</ul>}</div></div>)}</section></SiteShell>
+}

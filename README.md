@@ -5,6 +5,8 @@
 # Paperfrogs
 We build tools for things that matter.
 
+[Official website](https://paperfrogs.dev/) · [Products](https://paperfrogs.dev/products/) · [Remote careers](https://paperfrogs.dev/careers/)
+
 <span>
   <a href="https://github.com/paperfrogs-hq"><img src="https://img.shields.io/badge/status-public-FE5E41?style=flat&logo=github&logoColor=0B0500" alt="Status: Early Development"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-mit-FE5E41?style=flat&logoColor=0B0500" alt="License: MIT"></a>

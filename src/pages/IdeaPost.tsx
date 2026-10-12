@@ -12,11 +12,7 @@ const IdeaPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = ideas.find((item) => item.slug === slug);
 
-  usePageSeo({
-    title: post ? `${post.title} · Ideas` : "Ideas",
-    description: post?.excerpt ?? "Paperfrogs HQ ideas and notes.",
-    path: post ? `/ideas/${post.slug}` : "/ideas",
-  });
+  usePageSeo("/studio");
 
   if (!post) {
     return <Navigate to="/ideas" replace />;

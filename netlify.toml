@@ -1,6 +1,12 @@
 [build]
-  command = "bun run build"
+  command = "npm run build"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[build.processing.html]
+  pretty_urls = true
 
 [[redirects]]
   from = "https://paperfrogs.netlify.app/*"
@@ -15,9 +21,31 @@
   force = true
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/projects"
+  to = "/products/"
+  status = 301
 
-[env]
-  NODE_VERSION = "20"
+[[redirects]]
+  from = "/projects/*"
+  to = "/products/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/work"
+  to = "/products/"
+  status = 301
+
+[[redirects]]
+  from = "/work/*"
+  to = "/products/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/ideas"
+  to = "/studio/"
+  status = 301
+
+[[redirects]]
+  from = "/ideas/*"
+  to = "/studio/"
+  status = 301

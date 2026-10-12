@@ -5,6 +5,7 @@ import ProjectDetail from "@/pages/ProjectDetail";
 import Studio from "@/pages/Studio";
 import Team from "@/pages/Team";
 import Careers from "@/pages/Careers";
+import JobDetail from "@/pages/JobDetail";
 import Contact from "@/pages/Contact";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
@@ -15,8 +16,8 @@ const LegacyProject = () => {
   return <Navigate to={slug ? `/products/${slug}` : "/products"} replace />;
 };
 
-export default function App() {
-  return <BrowserRouter><Routes>
+export function AppRoutes() {
+  return <Routes>
     <Route path="/" element={<Index />} />
     <Route path="/products" element={<Work />} />
     <Route path="/products/:slug" element={<ProjectDetail />} />
@@ -29,9 +30,14 @@ export default function App() {
     <Route path="/ideas" element={<Navigate to="/studio" replace />} />
     <Route path="/ideas/:slug" element={<Navigate to="/studio" replace />} />
     <Route path="/careers" element={<Careers />} />
+    <Route path="/careers/:slug" element={<JobDetail />} />
     <Route path="/contact" element={<Contact />} />
     <Route path="/privacy" element={<Privacy />} />
     <Route path="/terms" element={<Terms />} />
     <Route path="*" element={<NotFound />} />
-  </Routes></BrowserRouter>;
+  </Routes>;
+}
+
+export default function App() {
+  return <BrowserRouter><AppRoutes /></BrowserRouter>;
 }

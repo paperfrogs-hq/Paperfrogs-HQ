@@ -122,7 +122,7 @@ export const projects: Project[] = [
     next: "Expand expiry controls, file-size limits, and optional password protection.",
     links: {
       demo: "https://burnlink.page/",
-      github: "https://github.com/Joy-Majumder/BurnLink",
+      github: "https://github.com/paperfrogs-hq/BurnLink",
     },
   },
   {
@@ -139,7 +139,7 @@ export const projects: Project[] = [
     today: "BurnLink CLI is published on npm. Install globally with `npm i -g burnlink` and run `burnlink --help`.",
     next: "Streaming uploads, config-based defaults, and shell completions.",
     links: {
-      github: "https://github.com/Joy-Majumder/BurnLink",
+      github: "https://github.com/paperfrogs-hq/BurnLink-CLI",
       docs: "https://www.npmjs.com/package/burnlink",
       demo: "https://burnlink.page/",
     },

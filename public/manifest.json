@@ -1,0 +1,21 @@
+{
+  "name": "Paperfrogs HQ",
+  "short_name": "Paperfrogs",
+  "description": "Venture capital and company-building platform for infrastructure, useful software, and research-led ideas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#e85d2d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "technology", "developer"],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

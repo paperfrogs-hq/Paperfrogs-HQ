@@ -13,11 +13,7 @@ const panelClass =
   "rounded-3xl border border-white/10 bg-[linear-gradient(165deg,rgba(12,16,20,0.92),rgba(10,14,18,0.88))] shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl";
 
 const Ideas = () => {
-  usePageSeo({
-    title: "Ideas",
-    description: "Essays, notes, and updates from the Paperfrogs HQ studio.",
-    path: "/ideas",
-  });
+  usePageSeo("/studio");
 
   const [search, setSearch] = useState("");
   const [tag, setTag] = useState<string | "All">("All");

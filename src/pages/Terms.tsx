@@ -1,5 +1,6 @@
 import { SiteShell } from "@/components/layout/SiteShell";
 import { usePageSeo } from "@/hooks/usePageSeo";
+
 const sections = [
   {title:"Agreement to Terms",body:"These Terms of Service constitute a legally binding agreement between you and Paperfrogs HQ. By accessing and using this website and our products, you accept and agree to be bound by these terms and our Privacy Policy.",points:null},
   {title:"Use License",body:"Permission is granted to temporarily view materials on Paperfrogs HQ's website for personal, non-commercial use only. Under this license you may not:",points:["Modify or copy the materials","Use the materials for any commercial purpose or public display","Attempt to reverse engineer any software on the website","Remove any copyright or proprietary notations from the materials","Transfer the materials or mirror them on another server"]},
@@ -7,4 +8,8 @@ const sections = [
   {title:"Limitations",body:"In no event shall Paperfrogs HQ or its suppliers be liable for any damages arising out of the use or inability to use the materials on Paperfrogs HQ's website, including damages for loss of data or profit.",points:null},
   {title:"Revisions",body:"Paperfrogs HQ may revise these Terms of Service at any time without notice. By using this website, you agree to be bound by the then current version of these Terms of Service.",points:null},
 ];
-export default function Terms(){usePageSeo({title:"Terms",description:"Paperfrogs HQ Terms of Service.",path:"/terms"});return <SiteShell><div className="page-hero wrap legal-hero"><p className="eyebrow">The details / Legal</p><div className="page-hero-grid"><h1>Terms of<br/><em>use.</em></h1><p>The legal terms that govern use of Paperfrogs HQ websites and products.</p></div><div className="page-hero-foot"><span>Paperfrogs HQ</span><span>Questions? hello@paperfrogs.dev</span></div></div><section className="wrap legal-content">{sections.map((s,i)=><div key={s.title}><span>{String(i+1).padStart(2,"0")}</span><h2>{s.title}</h2><div><p>{s.body}</p>{s.points && <ul>{s.points.map(x=><li key={x}>{x}</li>)}</ul>}</div></div>)}</section></SiteShell>}
+
+export default function Terms(){
+  usePageSeo("/terms");
+  return <SiteShell><div className="page-hero wrap legal-hero"><p className="eyebrow">The details / Legal</p><div className="page-hero-grid"><h1>Terms of<br/><em>use.</em></h1><p>The legal terms that govern use of Paperfrogs HQ websites and products.</p></div><div className="page-hero-foot"><span>Paperfrogs HQ</span><span>Questions? hello@paperfrogs.dev</span></div></div><section className="wrap legal-content">{sections.map((s,i)=><div key={s.title}><span>{String(i+1).padStart(2,"0")}</span><h2>{s.title}</h2><div><p>{s.body}</p>{s.points && <ul>{s.points.map(x=><li key={x}>{x}</li>)}</ul>}</div></div>)}</section></SiteShell>
+}

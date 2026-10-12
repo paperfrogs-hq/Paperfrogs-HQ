@@ -21,11 +21,11 @@ export function Navigation() {
         <nav className="desktop-nav" aria-label="Primary navigation">
           {links.map(link => <NavLink key={link.to} to={link.to} className={({ isActive }) => isActive ? "is-active" : ""}>{link.label}</NavLink>)}
         </nav>
-        <Link className="nav-contact" to="/contact">Get in touch <span aria-hidden="true">↗</span></Link>
+        <Link className="nav-contact" to="/contact">Get in touch</Link>
         <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(value => !value)}>{open ? "Close" : "Menu"}<span aria-hidden="true">{open ? "×" : "+"}</span></button>
       </div>
       {open && <nav className="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
-        {[{ label: "Home", to: "/" }, ...links, { label: "Contact", to: "/contact" }].map(link => <NavLink key={link.to} to={link.to} onClick={() => setOpen(false)}>{link.label}<span aria-hidden="true">↗</span></NavLink>)}
+        {[{ label: "Home", to: "/" }, ...links, { label: "Contact", to: "/contact" }].map(link => <NavLink key={link.to} to={link.to} onClick={() => setOpen(false)}>{link.label}</NavLink>)}
       </nav>}
     </header>
   </>;
