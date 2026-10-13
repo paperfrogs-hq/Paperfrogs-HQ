@@ -239,64 +239,6 @@ em {
   color: #ef6939;
 }
 
-.home-hero {
-  min-height: 660px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 84px;
-}
-
-.home-hero h1 {
-  max-width: 1180px;
-  margin: 46px 0 40px;
-  font-size: clamp(70px,8.8vw,146px);
-  line-height: .99;
-  letter-spacing: -.075em;
-}
-
-.hero-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 40px;
-  margin-top: auto;
-}
-
-.hero-bottom>p {
-  max-width: 650px;
-  margin: 0;
-  color: #c0c0c0;
-  font-size: clamp(20px,2.1vw,29px);
-  line-height: 1.35;
-  letter-spacing: -.03em;
-}
-
-.hero-cta {
-  flex: none;
-  width: fit-content;
-  min-width: 0;
-  min-height: 42px;
-  gap: 0;
-  padding: 0 19px;
-  border-radius: 12px;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.hero-footnote {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 80px;
-  padding: 18px 0;
-  border-top: 1px solid #303030;
-  color: #999999;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
 .thesis-section {
   background: #100c0c;
   border-block: 1px solid #302424;
@@ -1368,26 +1310,6 @@ em {
   .mobile-nav a span {
     color: #ef6939;
   }
-  .home-hero {
-    min-height: 600px;
-    padding-top: 65px;
-  }
-  .home-hero h1 {
-    margin: 38px 0;
-    font-size: clamp(57px,13vw,90px);
-  }
-  .hero-bottom>p {
-    max-width: 480px;
-    font-size: 21px;
-  }
-  .hero-bottom {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .hero-footnote {
-    margin-top: 65px;
-  }
   .thesis-grid {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -1570,15 +1492,6 @@ em {
   }
   .job-hero h1 {
     font-size: clamp(42px, 11vw, 60px);
-  }
-  .home-hero {
-    min-height: 620px;
-  }
-  .home-hero h1 {
-    font-size: clamp(52px,13.7vw,70px);
-  }
-  .hero-footnote span:last-child {
-    display: none;
   }
   .people-list {
     grid-template-columns: 1fr;
