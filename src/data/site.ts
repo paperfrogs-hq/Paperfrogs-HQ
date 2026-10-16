@@ -317,6 +317,18 @@ export const founders = [
   },
 ] as const;
 
+export const teamMembers = [
+  ...founders,
+  {
+    name: "Srijon Saha",
+    role: "CTO",
+    bio: "Guides technical strategy and engineering at Paperfrogs, shaping architecture and helping turn ideas into reliable products.",
+    links: {
+      linkedin: "https://www.linkedin.com/in/srijon-saha-bb8471378/",
+    },
+  },
+] as const;
+
 export const capabilities = [
   "Systems Architecture",
   "Distributed Infrastructure",

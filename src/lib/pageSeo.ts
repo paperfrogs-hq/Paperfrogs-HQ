@@ -1,5 +1,5 @@
 import { jobs } from "@/data/jobs";
-import { founders, projects, siteMeta } from "@/data/site";
+import { projects, siteMeta, teamMembers } from "@/data/site";
 import {
   getBreadcrumbSchema,
   getJobPostingSchema,
@@ -31,9 +31,9 @@ const pages: Record<string, PageMeta> = {
     breadcrumb: "Products",
   },
   "/team": {
-    title: `Founders | Niloy and Joy Majumder | ${brand}`,
-    description: "Meet Paperfrogs founders Niloy Majumder and Joy G. Majumdar, who work across platform architecture, security, and research-to-production systems.",
-    breadcrumb: "Founders",
+    title: `Team | ${brand}`,
+    description: "Meet the Paperfrogs team: founders Niloy Majumder and Joy G. Majumdar, and CTO Srijon Saha.",
+    breadcrumb: "Team",
   },
   "/careers": {
     title: `Remote Careers in Bangladesh | ${brand}`,
@@ -116,15 +116,15 @@ export function getPageSeo(path: string) {
   const schema: object[] = [getBreadcrumbSchema(breadcrumbs)];
   if (normalizedPath === "/" || normalizedPath === "/studio") schema.unshift(organizationSchema, websiteSchema);
   if (normalizedPath === "/team") {
-    schema.push(...founders.map(person => ({
+    schema.push(...teamMembers.map(person => ({
       "@context": "https://schema.org",
       "@type": "Person",
       name: person.name,
-      jobTitle: "Founder",
+      jobTitle: person.role,
       worksFor: { "@id": `${base}/#organization` },
       url: `${base}/team`,
-      sameAs: [person.links.linkedin, person.links.github],
-      description: person.bio,
+      sameAs: [person.links.linkedin, ...("github" in person.links ? [person.links.github] : [])],
+      ...("bio" in person ? { description: person.bio } : {}),
     })));
   }
   if (job) schema.push(getJobPostingSchema(job));

@@ -11,7 +11,7 @@ export function Footer() {
       </div>
       <div className="footer-grid">
         <p>Venture capital and company building.<br/>Dhaka, Bangladesh · Working globally.</p>
-        <nav aria-label="Footer navigation"><Link to="/studio">About</Link><Link to="/products">Products</Link><Link to="/team">Founders</Link><Link to="/careers">Careers</Link><Link to="/contact">Contact</Link></nav>
+        <nav aria-label="Footer navigation"><Link to="/studio">About</Link><Link to="/products">Products</Link><Link to="/team">Team</Link><Link to="/careers">Careers</Link><Link to="/contact">Contact</Link></nav>
         <nav aria-label="Social and legal"><a href={siteMeta.links.github} target="_blank" rel="noreferrer">GitHub </a><a href={siteMeta.links.linkedin} target="_blank" rel="noreferrer">LinkedIn </a><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link></nav>
       </div>
       <div className="footer-meta"><span>© {new Date().getFullYear()} Paperfrogs HQ</span><span>Where research becomes real.</span></div>
